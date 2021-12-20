@@ -1,1 +1,36 @@
-<p>signup works!</p>
+<div class="background">
+    <div class="container">
+        <h1><b>Signup</b></h1>
+        <form>
+            <div class="row">
+                <input type="text" placeholder=" " required>
+                <span></span>
+                <label>First Name</label>
+            </div>
+            <div class="row">
+                <input type="text" placeholder=" " required>
+                <span></span>
+                <label>Last Name</label>
+            </div>
+            <div class="row">
+                <input type="email" placeholder=" " required>
+                <span></span>
+                <label>Email</label>
+            </div>
+            <div class="row">
+                <input type="password" placeholder=" " required>
+                <span></span>
+                <label>Password</label>
+            </div>
+            <div class="row">
+                <input type="password" placeholder=" " required>
+                <span></span>
+                <label>Confirm Password</label>
+            </div>
+            <button type="submit" id="submit">SIGNUP</button>
+            <div class="login-link">
+                Already a member? <a [routerLink]="['../login']">Login</a>
+            </div>
+        </form>
+    </div>
+</div>
