@@ -1,0 +1,17 @@
+<form [formGroup]="form">
+    <div class="container">
+        <label for="To">To:</label>
+        <div class="fieldWrapper">
+            <span *ngFor="let receiver of receiversArr; let i = index" class="emailTag" (click)="deleteReceiver(i)">{{receiver}}</span>
+            <input type="email" formControlName="recievers" id="To" (keypress)="addRecievers($event)">
+        </div>
+
+    </div>
+   <div class="container">
+    <label for="Subject">Subject:</label>
+    <input formControlName="subject" id="Subject">
+
+   </div>
+    <textarea placeholder="Body:" formControlName="body" (resize)="false" id="Body"></textarea>
+
+</form>
