@@ -9,19 +9,45 @@ input{
     outline-width: 0px;
     width: 100%;
 }
+
 textarea{
     height: 500px;
     resize: none;
+    width: 99%;
+    border: 0px;
+    outline-width: 0px;
 }
 
 label{
     margin: 5px;
-    width: 50px;
     border: 0px;
-    /* flex-basis: 10%; */
+    display: inline-block;
+    white-space: nowrap;
+}
+hr{
+    margin: 2px 10px;
+}
+#controls{
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+#email{
+    border: 1px solid black;
+}
+#moreProperties{
+    margin: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+#attachment{
+    display: flex;
+    align-items: center;
 }
 .container{
-    border: 1px solid black;
     display: flex;
     flex-direction: row;
 }
@@ -55,11 +81,8 @@ label{
   ::-webkit-scrollbar-thumb:hover {
     background: #555;
   }
-/* #To{
-    width: 500px;
-} */
 
-.emailTag{
+.tag{
     display: inline-block;
     border: 1px solid black;
     margin: 2px 0px;
@@ -67,20 +90,35 @@ label{
     padding: 1px 5px;
     background-color: #ddd;
     border-radius: 50px;
-    pointer-events: none;
+    pointer-events: fill;
     display: flex;
     align-items: center;
+    width: fit-content;
 
 }
-.emailTag::after{
-    pointer-events: all;
-    content: '\00d7';
+.tag button{
     font-weight: bold;
+    padding: 0px;
     padding-left: 5px;
-    /* transform: scale(2); */
-
+    background-color: inherit;
+    border: 0px;
 }
-.emailTag:hover::after{
-    cursor: pointer;
+.tag button:hover{
     color: red;
+    cursor: pointer;
+}
+
+input[type="file"]{
+    display: none;
+}
+label[for="addAttachments"]{
+    border: 1px solid black;
+    padding: 10px;
+    cursor: pointer;
+}
+#attachments{
+    padding: 5px;
+}
+#attachments .tag{
+    margin: 5px;
 }

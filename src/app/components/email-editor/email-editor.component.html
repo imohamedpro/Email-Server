@@ -1,17 +1,56 @@
 <form [formGroup]="form">
-    <div class="container">
-        <label for="To">To:</label>
-        <div class="fieldWrapper">
-            <span *ngFor="let receiver of receiversArr; let i = index" class="emailTag" (click)="deleteReceiver(i)">{{receiver}}</span>
-            <input type="email" formControlName="recievers" id="To" (keypress)="addRecievers($event)">
+
+
+    <div id="email">
+        <div class="container">
+            <label for="To">To:</label>
+            <div class="fieldWrapper">
+                <div *ngFor="let receiver of receivers; let i = index" class="tag">
+                    <span >{{receiver}}</span>
+                    <button (click)="deleteItem(i, receivers)">x</button>
+
+                </div>
+                <input type="email" formControlName="receiver" id="To" (keypress)="addRecievers($event)">
+            </div>
+        </div>
+        <hr>
+       <div class="container">
+        <label for="Subject">Subject:</label>
+        <input formControlName="subject" id="Subject">
+       </div>
+       <hr>
+        <textarea placeholder="Body:" formControlName="body" (resize)="false" id="Body"></textarea>
+        <hr *ngIf="attachments.length > 0">
+        <div id="attachments" *ngIf="attachments.length > 0">
+            <label>Attachments:</label>
+            <div *ngFor="let attachment of attachments; let i = index" class="tag">
+                <a [href]="viewAttachment(attachment)" [download]="attachment.file.name">{{attachment.file.name}}</a>
+                <button (click)="deleteItem(i, attachments)">x</button>
+
+            </div>
+        </div>
+    </div>
+    <div id = "controls">
+        <div id="moreProperties">
+            <div id="priorityDiv">
+                <label for="priority">Priority:</label>
+                <select id="priority" formControlName="priority">
+                    <option value = "4">Very Important</option>
+                    <option value = "3">Important</option>
+                    <option value = "2" selected="selected">Normal</option>
+                    <option value = "1">Not Important</option>
+                </select>
+            </div>
+
+            <div id="attachment">
+                <label for="addAttachments">Add Attachment</label>
+                <input type="file" (change)="onFileChange($event)" id="addAttachments">
+            </div>
         </div>
 
-    </div>
-   <div class="container">
-    <label for="Subject">Subject:</label>
-    <input formControlName="subject" id="Subject">
+        <button (onclick)="send()">Send</button>
 
-   </div>
-    <textarea placeholder="Body:" formControlName="body" (resize)="false" id="Body"></textarea>
+    </div>
+
 
 </form>

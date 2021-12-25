@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
+import { AttachmentResponse } from '../../classes/AttachmentsResponse';
 
 @Component({
   selector: 'app-email-editor',
@@ -9,17 +11,19 @@ import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 export class EmailEditorComponent implements OnInit {
 
   form!: FormGroup; 
-  receiversArr: string[];
-  constructor(private fb: FormBuilder) {
-    this.receiversArr = [];
+  receivers: string[];
+  attachments: AttachmentResponse[];
+  constructor(private fb: FormBuilder, private sanitizer:DomSanitizer) {
+    this.receivers = [];
+    this.attachments = [];
    }
 
   ngOnInit(): void {
     this.form = this.fb.group({
+      priority: 2,
       receiver: '',
       subject: '',
       body: '',
-      attachments: this.fb.array([])
     });
     // this.receivers.push(this.fb.group({ receiver: ''}));
      this.form.valueChanges.subscribe(console.log);
@@ -30,11 +34,11 @@ export class EmailEditorComponent implements OnInit {
   // }
 
   addRecievers(event: any):void{
-    console.log(event.target);
+    // console.log(event.target);
     if(event.key == ' ' || event.key == 'Enter'){
       event.preventDefault();
       if(event.target.value != ''){
-        this.receiversArr.push(event.target.value);
+        this.receivers.push(event.target.value);
         event.target.value = '';
       }
 
@@ -42,9 +46,29 @@ export class EmailEditorComponent implements OnInit {
 
   }
 
-  deleteReceiver(i: number):void{
+  deleteItem(i: number, arr: Array<any>):void{
     console.log("delete " + i);
-    this.receiversArr.splice(i,1);
+    arr.splice(i,1);
   }
 
+  onFileChange(event: any){
+    this.attachments.push(new AttachmentResponse(event.target.files.item(0)));
+    console.log(event.target.files.item(0));
+  }
+
+  send(){
+
+  }
+
+  saveDraft(){
+
+  }
+  viewAttachment(attachment: AttachmentResponse){
+    if(attachment.link == ''){
+      return this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(attachment.file));
+    }else{
+      return attachment.link;
+    }
+
+  }
 }
