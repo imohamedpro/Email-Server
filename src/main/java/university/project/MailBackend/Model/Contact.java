@@ -1,5 +1,8 @@
 package university.project.MailBackend.Model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.ArrayList;
 
 public class Contact {
@@ -9,6 +12,15 @@ public class Contact {
     Contact(String name){
         this.name = name;
         usernames = new ArrayList<>();
+    }
+
+    @JsonCreator
+    public Contact(
+            @JsonProperty("name") String name,
+            @JsonProperty("usernames") ArrayList<String> usernames)
+    {
+        this.name = name;
+        this.usernames = usernames;
     }
 
     public String getName() {
