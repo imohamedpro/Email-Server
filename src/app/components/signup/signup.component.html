@@ -1,33 +1,53 @@
 <div class="background">
     <div class="container">
         <h1><b>Signup</b></h1>
-        <form>
+        <form [formGroup]="signupForm">
             <div class="row">
-                <input type="text" placeholder=" " required>
+                <input formControlName="firstName" type="text" placeholder=" " required>
                 <span></span>
                 <label>First Name</label>
+                <small *ngIf="(isEmpty(firstName?.value) && firstName?.touched) || (isSubmitted && !firstName?.dirty)"
+                 class="danger">This field is required</small>
+                <small *ngIf="firstName?.invalid && firstName?.dirty && !isEmpty(firstName?.value)"
+                 class="danger">Invalid first name (it can contain characters only)</small>
             </div>
             <div class="row">
-                <input type="text" placeholder=" " required>
+                <input formControlName="lastName" type="text" placeholder=" " required>
                 <span></span>
                 <label>Last Name</label>
+                <small *ngIf="(isEmpty(lastName?.value) && lastName?.touched) || (isSubmitted && !lastName?.dirty)"
+                 class="danger">This field is required</small>
+                <small *ngIf="lastName?.invalid && lastName?.dirty && !isEmpty(lastName?.value)"
+                 class="danger">Invalid last name (it can contain characters only)</small>
             </div>
             <div class="row">
-                <input type="email" placeholder=" " required>
+                <input formControlName="email" type="text" placeholder=" " required>
                 <span></span>
                 <label>Email</label>
+                <small *ngIf="(isEmpty(email?.value) && email?.touched) || (isSubmitted && !email?.dirty)"
+                 class="danger">This field is required</small>
+                <small *ngIf="email?.invalid && email?.dirty &&  !isEmpty(email?.value)"
+                 class="danger">Invalid email format</small>
             </div>
             <div class="row">
-                <input type="password" placeholder=" " required>
+                <input formControlName="password" type="password" placeholder=" " required>
                 <span></span>
                 <label>Password</label>
+                <small *ngIf="!isMatched"
+                 class="danger">Password and confirmed password don't match</small>
+                <small *ngIf="((isEmpty(password?.value) && password?.touched) || (isSubmitted && !password?.dirty)) && isMatched"
+                 class="danger">This field is required</small>
+                <small *ngIf="password?.invalid && password?.dirty && !isEmpty(password?.value)  && isMatched"
+                 class="danger">Only characters and numbers are allowed with length: 8+</small>
             </div>
             <div class="row">
-                <input type="password" placeholder=" " required>
+                <input formControlName="confirmedPassword" type="password" placeholder=" " required>
                 <span></span>
                 <label>Confirm Password</label>
+                <small *ngIf="((isEmpty(confirmedPassword?.value) && confirmedPassword?.touched) || (isSubmitted && !confirmedPassword?.dirty)) && isMatched"
+                 class="danger">This field is required</small>
             </div>
-            <button type="submit" id="submit">SIGNUP</button>
+            <button (click)="onSubmit()" type="submit" id="submit">SIGNUP</button>
             <div class="login-link">
                 Already a member? <a [routerLink]="['../login']">Login</a>
             </div>

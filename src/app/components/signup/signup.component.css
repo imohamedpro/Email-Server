@@ -10,7 +10,7 @@
     background-color: white;
     position: absolute;
     width: 400px;
-    height: 550px;
+    height: 575px;
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
@@ -69,7 +69,7 @@ form{
 .row input:focus ~ label,
 .row input:valid ~ label,
 .row input:not(:placeholder-shown) ~label{
-    top: -5px;
+    top: -4px;
     color:#9c0e95;
 }
 
@@ -109,4 +109,10 @@ form{
 
 .login-link a:hover{
     text-decoration: underline;
+}
+
+.danger{
+    position: absolute;
+    margin-top: 2px;
+    color: red; 
 }

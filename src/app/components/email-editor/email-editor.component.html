@@ -16,7 +16,7 @@
         <hr>
        <div class="container">
         <label for="Subject">Subject:</label>
-        <input formControlName="subject" id="Subject">
+        <input formControlName="subject" id="Subject" (keydown)="disableEnter($event)">
        </div>
        <hr>
         <textarea placeholder="Body:" formControlName="body" (resize)="false" id="Body"></textarea>
@@ -24,7 +24,7 @@
         <div id="attachments" *ngIf="attachments.length > 0">
             <label>Attachments:</label>
             <div *ngFor="let attachment of attachments; let i = index" class="tag">
-                <a [href]="viewAttachment(attachment)" [download]="attachment.file.name">{{attachment.file.name}}</a>
+                <a [href]="viewAttachment(attachment)" [download]="getAttachmentName(attachment)">{{getAttachmentName(attachment)}}</a>
                 <button (click)="deleteItem(i, attachments)">x</button>
 
             </div>
@@ -44,11 +44,11 @@
 
             <div id="attachment">
                 <label for="addAttachments">Add Attachment</label>
-                <input type="file" (change)="onFileChange($event)" id="addAttachments">
+                <input type="file" (change)="onFileChange($event)" id="addAttachments" formControlName="file">
             </div>
         </div>
 
-        <button (onclick)="send()">Send</button>
+        <button (click)="send($event)">Send</button>
 
     </div>
 
