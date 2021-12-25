@@ -4,7 +4,7 @@
 <div id="contents">
     <div *ngFor="let email of emails; let i = index">
         <!-- <hr> -->
-        <div class="emailBar">
+        <div class="emailBar" [ngClass]="selected.has(i)? 'selected': ''">
             <input type="checkBox" (change)="select(i)">
             <div class="emailHead" [ngClass]="email.isRead? '': 'unread'">
                 <span>{{email.from}}</span>

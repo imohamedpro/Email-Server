@@ -41,3 +41,6 @@ button{
 .unread{
     font-weight: bold;
 }
+.selected{
+    background-color: aqua;
+}
