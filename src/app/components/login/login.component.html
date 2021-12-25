@@ -5,14 +5,15 @@
         </div>
         <div class="login-box">
             <h1><b>Login</b></h1>
-            <form method="post">
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
               <div class="text-field">
-                <input type="email" placeholder=" " required>
+                <input formControlName="userEmail" type="email" placeholder=" " required>
                 <span></span>
                 <label>Email address</label>
               </div>
               <div class="text-field">
-                <input type="password" placeholder=" " required>
+                <input formControlName="userPassword" title="Password first letter must be capital and its size must be 8+ "
+                 type="password" placeholder=" " required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 3}$">
                 <span></span>
                 <label>Password</label>
               </div>
