@@ -1,0 +1,43 @@
+#contents{
+    width: 720px;
+    border: 1px solid black;
+    padding: 10px;
+}
+.emailBar{
+    display: flex;   
+    align-items: center;
+    width: 720px;
+    cursor: pointer;
+    border-bottom: 1px solid rgb(160, 160, 160);
+}
+.emailBar:hover{
+    box-shadow: 1px 1px 10px 1px rgb(230, 230, 230);
+    border: 1px solid rgb(160, 160, 160);
+
+}
+.emailHead{
+    flex-basis: 100%;
+    margin: 5px;
+}
+span{
+    margin: 5px 20px;
+}
+hr{
+    margin: 2px 5px;
+}
+button{
+    margin: 1px 2px;
+    cursor: pointer;
+}
+.controls{
+    padding: 5px;
+    margin: 2px 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    white-space: nowrap;
+}
+
+.unread{
+    font-weight: bold;
+}

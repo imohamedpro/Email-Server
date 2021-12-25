@@ -1,0 +1,21 @@
+<p>folder-view works!</p>
+<div>Search</div>
+<nav>Tools</nav>
+<div id="contents">
+    <div *ngFor="let email of emails; let i = index">
+        <!-- <hr> -->
+        <div class="emailBar">
+            <input type="checkBox" (change)="select(i)">
+            <div class="emailHead" [ngClass]="email.isRead? '': 'unread'">
+                <span>{{email.from}}</span>
+                <span>{{email.subject}}</span>
+                <span>{{email.date.toLocaleString()}}</span>
+            </div>
+            <div class="controls">
+                <button (click)="delete(i)">delete</button>
+                <button (click)="toggleRead(i)">{{emails[i].isRead? 'mark as unread': 'mark as read'}}</button>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -14,13 +14,14 @@ export class EmailEditorComponent implements OnInit {
   receivers: string[];
   attachments: AttachmentResponse[];
   changed: boolean = false;
-  // files: File[];
   constructor(private fb: FormBuilder, private sanitizer:DomSanitizer) {
     this.receivers = [];
     this.attachments = [];
    }
 
   ngOnInit(): void {
+
+    //load draft   
     this.form = this.fb.group({
       priority: '2',
       receiver: '',
@@ -28,7 +29,7 @@ export class EmailEditorComponent implements OnInit {
       body: '',
       file: null,
     });
-    // this.receivers.push(this.fb.group({ receiver: ''}));
+
      this.form.valueChanges.subscribe(()=>{
        this.changed = true;
        console.log;
@@ -44,12 +45,8 @@ export class EmailEditorComponent implements OnInit {
      }, 3000);
   }
 
-  // get receivers(): FormArray{
-  //   return this.form.get('receivers') as FormArray;
-  // }
 
   addRecievers(event: any):void{
-    // console.log(event.target);
     if(event.key == ' ' || event.key == 'Enter'){
       event.preventDefault();
       if(event.target.value != ''){
@@ -80,7 +77,6 @@ export class EmailEditorComponent implements OnInit {
     }
     console.log("send");
     let email = this.buildEmail();
-    // console.log(this.form.controls.get('priority'));
   }
 
   saveDraft(){

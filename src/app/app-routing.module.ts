@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ComposeComponent } from './components/compose/compose.component';
+import { FolderViewComponent } from './components/folder-view/folder-view.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { SignupComponent } from './components/signup/signup.component';
@@ -16,6 +17,10 @@ const routes: Routes = [
       {
         path: 'compose',
         component: ComposeComponent
+      },
+      {
+        path: 'folder',
+        component: FolderViewComponent
       }
     ]
   },

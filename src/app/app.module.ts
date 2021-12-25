@@ -8,6 +8,8 @@ import { SignupComponent } from './components/signup/signup.component';
 import { ComposeComponent } from './components/compose/compose.component';
 import { HomeComponent } from './components/home/home.component';
 import { EmailEditorComponent } from './components/email-editor/email-editor.component';
+import { FolderViewComponent } from './components/folder-view/folder-view.component';
+
 import { ReactiveFormsModule } from '@angular/forms';
 
 
@@ -19,6 +21,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     ComposeComponent,
     HomeComponent,
     EmailEditorComponent,
+    FolderViewComponent
   ],
   imports: [
     BrowserModule,
