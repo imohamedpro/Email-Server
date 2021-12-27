@@ -24,10 +24,9 @@ public class UserContact {
 
     public void addContact(Contact contact){
         if(contact.getID() < 0){
-            contacts.put(nextID++, contact);
-        }else{
-            contacts.put(contact.getID(), contact);
+            contact.setID(nextID++);
         }
+        contacts.put(contact.getID(), contact);
     }
 
 }
