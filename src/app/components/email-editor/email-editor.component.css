@@ -105,8 +105,9 @@ hr{
     background-color: inherit;
     border: 0px;
 }
-.tag button:hover{
-    color: red;
+button:hover{
+    background-color: #4448D5;
+    color: white;
     cursor: pointer;
 }
 
@@ -123,4 +124,8 @@ label[for="addAttachments"]{
 }
 #attachments .tag{
     margin: 5px;
+}
+label[for="addAttachments"]:hover{
+    background-color: #4448D5;
+    color: white;
 }

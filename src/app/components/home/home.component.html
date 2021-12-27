@@ -1,2 +1,36 @@
-<p>home works!</p>
-<router-outlet></router-outlet>
+
+<div class="container">
+	<div class="menu">
+        <div class="menu-item" (click)="goToCompose()">
+			<span class="material-icons">edit</span>
+			<span class="menu-item-label">Compose</span>
+		</div>
+		<div class="menu-item">
+			<span class="material-icons">inbox</span>
+			<span class="menu-item-label">Inbox</span>
+		</div>
+        <div class="menu-item">
+			<span class="material-icons">send</span>
+			<span class="menu-item-label">Sent</span>
+		</div>
+		<div class="menu-item">
+			<span class="material-icons">delete</span>
+			<span class="menu-item-label">Trash</span>
+		</div>
+		<div class="menu-item">
+			<span class="material-icons">drafts</span>
+			<span class="menu-item-label">Draft</span>
+		</div>
+		<div class="menu-item">
+			<span class="material-icons">contact_page</span>
+			<span class="menu-item-label">Contacts</span>
+		</div>
+		<div class="menu-item">
+			<span class="material-icons">add</span>
+			<span class="menu-item-label">Add folder</span>
+		</div>
+	</div>
+</div>
+<div class="child">
+    <router-outlet></router-outlet>
+</div>
