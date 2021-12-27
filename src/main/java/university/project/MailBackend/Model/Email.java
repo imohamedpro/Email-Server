@@ -1,4 +1,5 @@
 package university.project.MailBackend.Model;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -13,6 +14,7 @@ public class Email implements Observable, Searchable {
     public Set<String> folders;
     public EmailHeader emailHeader;
     public EmailBody emailBody;
+    public  Date deleteDate;
 
     @Override
     public void markAsRead(Map<String, Observer> folders) { //map is used to save memory

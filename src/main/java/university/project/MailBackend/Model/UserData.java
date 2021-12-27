@@ -1,6 +1,8 @@
 package university.project.MailBackend.Model;
 
+import java.util.Date;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class UserData {
     public Map<String, Folder> folders;
@@ -34,7 +36,7 @@ public class UserData {
         }
     }
 
-    public void deleteEmail(Integer emailID){
+    public void moveToTrash(Integer emailID){
         if(emails.containsKey(emailID)){
             Email email = emails.get(emailID);
             for(String folderName: email.folders){
@@ -42,7 +44,37 @@ public class UserData {
                 folder.removeEmail(email);
             }
             Folder trash = folders.get("trash");
+            email.deleteDate = new Date();
             trash.addEmail(email);
         }
     }
+    public void deleteEmail(int emailID){
+        if(emails.containsKey(emailID)){
+            Folder trash = folders.get("trash");
+            Email email = emails.remove(emailID);
+            trash.removeEmail(email);
+        }
+    }
+
+    public void autoDelete(){
+        Folder trash = folders.get("trash");
+        for(int emailID: trash.emails){
+            Email email = emails.get(emailID);
+            if(TimeUnit.DAYS.convert(new Date().getTime() - email.deleteDate.getTime(), TimeUnit.MILLISECONDS) > 30){
+                emails.remove(email.id);
+                trash.removeEmail(email);
+            }
+        }
+    }
+
+    public void addFolder(Folder folder){
+        this.folders.put(folder.name, folder);
+    }
+    public void deleteFolder(String name){
+        Folder folder = this.folders.remove(name);
+        for(int emailID: folder.emails){
+            folder.removeEmail(this.emails.get(emailID));
+        }
+    }
+
 }

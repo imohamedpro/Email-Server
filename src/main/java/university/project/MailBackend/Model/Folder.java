@@ -1,18 +1,25 @@
 package university.project.MailBackend.Model;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import university.project.MailBackend.Interfaces.Observable;
 import university.project.MailBackend.Interfaces.Observer;
 
 public class Folder implements Observer {
     public String name;
-    public Set<Integer> emails;
+    public HashSet<Integer> emails;
     public int unreadCount;
     public List<String> filterTokens;
+
+    Folder(String name, List<String> filterTokens){
+        this. name = name;
+        this.filterTokens = filterTokens;
+        unreadCount = 0;
+        emails = new HashSet<Integer>();
+    }
 
     @Override
     public void notify(int change) {
