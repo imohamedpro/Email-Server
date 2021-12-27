@@ -55,6 +55,20 @@ public class UserData {
             trash.removeEmail(email);
         }
     }
+    public void moveEmail(int emailID, String folderName){
+        Folder folder =  this.folders.get(folderName);
+        Email email = this.emails.get(emailID);
+        folder.addEmail(email);
+    }
+
+    public void restoreEmail(int emailID, String folderName){
+        Folder folder =  this.folders.get(folderName);
+        Email email = this.emails.get(emailID);
+        email.deleteDate = null;
+        folder.addEmail(email);
+        folder = this.folders.get("trash");
+        folder.removeEmail(email);
+    }
 
     public void autoDelete(){
         Folder trash = folders.get("trash");
