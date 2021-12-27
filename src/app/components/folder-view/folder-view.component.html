@@ -6,7 +6,7 @@
         <!-- <hr> -->
         <div class="emailBar" [ngClass]="selected.has(i)? 'selected': ''">
             <input type="checkBox" (change)="select(i)">
-            <div class="emailHead" [ngClass]="email.isRead? '': 'unread'">
+            <div (click)="goToEmail(emails[i].id)" class="emailHead" [ngClass]="email.isRead? '': 'unread'">
                 <span>{{email.from}}</span>
                 <span>{{email.subject}}</span>
                 <span>{{email.date.toLocaleString()}}</span>
@@ -19,3 +19,7 @@
 
     </div>
 </div>
+<div class="child">
+    <router-outlet></router-outlet>
+</div>
+

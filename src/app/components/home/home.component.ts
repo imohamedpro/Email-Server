@@ -17,5 +17,10 @@ export class HomeComponent implements OnInit {
     console.log("clicked");
     this.router.navigate(['compose'],{relativeTo: this.r});
   }
+  goToFolder(){
+    console.log("clicked");
+    this.router.navigate(['folder'],{relativeTo: this.r});
+  }
+
 
 }

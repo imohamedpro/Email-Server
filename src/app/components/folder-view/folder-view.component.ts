@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EmailHeaderResponse } from '../../classes/Responses/EmailHeaderResponse';
 
 @Component({
@@ -10,7 +11,7 @@ export class FolderViewComponent implements OnInit {
 
   emails: EmailHeaderResponse[];
   selected: Set<number>;
-  constructor() {
+  constructor(private router: Router, private r: ActivatedRoute) {
     this.emails = [];
     this.selected = new Set<number>();
    }
@@ -46,6 +47,10 @@ export class FolderViewComponent implements OnInit {
       console.log(index + " is selected");
 
     }
+  }
+
+  goToEmail(id: number){
+    this.router.navigate([id],{relativeTo: this.r});
   }
 
   delete(index: number){

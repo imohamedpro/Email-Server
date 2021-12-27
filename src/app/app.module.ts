@@ -11,6 +11,7 @@ import { EmailEditorComponent } from './components/email-editor/email-editor.com
 import { FolderViewComponent } from './components/folder-view/folder-view.component';
 
 import { ReactiveFormsModule } from '@angular/forms';
+import { EmailViewComponent } from './components/email-view/email-view.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     ComposeComponent,
     HomeComponent,
     EmailEditorComponent,
-    FolderViewComponent
+    FolderViewComponent,
+    EmailViewComponent
   ],
   imports: [
     BrowserModule,
