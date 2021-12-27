@@ -51,4 +51,10 @@ public class StorageFacade {
         storage.setUserInfo(info);
     }
 
+    public void createAcount(UserInfo info, UserData data, UserContact contact){
+        storage.setUserInfo(info);
+        storage.setUserContact(contact, info.getEmail());
+        storage.setUserData(data, info.getEmail());
+    }
+
 }
