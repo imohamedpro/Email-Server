@@ -1,65 +1,54 @@
 package university.project.MailBackend.Model;
 
+
 import university.project.MailBackend.Interfaces.IStorage;
-import university.project.MailBackend.Service.FileService;
 
 public class StorageFacade {
     private IStorage storage;
-    private FileService fileService;
-    private String defaultPath;
-    StorageFacade(IStorage storage, FileService fileService){
+
+    StorageFacade(IStorage storage){
         this.storage = storage;
-        this.fileService = fileService;
-        this.defaultPath = "Database/";
     }
 
     public Email getEmail(String user, int emailID){
-        String path = defaultPath + user + "/Data.json";
-        UserData userData = (UserData) fileService.readFile(path, UserData.class, false);
-        return userData.emails.get(emailID);
+        return storage.getUserData(user).emails.get(emailID);
     }
 
     public void setEmail(String user, Email email, String type){
-        String path = defaultPath + user + "/Data.json";
-        UserData userData = (UserData) fileService.readFile(path, UserData.class, false);
-        userData.addEmail(email, type);
-        fileService.writeFile(path, userData);
+        UserData data = storage.getUserData(user);
+        data.addEmail(email, type);
+        storage.setUserData(data, user);
     }
 
     public Folder getFolder(String user, String folderName){
-        String path = defaultPath + user + "/Data.json";
-        UserData userData = (UserData) fileService.readFile(path, UserData.class, false);
-        return userData.folders.get(folderName);
+        return storage.getUserData(user).folders.get(folderName);
     }
 
     public void setFolder(String user, Folder folder){
-        String path = defaultPath + user + "/Data.json";
-        UserData userData = (UserData) fileService.readFile(path, UserData.class, false);
-        userData.addFolder(folder);
-        fileService.writeFile(path, userData);
+        UserData data = storage.getUserData(user);
+        data.addFolder(folder);
+        storage.setUserData(data, user);
     }
 
-    public Contact getContact(String user, int contactID){
-        String path = defaultPath + user + "/Contacts.json";
-        UserContact userContact = (UserContact) fileService.readFile(path, UserContact.class, false);
-        return userContact.getContact(contactID);
+    public Contact getContact(String user, int ContactID){
+        return storage.getUserContact(user).contacts.get(ContactID);
     }
 
     public void setContact(String user, Contact contact){
-        String path = defaultPath + user + "/Contacts.json";
-        UserContact userContact = (UserContact) fileService.readFile(path, UserContact.class, false);
-        userContact.addContact(contact);
-        fileService.writeFile(path, userContact);
+        UserContact userContact = storage.getUserContact(user);
+        userContact.contacts.put(contact.getID(), contact);
+        storage.setUserContact(userContact, user);
     }
 
     public UserInfo getUserInfo(String user){
-        String path = defaultPath + user + "/Info.json";
-        return (UserInfo) fileService.readFile(path, UserInfo.class, false);
+        return storage.getUserInfo(user);
     }
 
-    public void setUserInfo(UserInfo userInfo){
-        String path = defaultPath + userInfo.getEmail() + "/Info.json";
-        fileService.writeFile(path, userInfo);
+    public void setUserInfo(UserInfo info){
+        // UserInfo info = storage.getUserInfo(user.getEmail());
+        // info = user;
+        // storage.setUserInfo(info);
+        storage.setUserInfo(info);
     }
 
 }

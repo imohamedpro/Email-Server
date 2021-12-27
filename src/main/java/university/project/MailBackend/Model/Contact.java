@@ -4,25 +4,32 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class Contact {
     private String name;
-    private ArrayList<String> usernames;
+    private HashSet<String> usernames;
+    private int id;
 
-    Contact(String name){
+    Contact(String name, int id){
         this.name = name;
-        usernames = new ArrayList<>();
+        usernames = new HashSet<String>();
+        this.id = id;
     }
 
     @JsonCreator
     public Contact(
             @JsonProperty("name") String name,
-            @JsonProperty("usernames") ArrayList<String> usernames)
+            @JsonProperty("usernames") HashSet<String> usernames,
+            @JsonProperty("id") int id)
     {
         this.name = name;
         this.usernames = usernames;
+        this.id = id;
     }
-
+    public int getID(){
+        return this.id;
+    }
     public String getName() {
         return this.name;
     }
@@ -32,7 +39,7 @@ public class Contact {
     }
 
     public ArrayList<String> getUsernames() {
-        return this.usernames;
+        return new ArrayList<String>(this.usernames);
     }
 
     public void rename(String newName){

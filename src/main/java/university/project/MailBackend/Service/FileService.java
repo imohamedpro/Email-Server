@@ -2,7 +2,6 @@ package university.project.MailBackend.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
-import university.project.MailBackend.Model.UserData;
 
 import java.io.File;
 import java.io.IOException;
