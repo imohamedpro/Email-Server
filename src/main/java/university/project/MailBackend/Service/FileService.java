@@ -50,6 +50,15 @@ public class FileService {
         }
     }
 
+    boolean renameFile(String oldPath, String newPath){
+        File oldFile = new File(oldPath);
+        File newFile = new File(newPath);
+        if(newFile.exists()){
+            return false;
+        }
+        return oldFile.renameTo(newFile);
+    }
+
     void createDirectory(String path){
         Path p = Path.of(path);
         try {

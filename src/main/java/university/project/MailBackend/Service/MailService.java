@@ -31,7 +31,7 @@ public class MailService {
         if(!isUsernameExists(user.getUsername())){
             user.setUserID(nUsers++);
             users.add(user);
-            fileService.writeFile("Database/UsersDatabase.json", this.users);
+            updateUsersDatabase();
             String path = "Database/" + user.getUserID() + "/";
             fileService.createDirectory(path);
             int id = user.getUserID();
@@ -88,6 +88,25 @@ public class MailService {
         }
     }
 
+    public void addMailToFolder(ArrayList<Integer> mailIDs, String folderName ,int userId){
+        String path = buildMailFolderPath(folderName, userId);
+        MailFolder mailFolder = (MailFolder) fileService.readFile(path, MailFolder.class, false);
+        mailFolder.addID(mailIDs);
+        fileService.writeFile(path, mailFolder);
+    }
+
+    public void renameFolder(String oldName, String newName, int userID){
+        User user = getUserById(userID);
+        if(user != null){
+            String oldPath = buildMailFolderPath(oldName, userID);
+            String newPath = buildMailFolderPath(newName, userID);
+            if(fileService.renameFile(oldPath, newPath)){
+                user.renameFolder(oldName, newName);
+                updateUsersDatabase();
+            }
+        }
+    }
+
     public void deleteFolder(String folderName, int id){
         User user = getUserById(id);
         if(user != null){
@@ -110,6 +129,15 @@ public class MailService {
         User user = getUserById(userID);
         if(user != null){
             user.editContact(newContact, contactID);
+            updateUsersDatabase();
+        }
+    }
+
+    public void deleteContact(Contact contact, int userID){
+        User user = getUserById(userID);
+        if(user != null){
+            user.removeContact(contact);
+            updateUsersDatabase();
         }
     }
     

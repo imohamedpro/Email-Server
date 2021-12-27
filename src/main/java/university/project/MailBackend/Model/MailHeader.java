@@ -3,9 +3,11 @@ package university.project.MailBackend.Model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.ArrayList;
+
 public class MailHeader {
     private String from;
-    private String[] to;
+    private ArrayList<String> to;
     private String subject;
     private int priority;
     private int nAttachments;
@@ -13,7 +15,7 @@ public class MailHeader {
     @JsonCreator
     public MailHeader(
             @JsonProperty("from") String from,
-            @JsonProperty("to") String[] to,
+            @JsonProperty("to") ArrayList<String> to,
             @JsonProperty("subject") String subject,
             @JsonProperty("priority") int priority,
             @JsonProperty("nAttachments") int nAttachments)
@@ -29,7 +31,7 @@ public class MailHeader {
         return from;
     }
 
-    public String[] getTo() {
+    public ArrayList<String> getTo() {
         return to;
     }
 

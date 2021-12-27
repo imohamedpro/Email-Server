@@ -42,4 +42,8 @@ public class MailFolder {
     public void addID(int id){
         this.ids.add(id);
     }
+
+    public void addID(ArrayList<Integer> ids){
+        this.ids.addAll(ids);
+    }
 }

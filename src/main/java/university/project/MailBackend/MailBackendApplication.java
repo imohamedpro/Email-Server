@@ -8,6 +8,8 @@ import university.project.MailBackend.Model.User;
 import university.project.MailBackend.Service.MailService;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @SpringBootApplication
 public class MailBackendApplication {
@@ -24,7 +26,7 @@ public class MailBackendApplication {
 		if(!bool){
 			System.out.println("Mail is the same");
 		}
-		service.addFolder("Job", 0);
+		service.renameFolder("Job", "Work", 0);
 		user = new User("Name", "Haha", "hiiiii@mail.com");
 		bool = service.addNewUser(user);
 		if(!bool){
@@ -41,15 +43,15 @@ public class MailBackendApplication {
 			System.out.println("Mail is the same");
 		}
 
-		MailHeader header = new MailHeader("mooooh@mail.com", new String[]{"moooh@mail.com"}, "hello", 4, 0);
+		MailHeader header = new MailHeader("mooooh@mail.com", new ArrayList<>(List.of("moooh@mail.com")), "hello", 4, 0);
 		Mail mail = new Mail(1, header, "This is a body message.", null, null, false);
 
 		service.sendMail(mail);
-		header = new MailHeader("mooooh@mail.com", new String[]{"hiiiii@mail.com", "mh@mail.com", "moooh@mail.com"}, "hello222", 4, 0);
+		header = new MailHeader("mooooh@mail.com", new ArrayList<>(List.of("hiiiii@mail.com", "mh@mail.com", "moooh@mail.com")), "hello222", 4, 0);
 		mail = new Mail(1, header, "Testing....", null, null, false);
 
 		service.sendMail(mail);
-		header = new MailHeader("moooh@mail.com", new String[]{"hiiiii@mail.com", "mh@mail.com", "mooooh@mail.com"}, "hello222", 4, 0);
+		header = new MailHeader("moooh@mail.com", new ArrayList<>(List.of("hiiiii@mail.com", "mh@mail.com", "mooooh@mail.com")), "hello222", 4, 0);
 		mail = new Mail(1, header, "Testing....", null, null, false);
 
 		service.sendMail(mail);

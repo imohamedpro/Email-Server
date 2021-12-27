@@ -72,6 +72,11 @@ public class User {
         folders.add(folderName);
     }
 
+    public void renameFolder(String oldName, String newName){
+        folders.remove(oldName);
+        folders.add(newName);
+    }
+
     public void deleteFolder(String folderName){
         folders.remove(folderName);
     }
