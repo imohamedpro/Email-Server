@@ -1,6 +1,8 @@
 package university.project.MailBackend.Model;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -8,6 +10,14 @@ public class UserData {
     public Map<String, Folder> folders;
     public Map<Integer, Email> emails;
     private int nextEmailID;
+
+    UserData(){
+        folders = new HashMap<String, Folder>();
+        folders.put("inbox", new Folder("inbox", new ArrayList<String>()));
+        folders.put("sent", new Folder("sent", new ArrayList<String>()));
+        folders.put("draft", new Folder("draft", new ArrayList<String>()));
+        folders.put("trash", new Folder("trash", new ArrayList<String>()));
+    }
 
     public void addEmail(Email email, String type){
         if(email.id < 0){
