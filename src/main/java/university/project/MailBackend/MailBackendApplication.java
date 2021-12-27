@@ -3,6 +3,7 @@ package university.project.MailBackend;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import university.project.MailBackend.Model.Mail;
+import university.project.MailBackend.Model.MailHeader;
 import university.project.MailBackend.Model.User;
 import university.project.MailBackend.Service.MailService;
 
@@ -39,6 +40,19 @@ public class MailBackendApplication {
 		if(!bool){
 			System.out.println("Mail is the same");
 		}
+
+		MailHeader header = new MailHeader("mooooh@mail.com", new String[]{"moooh@mail.com"}, "hello", 4, 0);
+		Mail mail = new Mail(1, header, "This is a body message.", null, null, false);
+
+		service.sendMail(mail);
+		header = new MailHeader("mooooh@mail.com", new String[]{"hiiiii@mail.com", "mh@mail.com", "moooh@mail.com"}, "hello222", 4, 0);
+		mail = new Mail(1, header, "Testing....", null, null, false);
+
+		service.sendMail(mail);
+		header = new MailHeader("moooh@mail.com", new String[]{"hiiiii@mail.com", "mh@mail.com", "mooooh@mail.com"}, "hello222", 4, 0);
+		mail = new Mail(1, header, "Testing....", null, null, false);
+
+		service.sendMail(mail);
 	}
 
 }

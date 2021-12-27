@@ -1,6 +1,7 @@
 package university.project.MailBackend.Service;
 
 import university.project.MailBackend.Model.Contact;
+import university.project.MailBackend.Model.Mail;
 import university.project.MailBackend.Model.MailFolder;
 import university.project.MailBackend.Model.User;
 
@@ -33,15 +34,47 @@ public class MailService {
             fileService.writeFile("Database/UsersDatabase.json", this.users);
             String path = "Database/" + user.getUserID() + "/";
             fileService.createDirectory(path);
-
+            int id = user.getUserID();
+            ArrayList<Mail> mails = new ArrayList<>();
+            path = path + "Mails.json";
+            fileService.writeFile(path, mails);
             for(String folderName: user.getFolders()){
                 MailFolder mailFolder = new MailFolder(folderName);
-                path = "Database/" + user.getUserID() + "/" + folderName + ".json";
+                path = buildMailFolderPath(folderName, id);
                 fileService.writeFile(path, mailFolder);
             }
             return true;
         }
         return false;
+    }
+
+    public void sendMail(Mail mail){
+        User fromUser = getUserByUsername(mail.getHeader().getFrom());
+        assert fromUser != null;
+        addMail(mail, fromUser.getUserID(), false);
+        for(String username: mail.getHeader().getTo()){
+            User user = getUserByUsername(username);
+            if(user != null){
+                addMail(mail, user.getUserID(), true);
+            }
+        }
+    }
+
+    private void addMail(Mail mail, int userID, boolean isReceiver){
+        ArrayList<Mail> mails= (ArrayList<Mail>) fileService.readFile(getMailFilePath(userID), Mail.class, true);
+        int mailID;
+        if(mails.isEmpty()){
+            mailID  = 0;
+        }else{
+            mailID = mails.get(mails.size()-1).getId()+1;
+        }
+        mail.setId(mailID);
+        mails.add(mail);
+        fileService.writeFile(getMailFilePath(userID),  mails);
+        String path = isReceiver ? buildMailFolderPath("Inbox", userID) : buildMailFolderPath("Sent", userID);
+        MailFolder mailFolder = (MailFolder) fileService.readFile(path, MailFolder.class, false);
+        mailFolder.addID(mailID);
+        fileService.writeFile(path, mailFolder);
     }
 
     public void addFolder(String folderName, int id){
@@ -109,6 +142,10 @@ public class MailService {
 
     private String buildMailFolderPath(String folderName, int id){
         return "Database/" + id + "/" + folderName + ".json";
+    }
+
+    private String getMailFilePath(int id){
+        return "Database/" + id + "/" + "Mails.json";
     }
 
     private void updateUsersDatabase(){
