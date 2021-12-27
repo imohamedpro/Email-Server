@@ -1,5 +1,8 @@
 package university.project.MailBackend.Model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -8,6 +11,16 @@ public class UserData {
     public Map<String, Folder> folders;
     public Map<Integer, Email> emails;
     private int nextEmailID;
+
+    @JsonCreator
+    public UserData(
+            @JsonProperty("folders") Map<String, Folder> folders,
+            @JsonProperty("emails") Map<Integer, Email> emails,
+            @JsonProperty("nextEmailID") int nextEmailID) {
+        this.folders = folders;
+        this.emails = emails;
+        this.nextEmailID = nextEmailID;
+    }
 
     public void addEmail(Email email, String type){
         if(email.id < 0){
