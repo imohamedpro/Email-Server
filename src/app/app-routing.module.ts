@@ -20,11 +20,11 @@ const routes: Routes = [
         component: ComposeComponent
       },
       {
-        path: 'folder',
+        path: ':folder',
         component: FolderViewComponent,
       },
       {
-        path: 'folder/:id',
+        path: ':folder/:id',
         component: EmailViewComponent,
       },
     ]

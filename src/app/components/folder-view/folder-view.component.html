@@ -1,6 +1,9 @@
 <p>folder-view works!</p>
 <div>Search</div>
-<nav>Tools</nav>
+<nav>
+    <span class="material-icons" (click)="moveBackward()">arrow_back_ios</span>
+    <span class="material-icons" (click)="moveForward()">arrow_forward_ios</span>
+</nav>
 <div id="contents">
     <div *ngFor="let email of emails; let i = index">
         <!-- <hr> -->
@@ -19,6 +22,7 @@
 
     </div>
 </div>
+<div class="pageNumber">Page no: {{pageNumber}}</div>
 <div class="child">
     <router-outlet></router-outlet>
 </div>

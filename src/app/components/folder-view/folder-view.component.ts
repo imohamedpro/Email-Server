@@ -9,32 +9,60 @@ import { EmailHeaderResponse } from '../../classes/Responses/EmailHeaderResponse
 })
 export class FolderViewComponent implements OnInit {
 
-  emails: EmailHeaderResponse[];
+  emails!: EmailHeaderResponse[];
   selected: Set<number>;
+  pageNumber: number = 1;
   constructor(private router: Router, private r: ActivatedRoute) {
-    this.emails = [];
+    r.params.subscribe(val =>{
+      console.log(this.getPageName());
+      this.emails = [
+        {
+          id: 0,
+          from: '0',
+          date: new Date("2019-10-12"),
+          priority: 2,
+          subject: 'eee',
+          isRead: false,
+        },
+        {
+          id: 1,
+          from: '1',
+          date: new Date("2020-06-05"),
+          priority: 1,
+          subject: 'fff',
+          isRead: true,
+        },
+        {
+          id: 2,
+          from: '2',
+          date: new Date("2020-06-05"),
+          priority: 1,
+          subject: 'fff',
+          isRead: true,
+        },
+        {
+          id: 3,
+          from: '3',
+          date: new Date("2020-06-05"),
+          priority: 1,
+          subject: 'fff',
+          isRead: true,
+        },
+        {
+          id: 4,
+          from: '4',
+          date: new Date("2020-06-05"),
+          priority: 1,
+          subject: 'fff',
+          isRead: true,
+        },
+      ]
+    });
     this.selected = new Set<number>();
    }
 
   ngOnInit(): void {
-    this.emails = [
-      {
-        id: 0,
-        from: 'ggg',
-        date: new Date("2019-10-12"),
-        priority: 2,
-        subject: 'eee',
-        isRead: false,
-      },
-      {
-        id: 2,
-        from: 'herrg',
-        date: new Date("2020-06-05"),
-        priority: 1,
-        subject: 'fff',
-        isRead: true,
-      },
-    ]
+    
   }
 
   select(index: number){
@@ -48,9 +76,25 @@ export class FolderViewComponent implements OnInit {
 
     }
   }
+  getPageName(){
+    return this.r.snapshot.paramMap.get("folder");
+  }
 
   goToEmail(id: number){
+    if(this.emails[id].isRead == false) this.emails[id].isRead = true;
     this.router.navigate([id],{relativeTo: this.r});
+  }
+  moveForward(){
+    if(this.emails.length == 5){
+      ++this.pageNumber;
+      //api to get the emails in case of none -> --this.pageNumber;
+    }
+  }
+  moveBackward(){
+    if(this.pageNumber > 1){
+      --this.pageNumber;
+      //api to get the emails;
+    }
   }
 
   delete(index: number){

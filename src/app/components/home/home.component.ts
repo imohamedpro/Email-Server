@@ -7,20 +7,33 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  
   constructor(private router: Router, private r: ActivatedRoute) { }
 
   ngOnInit(): void {
   }
 
   goToCompose(){
-    console.log("clicked");
     this.router.navigate(['compose'],{relativeTo: this.r});
   }
-  goToFolder(){
-    console.log("clicked");
-    this.router.navigate(['folder'],{relativeTo: this.r});
+  goToFolder(folderNumber: number){
+    let folderName: string = ""; 
+    switch(folderNumber){
+      case 1:
+        folderName = "inbox";
+        break;
+      case 2:
+        folderName = "sent";
+        break;
+      case 3:
+        folderName = "trash";
+        break;
+      case 4:
+        folderName = "draft";
+        break;
+      case 5:
+        folderName="contacts";
+        break;
+    }
+    this.router.navigate([folderName],{relativeTo: this.r});
   }
-
-
 }
