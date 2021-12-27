@@ -36,7 +36,7 @@ public class Storage implements IStorage {
     public void setUserInfo(UserInfo info) {
         String email = info.getEmail();
         String path = defaultPath + email + "/Info.json";
-        fileService.writeFile(path, email);
+        fileService.writeFile(path, info);
     }
 
     @Override

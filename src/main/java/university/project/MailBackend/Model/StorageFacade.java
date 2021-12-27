@@ -6,7 +6,7 @@ import university.project.MailBackend.Interfaces.IStorage;
 public class StorageFacade {
     private IStorage storage;
 
-    StorageFacade(IStorage storage){
+    public StorageFacade(IStorage storage){
         this.storage = storage;
     }
 
