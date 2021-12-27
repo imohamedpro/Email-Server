@@ -17,7 +17,7 @@ public class StorageFacade {
     public void setEmail(String user, Email email, String type){
         UserData data = storage.getUserData(user);
         data.addEmail(email, type);
-        storage.setUserData(data);
+        storage.setUserData(data, user);
     }
 
     public Folder getFolder(String user, String folderName){
@@ -27,7 +27,7 @@ public class StorageFacade {
     public void setFolder(String user, Folder folder){
         UserData data = storage.getUserData(user);
         data.addFolder(folder);
-        storage.setUserData(data);
+        storage.setUserData(data, user);
     }
 
     public Contact getContact(String user, int ContactID){
@@ -37,18 +37,18 @@ public class StorageFacade {
     public void setContact(String user, Contact contact){
         UserContact userContact = storage.getUserContact(user);
         userContact.contacts.put(contact.getID(), contact);
-        storage.setUserContact(userContact);
+        storage.setUserContact(userContact, user);
     }
 
     public UserInfo getUserInfo(String user){
         return storage.getUserInfo(user);
     }
 
-    public void setUserInfo(UserInfo user){
+    public void setUserInfo(UserInfo info){
         // UserInfo info = storage.getUserInfo(user.getEmail());
         // info = user;
         // storage.setUserInfo(info);
-        storage.setUserInfo(user);
+        storage.setUserInfo(info);
     }
 
 }

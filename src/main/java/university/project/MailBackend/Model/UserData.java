@@ -1,6 +1,9 @@
 package university.project.MailBackend.Model;
 
 import java.util.ArrayList;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,6 +20,15 @@ public class UserData {
         folders.put("sent", new Folder("sent", new ArrayList<String>()));
         folders.put("draft", new Folder("draft", new ArrayList<String>()));
         folders.put("trash", new Folder("trash", new ArrayList<String>()));
+    }
+    @JsonCreator
+    public UserData(
+            @JsonProperty("folders") Map<String, Folder> folders,
+            @JsonProperty("emails") Map<Integer, Email> emails,
+            @JsonProperty("nextEmailID") int nextEmailID) {
+        this.folders = folders;
+        this.emails = emails;
+        this.nextEmailID = nextEmailID;
     }
 
     public void addEmail(Email email, String type){

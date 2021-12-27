@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import university.project.MailBackend.Interfaces.Observable;
 import university.project.MailBackend.Interfaces.Observer;
 import university.project.MailBackend.Interfaces.Searchable;
@@ -15,6 +17,22 @@ public class Email implements Observable, Searchable {
     public EmailHeader emailHeader;
     public EmailBody emailBody;
     public  Date deleteDate;
+
+    @JsonCreator
+    public Email(
+            @JsonProperty("id") int id,
+            @JsonProperty("isRead") boolean isRead,
+            @JsonProperty("folders") Set<String> folders,
+            @JsonProperty("emailHeader") EmailHeader emailHeader,
+            @JsonProperty("emailBody") EmailBody emailBody,
+            @JsonProperty("deleteDate") Date deleteDate) {
+        this.id = id;
+        this.isRead = isRead;
+        this.folders = folders;
+        this.emailHeader = emailHeader;
+        this.emailBody = emailBody;
+        this.deleteDate = deleteDate;
+    }
 
     @Override
     public void markAsRead(Map<String, Observer> folders) { //map is used to save memory

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class FileService {
     ObjectMapper objectMapper = new ObjectMapper();
 
-    Object readFile(String path, Class<?> cls, boolean isArrayList){
+    public Object readFile(String path, Class<?> cls, boolean isArrayList){
         Path p = Path.of(path);
         if(Files.exists(p)){
             String json = null;
@@ -31,7 +31,7 @@ public class FileService {
         return null;
     }
 
-    void writeFile(String path, Object object){
+    public void writeFile(String path, Object object){
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.writeValue(new File(path), object);
@@ -43,14 +43,14 @@ public class FileService {
         System.out.println(path + " updated");
     }
 
-    void deleteFile(String path){
+    public void deleteFile(String path){
         File file = new File(path);
         if(file.delete()){
             System.out.println(path + " is deleted");
         }
     }
 
-    void createDirectory(String path){
+    public void createDirectory(String path){
         Path p = Path.of(path);
         try {
             if(!Files.exists(p)){

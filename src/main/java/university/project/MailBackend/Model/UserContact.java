@@ -1,3 +1,4 @@
+
 package university.project.MailBackend.Model;
 
 import java.util.HashMap;

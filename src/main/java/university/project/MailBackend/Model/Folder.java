@@ -5,6 +5,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import university.project.MailBackend.Interfaces.Observable;
 import university.project.MailBackend.Interfaces.Observer;
 
@@ -19,6 +21,18 @@ public class Folder implements Observer {
         this.filterTokens = filterTokens;
         unreadCount = 0;
         emails = new HashSet<Integer>();
+    }
+
+    @JsonCreator
+    public Folder(
+            @JsonProperty("name") String name,
+            @JsonProperty("emails") HashSet<Integer> emails,
+            @JsonProperty("unreadCount") int unreadCount,
+            @JsonProperty("filterTokens") List<String> filterTokens) {
+        this.name = name;
+        this.emails = emails;
+        this.unreadCount = unreadCount;
+        this.filterTokens = filterTokens;
     }
 
     @Override
