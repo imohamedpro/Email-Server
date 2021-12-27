@@ -1,5 +1,6 @@
 package university.project.MailBackend.Model;
 
+
 import university.project.MailBackend.Interfaces.IStorage;
 
 public class StorageFacade {
@@ -10,35 +11,44 @@ public class StorageFacade {
     }
 
     public Email getEmail(String user, int emailID){
-        return null;
+        return storage.getUserData(user).emails.get(emailID);
     }
 
     public void setEmail(String user, Email email, String type){
-
+        UserData data = storage.getUserData(user);
+        data.addEmail(email, type);
+        storage.setUserData(data);
     }
 
     public Folder getFolder(String user, String folderName){
-        return null;
+        return storage.getUserData(user).folders.get(folderName);
     }
 
     public void setFolder(String user, Folder folder){
-
+        UserData data = storage.getUserData(user);
+        data.addFolder(folder);
+        storage.setUserData(data);
     }
 
     public Contact getContact(String user, int ContactID){
-        return null;
+        return storage.getUserContact(user).contacts.get(ContactID);
     }
 
     public void setContact(String user, Contact contact){
-
+        UserContact userContact = storage.getUserContact(user);
+        userContact.contacts.put(contact.getID(), contact);
+        storage.setUserContact(userContact);
     }
 
     public UserInfo getUserInfo(String user){
-        return null;
+        return storage.getUserInfo(user);
     }
 
     public void setUserInfo(UserInfo user){
-
+        // UserInfo info = storage.getUserInfo(user.getEmail());
+        // info = user;
+        // storage.setUserInfo(info);
+        storage.setUserInfo(user);
     }
 
 }

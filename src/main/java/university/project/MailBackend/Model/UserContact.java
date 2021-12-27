@@ -10,4 +10,12 @@ public class UserContact {
         nextID = 0;
     }
 
+    public void addContact(Contact contact){
+        if(contact.getID() < 0){
+            contacts.put(nextID++, contact);
+        }else{
+            contacts.put(contact.getID(), contact);
+        }
+    }
+
 }
