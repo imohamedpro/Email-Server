@@ -1,5 +1,7 @@
 package university.project.MailBackend.Model.Filter;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import university.project.MailBackend.Model.Mail;
 
 import java.util.ArrayList;
@@ -7,7 +9,8 @@ import java.util.ArrayList;
 public class SubjectCriteria implements Criteria{
     private String criteria;
 
-    public SubjectCriteria(String criteria) {
+    @JsonCreator
+    public SubjectCriteria(@JsonProperty("criteria") String criteria) {
         this.criteria = criteria;
     }
 

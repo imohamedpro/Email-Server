@@ -1,5 +1,7 @@
 package university.project.MailBackend.Model.Filter;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import university.project.MailBackend.Model.Mail;
 
 import java.util.ArrayList;
@@ -7,8 +9,13 @@ import java.util.ArrayList;
 public class FromCriteria implements Criteria{
     private String criteria;
 
-    public FromCriteria(String criteria) {
+    @JsonCreator
+    public FromCriteria(@JsonProperty("criteria") String criteria) {
         this.criteria = criteria;
+    }
+
+    public String getCriteria() {
+        return criteria;
     }
 
     @Override

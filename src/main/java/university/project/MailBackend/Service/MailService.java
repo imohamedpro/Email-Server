@@ -1,6 +1,9 @@
 package university.project.MailBackend.Service;
 
 import university.project.MailBackend.Model.Contact;
+import university.project.MailBackend.Model.Filter.AndCriteria;
+import university.project.MailBackend.Model.Filter.Criteria;
+import university.project.MailBackend.Model.Filter.CriteriaInfo;
 import university.project.MailBackend.Model.Mail;
 import university.project.MailBackend.Model.MailFolder;
 import university.project.MailBackend.Model.User;
@@ -61,7 +64,7 @@ public class MailService {
     }
 
     private void addMail(Mail mail, int userID, boolean isReceiver){
-        ArrayList<Mail> mails= (ArrayList<Mail>) fileService.readFile(getMailFilePath(userID), Mail.class, true);
+        ArrayList<Mail> mails = getAllMails(userID);
         int mailID;
         if(mails.isEmpty()){
             mailID  = 0;
@@ -117,6 +120,16 @@ public class MailService {
         }
     }
 
+    public void addCriteriaToFolder(String folderName, CriteriaInfo criteria, int userID){
+        User user = getUserById(userID);
+        if(user != null){
+            String path = buildMailFolderPath(folderName, userID);
+            MailFolder mailFolder = (MailFolder) fileService.readFile(path, MailFolder.class, false);
+            mailFolder.addCriteria(criteria);
+            fileService.writeFile(path, mailFolder);
+        }
+    }
+
     public void addContact(Contact contact, int id){
         User user = getUserById(id);
         if(user != null){
@@ -141,6 +154,40 @@ public class MailService {
         }
     }
     
+    public ArrayList<Integer> filter(ArrayList<Criteria> criterias, ArrayList<Mail> mails){
+        for(int i = 0; i < criterias.size()/2; i++){
+            Criteria andCriteria = new AndCriteria(criterias.get(i*2), criterias.get(i*2+1));
+            mails = andCriteria.meetCriteria(mails);
+        }
+        if(criterias.size()%2 == 1){
+            mails = criterias.get(criterias.size()-1).meetCriteria(mails);
+        }
+        ArrayList<Integer> criteriaMailID = new ArrayList<>();
+        for(Mail mail: mails){
+            criteriaMailID.add(mail.getId());
+        }
+        return criteriaMailID;
+    }
+
+    public ArrayList<Integer> filterInfo(ArrayList<CriteriaInfo> criteriaInfos, ArrayList<Mail> mails){
+        ArrayList<Criteria> criterias = new ArrayList<>();
+        for(CriteriaInfo criteriaInfo: criteriaInfos){
+            criterias.add(criteriaInfo.transfer());
+        }
+        return filter(criterias, mails);
+    }
+    
+    private ArrayList<Mail> getMailInFolder(String folderName, int userID){
+        ArrayList<Mail> mails = getAllMails(userID);
+        MailFolder mailFolder = (MailFolder) fileService.readFile(buildMailFolderPath(folderName, userID), MailFolder.class, false);
+        mails.removeIf(mail -> !mailFolder.getIds().contains(mail.getId()));
+        return mails;
+    }
+
+    private ArrayList<Mail> getAllMails(int userID){
+        return (ArrayList<Mail>) fileService.readFile(getMailFilePath(userID), Mail.class, true);
+    }
+
     private boolean isUsernameExists(String username){
         for(int i = 0; i < users.size(); i++){
             if(this.users.get(i).getUsername().equals(username)){

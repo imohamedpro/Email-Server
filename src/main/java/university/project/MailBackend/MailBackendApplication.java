@@ -2,6 +2,8 @@ package university.project.MailBackend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import university.project.MailBackend.Model.Filter.CriteriaInfo;
+import university.project.MailBackend.Model.Filter.FromCriteria;
 import university.project.MailBackend.Model.Mail;
 import university.project.MailBackend.Model.MailHeader;
 import university.project.MailBackend.Model.User;
@@ -26,7 +28,7 @@ public class MailBackendApplication {
 		if(!bool){
 			System.out.println("Mail is the same");
 		}
-		service.renameFolder("Job", "Work", 0);
+		service.addFolder("Work", 0);
 		user = new User("Name", "Haha", "hiiiii@mail.com");
 		bool = service.addNewUser(user);
 		if(!bool){
@@ -55,6 +57,8 @@ public class MailBackendApplication {
 		mail = new Mail(1, header, "Testing....", null, null, false);
 
 		service.sendMail(mail);
+
+		service.addCriteriaToFolder("Work", new CriteriaInfo("from", "mh@mail.com"), 0);
 	}
 
 }
