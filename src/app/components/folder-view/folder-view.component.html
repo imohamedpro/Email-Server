@@ -1,5 +1,35 @@
-<p>folder-view works!</p>
-<div>Search</div>
+<div class="radio">
+    <input class="radio-input" type="radio" name="radioButton" id="radio1" (click)="updateRadio(true)">
+    <label class="radio-label" for="radio1">
+        Acseascending
+    </label>
+  </div>
+<div class="radio">
+    <input class="radio-input" type="radio" name="radioButton" id="radio2" (click)="updateRadio(false)">
+    <label class="radio-label" for="radio2">
+        Descending
+    </label>
+  </div>
+<div class="sort" *ngIf="selectedRadio == true">
+    <label for="sorting">Sort according to: </label>
+    <select style="font-family: cursive;" id="sorting" (change)="updateSorting($event)">
+        <option value="datea" selected="selected">Date: Old to new</option>
+        <option value="prioritya">Priority: Lower to Higher</option>
+        <option value="alphaa">Alphabetical order: A to Z</option>
+    </select>
+</div>
+<div class="sort" *ngIf="selectedRadio == false">
+    <label for="sorting">Sort according to: </label>
+    <select style="font-family: cursive;" id="sorting" (change)="updateSorting($event)">
+        <option value="dated" selected="selected">Date: New to old</option>
+        <option value="priorityd">Priority: Higher to lower</option>
+        <option value="alphad">Alphabetical order: Z to A</option>
+    </select>
+</div>
+<div class="search">
+    <span (click)="updateSearching()" class="material-icons-outlined">search</span>
+    <input  type="text" [(ngModel)]="selectedSearching" placeholder="Search: ">
+</div>
 <nav>
     <span class="material-icons" (click)="moveBackward()">arrow_back_ios</span>
     <span class="material-icons" (click)="moveForward()">arrow_forward_ios</span>
@@ -26,4 +56,3 @@
 <div class="child">
     <router-outlet></router-outlet>
 </div>
-

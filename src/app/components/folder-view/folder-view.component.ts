@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EmailHeaderResponse } from '../../classes/Responses/EmailHeaderResponse';
 
@@ -8,13 +9,17 @@ import { EmailHeaderResponse } from '../../classes/Responses/EmailHeaderResponse
   styleUrls: ['./folder-view.component.css']
 })
 export class FolderViewComponent implements OnInit {
-
+  selectedRadio!: boolean;
+  selectedSearching!: any; 
+  selectedSorting: string = "date";
+  settingsForm!: FormGroup;
   emails!: EmailHeaderResponse[];
   selected: Set<number>;
   pageNumber: number = 1;
   constructor(private router: Router, private r: ActivatedRoute) {
     r.params.subscribe(val =>{
       console.log(this.getPageName());
+      //api to get emails
       this.emails = [
         {
           id: 0,
@@ -64,7 +69,17 @@ export class FolderViewComponent implements OnInit {
   ngOnInit(): void {
     
   }
-
+  updateSorting(e: any){
+    this.selectedSorting = e.target.value  ;
+    console.log(this.selectedSorting);
+  }
+  updateSearching(){
+    console.log(this.selectedSearching);
+  }
+  updateRadio(b: boolean){
+    this.selectedRadio = b;
+  }
+ 
   select(index: number){
     if(this.selected.has(index)){
       this.selected.delete(index);

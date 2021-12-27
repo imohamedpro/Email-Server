@@ -62,3 +62,23 @@ button{
     top: 100%;
     left: 50%;
 }
+.radio{
+    display: inline;
+    font-family: cursive;
+    margin-inline: 20px;
+    padding-bottom: 10px;
+}
+.sort{
+    margin-left: 10px;
+    margin-top: 10px;
+}
+.serach input{
+    margin-top: 10px;
+}
+.search span{
+    color: #c2c0e6;
+}
+.search span:hover{
+    cursor: pointer;
+    color: #4448D5;
+}

@@ -9,7 +9,7 @@ import { ComposeComponent } from './components/compose/compose.component';
 import { HomeComponent } from './components/home/home.component';
 import { EmailEditorComponent } from './components/email-editor/email-editor.component';
 import { FolderViewComponent } from './components/folder-view/folder-view.component';
-
+import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { EmailViewComponent } from './components/email-view/email-view.component';
 
@@ -28,7 +28,8 @@ import { EmailViewComponent } from './components/email-view/email-view.component
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
