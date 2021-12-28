@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import university.project.MailBackend.Interfaces.ReadUserInfo;
 
-public class UserInfo implements ReadUserInfo {
+public class UserInfo implements ReadUserInfo{
     private String email;
     private String password;
     private int id;

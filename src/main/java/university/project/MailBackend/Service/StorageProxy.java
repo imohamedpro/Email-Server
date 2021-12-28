@@ -105,11 +105,19 @@ public class StorageProxy implements IStorage {
     }
 
     private void CacheData(UserData data, String user){
-
+        if(cachedInfo.size() >= CACHE_CAPACITY){
+            String randKey = getRandomKey(cachedData.keySet());
+            cachedData.remove(randKey);
+        }
+        cachedData.put(user, data);
     }
 
     private void CacheContact(UserContact contact, String user){
-
+        if(cachedInfo.size() >= CACHE_CAPACITY){
+            String randKey = getRandomKey(cachedData.keySet());
+            cachedData.remove(randKey);
+        }
+        cachedContact.put(user, contact);
     }
         
 }
