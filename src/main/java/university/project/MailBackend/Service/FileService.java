@@ -1,5 +1,7 @@
 package university.project.MailBackend.Service;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 
@@ -9,6 +11,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class FileService {
     ObjectMapper objectMapper = new ObjectMapper();
@@ -32,8 +35,16 @@ public class FileService {
     }
 
     public void writeFile(String path, Object object){
+        String[] directories = path.split("/");
+        String dir = "";
+        for(String directory: Arrays.copyOfRange(directories, 0, directories.length-1)){
+            dir = dir + directory + "/";
+            createDirectory(dir);
+        }
         try {
             ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE);
+            objectMapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
             objectMapper.writeValue(new File(path), object);
             File file = new File(path);
         }

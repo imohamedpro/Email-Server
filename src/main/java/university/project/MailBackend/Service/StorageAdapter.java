@@ -9,10 +9,14 @@ import university.project.MailBackend.Model.UserContact;
 import university.project.MailBackend.Model.UserData;
 import university.project.MailBackend.Model.UserInfo;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 public class StorageAdapter {
     private IStorage storage;
 
-    StorageAdapter(IStorage storage){
+    public StorageAdapter(IStorage storage){
         this.storage = storage;
     }
 
@@ -50,13 +54,28 @@ public class StorageAdapter {
         storage.setUserData(data, user);
     }
 
+    public ArrayList<Contact> getContactsList(String user){
+        ArrayList<Contact> contacts = new ArrayList<>();
+        HashMap<Integer, Contact> contactsMap = storage.getUserContact(user).contacts;
+        for(Integer key: contactsMap.keySet()){
+            contacts.add(contactsMap.get(key));
+        }
+        return contacts;
+    }
+
     public Contact getContact(String user, int ContactID){
         return storage.getUserContact(user).contacts.get(ContactID);
     }
 
     public void setContact(String user, Contact contact){
         UserContact userContact = storage.getUserContact(user);
-        userContact.contacts.put(contact.getID(), contact);
+        userContact.contacts.put(contact.getId(), contact);
+        storage.setUserContact(userContact, user);
+    }
+
+    public void deleteContact(String user, int contactID){
+        UserContact userContact = storage.getUserContact(user);
+        userContact.deleteContact(contactID);
         storage.setUserContact(userContact, user);
     }
 

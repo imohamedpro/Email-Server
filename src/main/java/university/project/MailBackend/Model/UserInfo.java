@@ -29,8 +29,16 @@ public class UserInfo implements ReadUserInfo{
         return password;
     }
     @Override
-    public int getID() {
+    public int getId() {
         return id;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setPassword(String password) {

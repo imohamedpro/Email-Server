@@ -2,11 +2,13 @@ package university.project.MailBackend.Model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import university.project.MailBackend.Interfaces.Searchable;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
-public class Contact {
+public class Contact implements Searchable {
     private String name;
     private HashSet<String> usernames;
     private int id;
@@ -27,13 +29,14 @@ public class Contact {
         this.usernames = usernames;
         this.id = id;
     }
-
-    public int getID(){
+    public int getId(){
         return this.id;
     }
-    public int setID(int id){
-        return this.id = id;
+
+    public void setId(int id) {
+        this.id = id;
     }
+
     public String getName() {
         return this.name;
     }
@@ -56,5 +59,18 @@ public class Contact {
 
     public void removeUsername(String username){
         this.usernames.remove(username);
+    }
+
+    @Override
+    public boolean contains(List<String> tokens, boolean filter) {
+        for(String token: tokens){
+            if(name.contains(token))
+                return true;
+            for(String username: usernames){
+                if(username.contains(token))
+                    return true;
+            }
+        }
+        return false;
     }
 }
