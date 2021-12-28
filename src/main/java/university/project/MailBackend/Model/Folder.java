@@ -8,12 +8,14 @@ import university.project.MailBackend.Interfaces.Observable;
 import university.project.MailBackend.Interfaces.Observer;
 
 public class Folder implements Observer {
+    public int id;
     public String name;
     public HashSet<Integer> emails;
     public int unreadCount;
     public List<String> filterTokens;
 
-    public Folder(String name, List<String> filterTokens){
+    public Folder(int id, String name, List<String> filterTokens){
+        this.id = id;
         this. name = name;
         this.filterTokens = filterTokens;
         unreadCount = 0;
@@ -22,10 +24,12 @@ public class Folder implements Observer {
 
     @JsonCreator
     public Folder(
+            @JsonProperty("id") int id,
             @JsonProperty("name") String name,
             @JsonProperty("emails") HashSet<Integer> emails,
             @JsonProperty("unreadCount") int unreadCount,
             @JsonProperty("filterTokens") List<String> filterTokens) {
+        this.id = id;
         this.name = name;
         this.emails = emails;
         this.unreadCount = unreadCount;
@@ -62,8 +66,8 @@ public class Folder implements Observer {
         emails.add(emailID);
     }
     @Override
-    public String getName() {
-        return this.name;
+    public int getID() {
+        return this.id;
     }
 
     public void filter(Email email){

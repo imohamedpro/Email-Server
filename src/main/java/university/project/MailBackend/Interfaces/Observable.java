@@ -9,8 +9,8 @@ import university.project.MailBackend.Model.Folder;
 
 public interface Observable {
     int getID();
-    void markAsRead(Map<String, Folder> folders);
-    void markAsUnread(Map<String, Folder> folders);         //// ???????????????
+    void markAsRead(Map<Integer, Folder> folders);
+    void markAsUnread(Map<Integer, Folder> folders);         //// ???????????????
     void addFolder(Observer folder);
     void removeFolder(Observer folder);
     // void deleted(Map<String, Observer> folders);

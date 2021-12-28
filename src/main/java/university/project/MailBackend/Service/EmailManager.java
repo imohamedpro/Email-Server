@@ -63,9 +63,9 @@ public class EmailManager {
             storage.markAsRead(id, user);
         }
     }
-    public void moveEmails(int[] emailIDs, String destination, String user){
+    public void moveEmails(int[] emailIDs, int destinationID, String user){
         for(int id: emailIDs){
-            storage.moveEmail(user, id, destination);
+            storage.moveEmail(user, id, destinationID);
         }
     }
 }

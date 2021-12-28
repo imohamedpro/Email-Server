@@ -19,26 +19,26 @@ public class FolderManager {
         this.storage = storageAdapter;
         this.sortFactory = sortFactory;
     }
-    public void setFolder(String name, String[] filterTokens, String user){
-        Folder folder = new Folder(name, List.of(filterTokens));
+    public void setFolder(int folderID, String folderName, String[] filterTokens, String user){
+        Folder folder = new Folder(folderID, folderName, List.of(filterTokens));
         storage.setFolder(user, folder);
     }
-    public Folder getFolder(String name, String user){
-        return storage.getFolder(user, name);
+    public Folder getFolder(int folderID, String user){
+        return storage.getFolder(user, folderID);
     }
-    private Email[] getFolderContent(String name, String user, String searchToken){
-        return storage.getFolderContent(user, name, searchToken);
+    private Email[] getFolderContent(int folderID, String user, String searchToken){
+        return storage.getFolderContent(user, folderID, searchToken);
     }
 
     private Email[] sortFolder(EmailHeader[] emails, String sortBy, Boolean dirction){
-        Arrays.sort(emails, sortFactory.getSortType(sortBy));
+        // Arrays.sort(emails, sortFactory.getSortType(sortBy));
         return null;
     }
     // private Email[] searcFolder(Email[] emails, String searchToken){
     //     LinkedList<Email> es = storage.get;
     //     return null;
     // }
-    public Email[] loadFolder(String name, String sortBy, Boolean direction, String searchToken, String user){
+    public Email[] loadFolder(int folderID, String sortBy, Boolean direction, String searchToken, String user){
         return null;
     }
 

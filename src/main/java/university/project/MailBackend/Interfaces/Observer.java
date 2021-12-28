@@ -4,7 +4,7 @@ package university.project.MailBackend.Interfaces;
 // import university.project.MailBackend.Model.Folder;
 
 public interface Observer {
-    String getName();
+    int getID();
     void notify(int change);
     //subscribe
     void addEmail(Observable email);

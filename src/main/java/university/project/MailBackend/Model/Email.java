@@ -15,7 +15,7 @@ import university.project.MailBackend.Interfaces.Searchable;
 public class Email implements Observable, Searchable {
     public int id;
     public boolean isRead;
-    public Set<String> folders;
+    public Set<Integer> folders;
     public EmailHeader emailHeader;
     public EmailBody emailBody;
 
@@ -26,7 +26,7 @@ public class Email implements Observable, Searchable {
     public Email(
             @JsonProperty("id") int id,
             @JsonProperty("isRead") boolean isRead,
-            @JsonProperty("folders") Set<String> folders,
+            @JsonProperty("folders") Set<Integer> folders,
             @JsonProperty("emailHeader") EmailHeader emailHeader,
             @JsonProperty("emailBody") EmailBody emailBody,
             @JsonProperty("deleteDate") Date deleteDate) {
@@ -40,32 +40,32 @@ public class Email implements Observable, Searchable {
     public Email(){
         this.id = -1;
         this.isRead = true;
-        this.folders = new HashSet<String>();
+        this.folders = new HashSet<Integer>();
     }
     public Email(Email e){
         this.id = -1;
         this.isRead = true;
-        this.folders = new HashSet<String>();
+        this.folders = new HashSet<Integer>();
         this.emailHeader = e.emailHeader;
         this.emailBody = e.emailBody;
     }
 
     @Override
-    public void markAsRead(Map<String, Folder> folders) { //map is used to save memory
+    public void markAsRead(Map<Integer, Folder> folders) { //map is used to save memory
         if(!this.isRead){
             this.isRead = true;
-            for(String s: this.folders){
-                Observer o = folders.get(s);
+            for(int id: this.folders){
+                Observer o = folders.get(id);
                 o.notify(-1);
             }
         }
     }
     @Override
-    public void markAsUnread(Map<String, Folder> folders) { //map is used to save memory
+    public void markAsUnread(Map<Integer, Folder> folders) { //map is used to save memory
         if(this.isRead){
             this.isRead = false;
-            for(String s: this.folders){
-                Observer o = folders.get(s);
+            for(int id: this.folders){
+                Observer o = folders.get(id);
                 o.notify(1);
             }
         }
@@ -76,8 +76,8 @@ public class Email implements Observable, Searchable {
     */
     @Override
     public void addFolder(Observer folder) {
-        if(!this.folders.contains(folder.getName())){
-            this.folders.add(folder.getName());
+        if(!this.folders.contains(folder.getID())){
+            this.folders.add(folder.getID());
             if(!this.isRead){
                 folder.notify(1);
             }
@@ -86,8 +86,8 @@ public class Email implements Observable, Searchable {
     }
     @Override
     public void removeFolder(Observer folder) {
-        if(this.folders.contains(folder.getName())){
-            this.folders.remove(folder.getName());
+        if(this.folders.contains(folder.getID())){
+            this.folders.remove(folder.getID());
             if(!this.isRead){
                 folder.notify(-1);
             }
