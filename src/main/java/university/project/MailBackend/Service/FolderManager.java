@@ -1,11 +1,7 @@
 package university.project.MailBackend.Service;
 
-import java.util.Arrays;
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.LinkedList;
-// import java.util.ArrayList;
 import java.util.List;
 
 import university.project.MailBackend.Model.Email;
@@ -26,20 +22,47 @@ public class FolderManager {
     public Folder getFolder(int folderID, String user){
         return storage.getFolder(user, folderID);
     }
-    private Email[] getFolderContent(int folderID, String user, String searchToken){
-        return storage.getFolderContent(user, folderID, searchToken);
+    private List<EmailHeader> getFolderContent(int folderID, String user, String searchToken){
+        Email[] emails = storage.getFolderContent(user, folderID, searchToken);
+        List<EmailHeader> headers = new ArrayList<EmailHeader>(emails.length);
+        for(int i = 0; i < emails.length; i++){
+            headers.add(emails[i].emailHeader);
+        }
+        return headers;
+    }
+    // private void reverse(Object[] arr){
+    //     for(int i = 0; i < arr.length/2; i++){
+    //         Object temp = arr[i];
+    //         arr[i] = arr[arr.length - 1 - i];
+    //         arr[arr.length - 1 - i] = temp;
+    //     }
+    // }
+    // private slice
+    // private Email[] sortFolder(EmailHeader[] emails, String sortBy, Boolean reverse){
+    //     Arrays.sort(emails, sortFactory.getSortType(sortBy));
+    // }
+    // // private Email[] searcFolder(Email[] emails, String searchToken){
+    // //     LinkedList<Email> es = storage.get;
+    // //     return null;
+    // // }
+    public List<EmailHeader> loadFolder(int folderID, String sortBy, Boolean reverse, String searchToken, int pageNumber, int emailsPerPage, String user){
+        List<EmailHeader> headers = this.getFolderContent(folderID, user, searchToken);
+        Collections.sort(headers, this.sortFactory.getSortType(sortBy));
+        int l, h;
+        if(reverse){
+            l = headers.size() - pageNumber * emailsPerPage;
+            h = headers.size() - (pageNumber - 1) * emailsPerPage;
+            if(l < 0)                   l = 0;
+        }else{
+            l = (pageNumber - 1) * emailsPerPage;
+            h = (pageNumber) * emailsPerPage;
+            if(h > headers.size())      h = headers.size();
+        }
+        return headers.subList(l, h);
     }
 
-    private Email[] sortFolder(EmailHeader[] emails, String sortBy, Boolean dirction){
-        // Arrays.sort(emails, sortFactory.getSortType(sortBy));
-        return null;
-    }
-    // private Email[] searcFolder(Email[] emails, String searchToken){
-    //     LinkedList<Email> es = storage.get;
-    //     return null;
-    // }
-    public Email[] loadFolder(int folderID, String sortBy, Boolean direction, String searchToken, String user){
-        return null;
+    public int getNumberOfPages(int folderID, int emailPerPage, String user){
+        return (int)Math.ceil(storage.getFolder(user, folderID).emails.size() / emailPerPage);
     }
 
     public String[] getFoldersNames(String user){
