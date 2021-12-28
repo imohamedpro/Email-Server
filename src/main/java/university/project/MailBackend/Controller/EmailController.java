@@ -6,6 +6,7 @@ import university.project.MailBackend.Model.Email;
 import university.project.MailBackend.Model.Requests.ContactAndUsername;
 import university.project.MailBackend.Model.Requests.ContactSearch;
 import university.project.MailBackend.Model.Requests.EmailDelete;
+import university.project.MailBackend.Model.Requests.SetFolder;
 import university.project.MailBackend.Model.UserInfo;
 import university.project.MailBackend.Service.*;
 
@@ -114,6 +115,11 @@ public class EmailController {
             @RequestParam("user") String user)
     {
         return emailManager.readEmail(emailID, user);
+    }
+
+    @PostMapping("/folder/set")
+    public void setFolder(@RequestBody SetFolder setFolder){
+        
     }
 
 
