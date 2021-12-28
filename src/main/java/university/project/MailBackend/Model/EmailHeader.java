@@ -28,6 +28,26 @@ public class EmailHeader implements Searchable {
         this.priority = priority;
     }
 
+    public String getFrom() {
+        return from;
+    }
+
+    public String[] getTo() {
+        return to;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public int getPriority() {
+        return priority;
+    }
+
     @Override
     public boolean contains(List<String> tokens, boolean filter) {
         for(String token: tokens){

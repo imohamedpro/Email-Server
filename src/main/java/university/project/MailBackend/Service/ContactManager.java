@@ -1,13 +1,11 @@
 package university.project.MailBackend.Service;
 
-import university.project.MailBackend.Interfaces.IStorage;
 import university.project.MailBackend.Model.Contact;
-import university.project.MailBackend.Service.StorageAdapter;
 
 import java.util.*;
 
 public class ContactManager {
-    private StorageAdapter storageAdapter;
+    private final StorageAdapter storageAdapter;
 
     public ContactManager(StorageAdapter storageAdapter){
         this.storageAdapter = storageAdapter;
@@ -62,7 +60,7 @@ public class ContactManager {
     }
 
     private List<Contact> Sort(List<Contact> contacts){
-        contacts.sort(Comparator.comparing(Contact::getName));
+        contacts.sort(Comparator.comparing(Contact::getName, String::compareToIgnoreCase));
         return contacts;
     }
 }
