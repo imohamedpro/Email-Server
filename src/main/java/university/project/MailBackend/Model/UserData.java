@@ -64,7 +64,7 @@ public class UserData{
                 break;
             case "received":
                 email.isRead = false;
-                folder = folders.get(3);    //inbox
+                folder = folders.get(0);    //inbox
                 folder.addEmail(email);
                 for(Folder f: folders.values()){
                     f.filter(email);        // default folders doesn't have filter tokens(null object ?)
@@ -88,7 +88,7 @@ public class UserData{
                 Folder folder = this.folders.get(folderID);
                 folder.moveToTrash(emailID);
             }
-            Folder trash = folders.get(3);      //trahs
+            Folder trash = folders.get(3);      //trash
             email.deleteDate = new Date();
             trash.restoreEmail(emailID); /// dunno
         }
