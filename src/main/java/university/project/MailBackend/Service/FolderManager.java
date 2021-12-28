@@ -15,7 +15,7 @@ import university.project.MailBackend.Model.Folder;
 public class FolderManager {
     private StorageAdapter storage;
     private SortFactory sortFactory ;
-    FolderManager(StorageAdapter storageAdapter, SortFactory sortFactory){
+    public FolderManager(StorageAdapter storageAdapter, SortFactory sortFactory){
         this.storage = storageAdapter;
         this.sortFactory = sortFactory;
     }

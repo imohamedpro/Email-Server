@@ -18,6 +18,7 @@ public class EmailController {
     private AccountManager accountManager;
     private ContactManager contactManager;
     private EmailManager emailManager;
+    private FolderManager folderManager;
 
     public EmailController(FileService fileService) {
         Storage storage = new Storage(fileService);
@@ -26,6 +27,7 @@ public class EmailController {
         this.accountManager = new AccountManager(storageAdapter);
         this.contactManager = new ContactManager(storageAdapter);
         this.emailManager = new EmailManager(storageAdapter);
+        this.folderManager = new FolderManager(storageAdapter, new SortFactory());
     }
 
     @PostMapping("/signup")
@@ -40,7 +42,7 @@ public class EmailController {
 
     @GetMapping("/home-folders")
     public String[] getHomeFolders(@RequestBody String user){
-        return accountManager.getFoldersNames(user);
+        return folderManager.getFoldersNames(user);
     }
 
     @GetMapping("/contacts/pages")
@@ -103,7 +105,7 @@ public class EmailController {
 
     @DeleteMapping("/email/delete")
     public void deleteEmails(@RequestBody EmailDelete emailDelete){
-        emailManager.deleteEmail(emailDelete.emailIDs, emailDelete.user);
+        emailManager.deleteEmails(emailDelete.emailIDs, emailDelete.user);
     }
 
     @GetMapping("/email/read")
