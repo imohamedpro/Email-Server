@@ -1,5 +1,6 @@
 package university.project.MailBackend.Model;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -35,6 +36,18 @@ public class Email implements Observable, Searchable {
         this.emailHeader = emailHeader;
         this.emailBody = emailBody;
         this.deleteDate = deleteDate;
+    }
+    public Email(){
+        this.id = -1;
+        this.isRead = true;
+        this.folders = new HashSet<String>();
+    }
+    public Email(Email e){
+        this.id = -1;
+        this.isRead = true;
+        this.folders = new HashSet<String>();
+        this.emailHeader = e.emailHeader;
+        this.emailBody = e.emailBody;
     }
 
     @Override

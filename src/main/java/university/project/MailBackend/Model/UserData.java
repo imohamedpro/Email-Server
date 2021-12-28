@@ -46,9 +46,9 @@ public class UserData{
         }
         emails.put(email.id, email);
         Folder folder;
-        switch (type){
+        switch (type.toLowerCase()){
             case "draft":
-                folder = folders.get(type.toLowerCase());
+                folder = folders.get("draft");
                 folder.addEmail(email);
                 break;
             case "sent":
@@ -58,6 +58,7 @@ public class UserData{
                 folder.addEmail(email);
                 break;
             case "received":
+                email.isRead = false;
                 folder = folders.get("inbox");
                 folder.addEmail(email);
                 for(Folder f: folders.values()){

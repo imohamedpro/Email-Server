@@ -3,7 +3,7 @@ package university.project.MailBackend.Service;
 import university.project.MailBackend.Model.Email;
 
 public class EmailManager {
-    StorageAdapter storage;
+    private StorageAdapter storage;
     public EmailManager(StorageAdapter storageAdapter){
         this.storage = storageAdapter;
     }
@@ -16,7 +16,7 @@ public class EmailManager {
         String[] recipients = email.emailHeader.to;
         storage.setEmail(from, email, "sent");
         for(String recipient: recipients){
-            storage.setEmail(recipient, email, "received");
+            storage.setEmail(recipient, new Email(email), "received");
         }
     }
 
@@ -36,7 +36,7 @@ public class EmailManager {
         
     }
 
-    public void deleteEmail(int[] emailIDs, String user){
+    public void deleteEmails(int[] emailIDs, String user){
         for(int id: emailIDs){
             storage.deleteEmail(user, id);
         }
@@ -46,12 +46,12 @@ public class EmailManager {
         return storage.readEmail(user, emailID);
     }
     
-    public void markASUnread(int[] emailIDs, String user){
+    public void markAsUnread(int[] emailIDs, String user){
         for(int id: emailIDs){
             storage.markAsUnread(id, user);
         }
     }
-    public void markASRead(int[] emailIDs, String user){
+    public void markAsRead(int[] emailIDs, String user){
         for(int id: emailIDs){
             storage.markAsRead(id, user);
         }
