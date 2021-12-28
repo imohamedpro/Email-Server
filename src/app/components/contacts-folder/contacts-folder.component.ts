@@ -67,6 +67,10 @@ export class ContactsFolderComponent implements OnInit {
     console.log(this.selectedSearching);
   }
   goToContact(index: number) {
+    /*if(sessionStorage.getItem("contact") != null){
+      sessionStorage.removeItem("contact");
+    }*/
+    sessionStorage.setItem("contact",JSON.stringify(this.contacts[index]));
     return this.router.navigate([this.contacts[index].id], { relativeTo: this.r });
   }
   delete(index: number) {

@@ -1,1 +1,28 @@
-<p>contact-edit works!</p>
+<form>
+    <div id="email">
+        <div class="container">
+            <label for="username">Contact Name: </label>
+            <div class="fieldWrapper">
+                <div class="tag" *ngIf="hasContactName" >
+                    <span >{{contact.contactName}}</span>
+                    <button (click)="removeContactName()">x</button>
+                </div>
+                <input type="email" id="username" (keypress)="editContactName($event)">
+            </div>
+        </div>
+        <hr>
+       <div class="container">
+        <label for="emails">Eamils: </label>
+            <div class="fieldWrapper">
+                <div *ngFor="let emails of contact.emails; let i = index" class="tag">
+                    <span >{{emails}}</span>
+                    <button (click)="deleteEmail(i)">x</button>
+                </div>
+                <input type="email" id="emails" (keypress)="addEmail($event)">
+            </div>
+       </div>
+    </div>
+    <div id = "controls">
+        <button style="font-family: cursive;" (click)="send($event)">Save contact</button>
+    </div>
+</form>
