@@ -7,18 +7,14 @@ import university.project.MailBackend.Interfaces.ReadUserInfo;
 public class UserInfo implements ReadUserInfo{
     private String email;
     private String password;
-    private int id;
 
     @JsonCreator
     public UserInfo(
             @JsonProperty("email") String email,
-            @JsonProperty("password") String password,
-            @JsonProperty("id") int id) {
+            @JsonProperty("password") String password) {
         this.email = email;
         this.password = password;
-        this.id = id;
     }
-    
 
     @Override
     public String getEmail() {
@@ -28,17 +24,9 @@ public class UserInfo implements ReadUserInfo{
     public String getPassword() {
         return password;
     }
-    @Override
-    public int getId() {
-        return id;
-    }
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public void setPassword(String password) {
