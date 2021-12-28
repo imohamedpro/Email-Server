@@ -47,11 +47,19 @@ export class ContactsFolderComponent implements OnInit {
   ngOnInit(): void {
   }
   updateRadio(b: boolean){
+    if(b == true){
+      this.selectedSorting = "alphaa";
+      console.log(this.selectedSorting);
+      //api sorting here
+    }else{
+      this.selectedSorting = "alphad";
+      console.log(this.selectedSorting);
+      //api sorting here
+    }
     this.selectedRadio = b;
   }
   updateSorting(e: any){
     this.selectedSorting = e.target.value;
-    //api here
     console.log(this.selectedSorting);
   }
   updateSearching(){
