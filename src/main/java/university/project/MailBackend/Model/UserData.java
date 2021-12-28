@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -46,9 +47,9 @@ public class UserData{
         }
         emails.put(email.id, email);
         Folder folder;
-        switch (type){
+        switch (type.toLowerCase()){
             case "draft":
-                folder = folders.get(type.toLowerCase());
+                folder = folders.get("draft");
                 folder.addEmail(email);
                 break;
             case "sent":
@@ -58,6 +59,7 @@ public class UserData{
                 folder.addEmail(email);
                 break;
             case "received":
+                email.isRead = false;
                 folder = folders.get("inbox");
                 folder.addEmail(email);
                 for(Folder f: folders.values()){
@@ -66,19 +68,37 @@ public class UserData{
                 break;
         }
     }
+    public void markAsRead(int emailID){
+        Email e = this.emails.get(emailID);
+        e.markAsRead(folders);
+    }
 
+    public void markAsUnread(int emailID){
+        Email e = this.emails.get(emailID);
+        e.markAsUnread(folders);
+    }
     public void moveToTrash(Integer emailID){
         if(emails.containsKey(emailID)){
             Email email = emails.get(emailID);
             for(String folderName: email.folders){
                 Folder folder = this.folders.get(folderName);
-                folder.removeEmail(email);
+                folder.moveToTrash(emailID);
             }
             Folder trash = folders.get("trash");
             email.deleteDate = new Date();
-            trash.addEmail(email);
+            trash.restoreEmail(emailID); /// dunno
         }
     }
+    public void restoreEmail(int emailID){
+        Email email = this.emails.get(emailID);
+        for(String f: email.folders){
+            Folder folder = this.folders.get(f);
+            folder.restoreEmail(emailID);
+        }
+        email.deleteDate = null;
+        this.folders.get("trash").moveToTrash(emailID); ///dunno
+    }
+
     public void deleteEmail(int emailID){
         if(emails.containsKey(emailID)){
             Folder trash = folders.get("trash");
@@ -92,14 +112,7 @@ public class UserData{
         folder.addEmail(email);
     }
 
-    public void restoreEmail(int emailID, String folderName){
-        Folder folder =  this.folders.get(folderName);
-        Email email = this.emails.get(emailID);
-        email.deleteDate = null;
-        folder.addEmail(email);
-        folder = this.folders.get("trash");
-        folder.removeEmail(email);
-    }
+
 
     public void autoDelete(){
         Folder trash = folders.get("trash");
@@ -121,11 +134,14 @@ public class UserData{
             folder.removeEmail(this.emails.get(emailID));
         }
     }
-    public Email[] getFolder(String name) {
+    public Email[] getFolderContent(String name, String searchToken) {
         Folder folder = this.folders.get(name);
         LinkedList<Email> l = new LinkedList<Email>();
         for(int id: folder.emails){
-            l.add(this.emails.get(id));
+            Email e = this.emails.get(id);
+            if(e.contains(List.of(searchToken), false)){
+                l.add(this.emails.get(id));
+            }
         }
         return l.toArray(new Email[0]);
     }

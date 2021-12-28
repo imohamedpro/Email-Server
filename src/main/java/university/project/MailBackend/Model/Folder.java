@@ -13,7 +13,7 @@ public class Folder implements Observer {
     public int unreadCount;
     public List<String> filterTokens;
 
-    Folder(String name, List<String> filterTokens){
+    public Folder(String name, List<String> filterTokens){
         this. name = name;
         this.filterTokens = filterTokens;
         unreadCount = 0;
@@ -51,6 +51,15 @@ public class Folder implements Observer {
             emails.remove(email.getID());
             email.removeFolder(this);
         }
+    }
+    public void moveToTrash(int emailID){
+        if(this.emails.contains(emailID)){
+            emails.remove(emailID);
+        }
+    }
+
+    public void restoreEmail(int emailID){
+        emails.add(emailID);
     }
     @Override
     public String getName() {

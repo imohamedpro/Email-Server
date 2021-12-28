@@ -32,6 +32,20 @@ public class StorageAdapter {
         storage.setUserData(data, user);
     }
 
+    /*
+        Needs refactoring
+    */
+    public void markAsRead(int emailID, String user){
+        UserData data = storage.getUserData(user);
+        data.markAsRead(emailID);
+        storage.setUserData(data, user);
+    }
+
+    public void markAsUnread(int emailID, String user){
+        UserData data = storage.getUserData(user);
+        data.markAsUnread(emailID);
+        storage.setUserData(data, user);
+    }
     public void moveToTrash(String user, int emailID){
         UserData data = storage.getUserData(user);
         data.moveToTrash(emailID);
@@ -42,9 +56,22 @@ public class StorageAdapter {
         data.deleteEmail(emailID);
         storage.setUserData(data, user);
     }
+    public void restoreEmail(String user, int emailID){
+        UserData data = storage.getUserData(user);
+        data.restoreEmail(emailID);
+        storage.setUserData(data, user);
+    }    
+    public void moveEmail(String user, int emailID, String destination){
+        UserData data = storage.getUserData(user);
+        data.moveEmail(emailID, destination);
+        storage.setUserData(data, user);
+    }
 
     public Folder getFolder(String user, String folderName){
         return storage.getUserData(user).folders.get(folderName);
+    }
+    public Email[] getFolderContent(String user, String name, String searchToken){
+        return storage.getUserData(user).getFolderContent(name, searchToken);
     }
 
     public void setFolder(String user, Folder folder){

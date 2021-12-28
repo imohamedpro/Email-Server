@@ -1,5 +1,6 @@
 package university.project.MailBackend.Model;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -36,23 +37,43 @@ public class Email implements Observable, Searchable {
         this.emailBody = emailBody;
         this.deleteDate = deleteDate;
     }
+    public Email(){
+        this.id = -1;
+        this.isRead = true;
+        this.folders = new HashSet<String>();
+    }
+    public Email(Email e){
+        this.id = -1;
+        this.isRead = true;
+        this.folders = new HashSet<String>();
+        this.emailHeader = e.emailHeader;
+        this.emailBody = e.emailBody;
+    }
 
     @Override
     public void markAsRead(Map<String, Folder> folders) { //map is used to save memory
-        this.isRead = true;
-        for(String s: this.folders){
-            Observer o = folders.get(s);
-            o.notify(-1);
+        if(!this.isRead){
+            this.isRead = true;
+            for(String s: this.folders){
+                Observer o = folders.get(s);
+                o.notify(-1);
+            }
         }
     }
     @Override
     public void markAsUnread(Map<String, Folder> folders) { //map is used to save memory
-        this.isRead = false;
-        for(String s: this.folders){
-            Observer o = folders.get(s);
-            o.notify(1);
+        if(this.isRead){
+            this.isRead = false;
+            for(String s: this.folders){
+                Observer o = folders.get(s);
+                o.notify(1);
+            }
         }
     }
+
+    /*
+        might be bugged
+    */
     @Override
     public void addFolder(Observer folder) {
         if(!this.folders.contains(folder.getName())){
@@ -78,6 +99,7 @@ public class Email implements Observable, Searchable {
     }
     @Override
     public boolean contains(List<String> tokens, boolean filter) {
+        if(!filter && tokens.get(0).isBlank())  return true;
         return emailHeader.contains(tokens, filter) || emailBody.contains(tokens, filter);
     }
     // @Override

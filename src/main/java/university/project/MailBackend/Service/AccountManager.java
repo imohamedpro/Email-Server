@@ -29,7 +29,5 @@ public class AccountManager {
         return false;
     }
 
-    public String[] getFoldersNames(String user){
-        return storage.getFoldersNames(user);
-    }
+
 }
