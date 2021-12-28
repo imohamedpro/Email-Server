@@ -2,7 +2,7 @@ package university.project.MailBackend.Service;
 
 import university.project.MailBackend.Interfaces.IStorage;
 import university.project.MailBackend.Model.Contact;
-import university.project.MailBackend.Model.StorageAdapter;
+import university.project.MailBackend.Service.StorageAdapter;
 
 import java.util.*;
 

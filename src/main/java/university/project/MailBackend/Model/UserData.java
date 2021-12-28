@@ -4,12 +4,13 @@ import java.util.ArrayList;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-public class UserData {
+public class UserData{
     public Map<String, Folder> folders;
     public Map<Integer, Email> emails;
     private int nextEmailID;

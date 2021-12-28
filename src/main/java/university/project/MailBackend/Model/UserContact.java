@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.HashMap;
 
+
 public class UserContact {
     public HashMap<Integer, Contact> contacts;
     private int nextID;
