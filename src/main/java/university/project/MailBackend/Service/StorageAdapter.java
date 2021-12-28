@@ -1,12 +1,18 @@
-package university.project.MailBackend.Model;
+package university.project.MailBackend.Service;
 
 
 import university.project.MailBackend.Interfaces.IStorage;
+import university.project.MailBackend.Model.Contact;
+import university.project.MailBackend.Model.Email;
+import university.project.MailBackend.Model.Folder;
+import university.project.MailBackend.Model.UserContact;
+import university.project.MailBackend.Model.UserData;
+import university.project.MailBackend.Model.UserInfo;
 
-public class StorageFacade {
+public class StorageAdapter {
     private IStorage storage;
 
-    StorageFacade(IStorage storage){
+    StorageAdapter(IStorage storage){
         this.storage = storage;
     }
 
