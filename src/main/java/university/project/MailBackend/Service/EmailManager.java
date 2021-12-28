@@ -31,9 +31,14 @@ public class EmailManager {
 
     public void moveToTrash(int[] emailIDs, String user){
         for(int id: emailIDs){
-            storage.deleteEmail(user, id);
+            storage.moveToTrash(user, id);
         }
         
+    }
+    public void restoreEmails(int[] emailIDs, String user){
+        for(int id: emailIDs){
+            storage.restoreEmail(user, id);
+        }
     }
 
     public void deleteEmails(int[] emailIDs, String user){
@@ -41,6 +46,8 @@ public class EmailManager {
             storage.deleteEmail(user, id);
         }
     }
+
+
 
     public Email readEmail(int emailID, String user){
         return storage.readEmail(user, emailID);

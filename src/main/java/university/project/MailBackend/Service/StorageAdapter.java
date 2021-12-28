@@ -56,7 +56,11 @@ public class StorageAdapter {
         data.deleteEmail(emailID);
         storage.setUserData(data, user);
     }
-
+    public void restoreEmail(String user, int emailID){
+        UserData data = storage.getUserData(user);
+        data.restoreEmail(emailID);
+        storage.setUserData(data, user);
+    }    
     public void moveEmail(String user, int emailID, String destination){
         UserData data = storage.getUserData(user);
         data.moveEmail(emailID, destination);
@@ -65,6 +69,9 @@ public class StorageAdapter {
 
     public Folder getFolder(String user, String folderName){
         return storage.getUserData(user).folders.get(folderName);
+    }
+    public Email[] getFolderContent(String user, String name){
+        return storage.getUserData(user).getFolderContent(name);
     }
 
     public void setFolder(String user, Folder folder){

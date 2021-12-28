@@ -70,6 +70,10 @@ public class Email implements Observable, Searchable {
             }
         }
     }
+
+    /*
+        might be bugged
+    */
     @Override
     public void addFolder(Observer folder) {
         if(!this.folders.contains(folder.getName())){
