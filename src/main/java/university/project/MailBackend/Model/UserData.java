@@ -16,6 +16,7 @@ public class UserData{
     public Map<Integer, Folder> folders;
     public Map<Integer, Email> emails;
     private int nextEmailID;
+    private int nextFolderID;
 
     public UserData(){
         emails = new HashMap<Integer, Email>();
@@ -25,15 +26,18 @@ public class UserData{
         folders.put(1, new Folder(1, "sent", new ArrayList<String>()));
         folders.put(2, new Folder(2, "draft", new ArrayList<String>()));
         folders.put(3, new Folder(3, "trash", new ArrayList<String>()));
+        nextFolderID = folders.size();
     }
     @JsonCreator
     public UserData(
             @JsonProperty("folders") Map<Integer, Folder> folders,
             @JsonProperty("emails") Map<Integer, Email> emails,
-            @JsonProperty("nextEmailID") int nextEmailID) {
+            @JsonProperty("nextEmailID") int nextEmailID,
+            @JsonProperty("nextFolderID") int nextFolderID) {
         this.folders = folders;
         this.emails = emails;
         this.nextEmailID = nextEmailID;
+        this.nextFolderID = nextFolderID;
     }
 
     public Email readEmail(int emailID){
@@ -126,6 +130,9 @@ public class UserData{
     }
 
     public void addFolder(Folder folder){
+        if(folder.id < 0){
+            folder.id = nextFolderID++;
+        }
         this.folders.put(folder.id, folder);
     }
     public void deleteFolder(int folderID){
