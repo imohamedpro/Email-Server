@@ -11,6 +11,9 @@ export class ContactsFolderComponent implements OnInit {
   contacts!: contactsRequest[];
   pageNumber!: number;
   totalPageNumber!: number;
+  selectedSorting!: string;
+  selectedSearching!: string;
+  selectedRadio!: boolean;
   constructor(private router: Router, private r: ActivatedRoute) {
     this.r.params.subscribe(val => {
       //api to get InitContactsFolder
@@ -42,6 +45,18 @@ export class ContactsFolderComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+  updateRadio(b: boolean){
+    this.selectedRadio = b;
+  }
+  updateSorting(e: any){
+    this.selectedSorting = e.target.value;
+    //api here
+    console.log(this.selectedSorting);
+  }
+  updateSearching(){
+    //api here
+    console.log(this.selectedSearching);
   }
   goToContact(index: number) {
     return this.router.navigate([this.contacts[index].id], { relativeTo: this.r });
