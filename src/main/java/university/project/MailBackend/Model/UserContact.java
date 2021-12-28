@@ -23,10 +23,10 @@ public class UserContact {
     }
 
     public void addContact(Contact contact){
-        if(contact.getID() < 0){
-            contact.setID(nextID++);
+        if(contact.getId() < 0){
+            contact.setId(nextID++);
         }
-        contacts.put(contact.getID(), contact);
+        contacts.put(contact.getId(), contact);
     }
 
 }
