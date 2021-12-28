@@ -31,12 +31,20 @@ public class StorageAdapter {
         data.addEmail(email, type);
         storage.setUserData(data, user);
     }
+
+    /*
+        Needs refactoring
+    */
     public void markAsRead(int emailID, String user){
-        storage.getUserData(user).markASRead(emailID);
+        UserData data = storage.getUserData(user);
+        data.markAsRead(emailID);
+        storage.setUserData(data, user);
     }
 
     public void markAsUnread(int emailID, String user){
-        storage.getUserData(user).markAsUnread(emailID);
+        UserData data = storage.getUserData(user);
+        data.markAsUnread(emailID);
+        storage.setUserData(data, user);
     }
     public void moveToTrash(String user, int emailID){
         UserData data = storage.getUserData(user);
@@ -46,6 +54,12 @@ public class StorageAdapter {
     public void deleteEmail(String user, int emailID){
         UserData data = storage.getUserData(user);
         data.deleteEmail(emailID);
+        storage.setUserData(data, user);
+    }
+
+    public void moveEmail(String user, int emailID, String destination){
+        UserData data = storage.getUserData(user);
+        data.moveEmail(emailID, destination);
         storage.setUserData(data, user);
     }
 

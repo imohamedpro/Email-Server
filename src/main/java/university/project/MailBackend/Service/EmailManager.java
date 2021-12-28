@@ -20,6 +20,10 @@ public class EmailManager {
         }
     }
 
+
+    /*
+        Needs refactoring (template dp or smth)
+    */
     public void saveDraft(Email email){
         String from = email.emailHeader.from;
         storage.setEmail(from, email, "draft");
@@ -50,6 +54,11 @@ public class EmailManager {
     public void markASRead(int[] emailIDs, String user){
         for(int id: emailIDs){
             storage.markAsRead(id, user);
+        }
+    }
+    public void moveEmails(int[] emailIDs, String destination, String user){
+        for(int id: emailIDs){
+            storage.moveEmail(user, id, destination);
         }
     }
 }

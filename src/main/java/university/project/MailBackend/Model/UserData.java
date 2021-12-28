@@ -66,7 +66,7 @@ public class UserData{
                 break;
         }
     }
-    public void markASRead(int emailID){
+    public void markAsRead(int emailID){
         Email e = this.emails.get(emailID);
         e.markAsRead(folders);
     }
