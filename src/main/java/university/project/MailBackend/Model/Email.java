@@ -99,6 +99,7 @@ public class Email implements Observable, Searchable {
     }
     @Override
     public boolean contains(List<String> tokens, boolean filter) {
+        if(!filter && tokens.get(0).isBlank())  return true;
         return emailHeader.contains(tokens, filter) || emailBody.contains(tokens, filter);
     }
     // @Override

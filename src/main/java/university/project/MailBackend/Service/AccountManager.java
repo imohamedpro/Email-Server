@@ -25,7 +25,5 @@ public class AccountManager {
         return storage.getUserInfo(userInfo.getEmail()).authenticate(userInfo);
     }
 
-    public String[] getFoldersNames(String user){
-        return storage.getFoldersNames(user);
-    }
+
 }

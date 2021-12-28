@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -133,11 +134,14 @@ public class UserData{
             folder.removeEmail(this.emails.get(emailID));
         }
     }
-    public Email[] getFolderContent(String name) {
+    public Email[] getFolderContent(String name, String searchToken) {
         Folder folder = this.folders.get(name);
         LinkedList<Email> l = new LinkedList<Email>();
         for(int id: folder.emails){
-            l.add(this.emails.get(id));
+            Email e = this.emails.get(id);
+            if(e.contains(List.of(searchToken), false)){
+                l.add(this.emails.get(id));
+            }
         }
         return l.toArray(new Email[0]);
     }
