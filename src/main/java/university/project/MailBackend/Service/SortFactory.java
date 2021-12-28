@@ -5,7 +5,7 @@ import university.project.MailBackend.Model.EmailHeader;
 import java.util.Comparator;
 
 public class SortFactory {
-    public Comparator<?> getSortType(String type){
+    public Comparator<? super EmailHeader> getSortType(String type){
         return switch (type.toLowerCase()) {
             case "subject d" -> Comparator.comparing(EmailHeader::getSubject, String::compareToIgnoreCase).reversed();
             case "from d" -> Comparator.comparing(EmailHeader::getFrom, String::compareToIgnoreCase).reversed();
