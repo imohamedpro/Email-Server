@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ComposeComponent } from './components/compose/compose.component';
+import { ContactEditComponent } from './components/contact-edit/contact-edit.component';
+import { ContactsFolderComponent } from './components/contacts-folder/contacts-folder.component';
 import { EmailViewComponent } from './components/email-view/email-view.component';
 import { FolderViewComponent } from './components/folder-view/folder-view.component';
 import { HomeComponent } from './components/home/home.component';
@@ -18,6 +20,14 @@ const routes: Routes = [
       {
         path: 'compose',
         component: ComposeComponent
+      },
+      {
+        path: 'contacts',
+        component: ContactsFolderComponent
+      },
+      {
+        path: 'contacts/:id',
+        component: ContactEditComponent
       },
       {
         path: ':folder',

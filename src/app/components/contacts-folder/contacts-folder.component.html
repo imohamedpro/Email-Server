@@ -1,0 +1,28 @@
+<nav>
+    <span class="material-icons" (click)="moveBackward()">arrow_back_ios</span>
+    <span class="material-icons" (click)="moveForward()">arrow_forward_ios</span>
+</nav>
+<div id="contents">
+    <div *ngFor="let contact of contacts; let i = index">
+        <!-- <hr> -->
+        <div class="contactBar">
+            <div class="contactHead">
+                <span id="contactName">{{contacts[i].contactName}}</span>
+                <div class="scrollable">
+                    <div class="contactEmails" *ngFor="let email of contacts[i].emails; let j = index">
+                        <span>{{contacts[i].emails[j]}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="controls">
+                <button (click)="delete(i)">delete</button>
+                <button (click)="goToContact(i)" >edit</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="pageNumber">Page no: {{pageNumber}} / {{totalPageNumber}}</div>
+<div class="child">
+    <router-outlet></router-outlet>
+</div>

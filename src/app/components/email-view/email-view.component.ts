@@ -12,14 +12,14 @@ export class EmailViewComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    //api to get the email
+    //api here
     this.email = 
       {
         date: new Date("2019-10-12"),
         from: "youssef",
         priority: 1,
         subject: "nothing",
-        content: "Dear Folan,\n ta7ia tayeba w b3d bla bla bla\n bla bla bla bla bla bla\n bla bla blabla bla bla\n bla bla blabla bla bla\n bla bla blabla bla bla\n bla bla blabla bla bla\n bla bla blabla bla bla\n bla bla bla",
+        content: "bla bla bla",
         attachmentsLinks: ["first link"]
       }
   }

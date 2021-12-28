@@ -12,6 +12,8 @@ import { FolderViewComponent } from './components/folder-view/folder-view.compon
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { EmailViewComponent } from './components/email-view/email-view.component';
+import { ContactsFolderComponent } from './components/contacts-folder/contacts-folder.component';
+import { ContactEditComponent } from './components/contact-edit/contact-edit.component';
 
 
 @NgModule({
@@ -23,7 +25,9 @@ import { EmailViewComponent } from './components/email-view/email-view.component
     HomeComponent,
     EmailEditorComponent,
     FolderViewComponent,
-    EmailViewComponent
+    EmailViewComponent,
+    ContactsFolderComponent,
+    ContactEditComponent
   ],
   imports: [
     BrowserModule,
