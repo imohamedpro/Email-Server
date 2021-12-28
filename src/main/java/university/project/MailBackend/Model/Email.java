@@ -35,7 +35,7 @@ public class Email implements Observable, Searchable {
     }
 
     @Override
-    public void markAsRead(Map<String, Observer> folders) { //map is used to save memory
+    public void markAsRead(Map<String, Folder> folders) { //map is used to save memory
         this.isRead = true;
         for(String s: this.folders){
             Observer o = folders.get(s);
@@ -43,7 +43,7 @@ public class Email implements Observable, Searchable {
         }
     }
     @Override
-    public void markAsUnread(Map<String, Observer> folders) { //map is used to save memory
+    public void markAsUnread(Map<String, Folder> folders) { //map is used to save memory
         this.isRead = false;
         for(String s: this.folders){
             Observer o = folders.get(s);
