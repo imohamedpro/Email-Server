@@ -23,10 +23,24 @@ public class StorageAdapter {
     public Email getEmail(String user, int emailID){
         return storage.getUserData(user).emails.get(emailID);
     }
-
+    
+    public Email readEmail(String user, int emailID){
+        return storage.getUserData(user).readEmail(emailID);
+    }
     public void setEmail(String user, Email email, String type){
         UserData data = storage.getUserData(user);
         data.addEmail(email, type);
+        storage.setUserData(data, user);
+    }
+
+    public void moveToTrash(String user, int emailID){
+        UserData data = storage.getUserData(user);
+        data.moveToTrash(emailID);
+        storage.setUserData(data, user);
+    }
+    public void deleteEmail(String user, int emailID){
+        UserData data = storage.getUserData(user);
+        data.deleteEmail(emailID);
         storage.setUserData(data, user);
     }
 

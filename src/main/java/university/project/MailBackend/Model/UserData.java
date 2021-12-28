@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -32,13 +33,18 @@ public class UserData{
         this.nextEmailID = nextEmailID;
     }
 
+    public Email readEmail(int emailID){
+        Email e = emails.get(emailID);
+        e.markAsRead(folders);
+        return e;
+    }
     public void addEmail(Email email, String type){
         if(email.id < 0){
             email.id = nextEmailID++;
         }
         emails.put(email.id, email);
         Folder folder;
-        switch (type.toLowerCase()){
+        switch (type){
             case "draft":
                 folder = folders.get(type.toLowerCase());
                 folder.addEmail(email);
@@ -112,6 +118,14 @@ public class UserData{
         for(int emailID: folder.emails){
             folder.removeEmail(this.emails.get(emailID));
         }
+    }
+    public Email[] getFolder(String name) {
+        Folder folder = this.folders.get(name);
+        LinkedList<Email> l = new LinkedList<Email>();
+        for(int id: folder.emails){
+            l.add(this.emails.get(id));
+        }
+        return l.toArray(new Email[0]);
     }
 
 }
