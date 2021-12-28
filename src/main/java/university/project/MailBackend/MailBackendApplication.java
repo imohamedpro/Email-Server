@@ -39,7 +39,7 @@ public class MailBackendApplication {
 //		EmailManager emailManager = new EmailManager(storageAdapter);
 //		Set<String> set = new HashSet<>();
 //		set.add("Inbox");
-//		Email email = new Email(0, false, set, new EmailHeader("hello@site.com", new String[]{"moh@site.com"}, "Heyyyy", new Date(), 4), new EmailBody("Hellooooo", null), null);
+//		Email email = new Email(-1, false, set, new EmailHeader("hello@site.com", new String[]{"moh@site.com"}, "Heyyyy", new Date(), 4), new EmailBody("Hellooooo", null), null);
 //		emailManager.sendEmail(email);
 	}
 

@@ -45,4 +45,8 @@ public class UserInfo implements ReadUserInfo{
         this.password = password;
     }
 
+    public boolean authenticate(UserInfo userInfo){
+        return this.email.equals(userInfo.getEmail()) && this.password.equals(userInfo.getPassword());
+    }
+
 }
