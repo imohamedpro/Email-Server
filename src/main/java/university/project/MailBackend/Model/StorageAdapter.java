@@ -3,10 +3,14 @@ package university.project.MailBackend.Model;
 
 import university.project.MailBackend.Interfaces.IStorage;
 
-public class StorageFacade {
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+public class StorageAdapter {
     private IStorage storage;
 
-    public StorageFacade(IStorage storage){
+    public StorageAdapter(IStorage storage){
         this.storage = storage;
     }
 
@@ -30,13 +34,28 @@ public class StorageFacade {
         storage.setUserData(data, user);
     }
 
+    public ArrayList<Contact> getContactsList(String user){
+        ArrayList<Contact> contacts = new ArrayList<>();
+        HashMap<Integer, Contact> contactsMap = storage.getUserContact(user).contacts;
+        for(Integer key: contactsMap.keySet()){
+            contacts.add(contactsMap.get(key));
+        }
+        return contacts;
+    }
+
     public Contact getContact(String user, int ContactID){
         return storage.getUserContact(user).contacts.get(ContactID);
     }
 
     public void setContact(String user, Contact contact){
         UserContact userContact = storage.getUserContact(user);
-        userContact.contacts.put(contact.getID(), contact);
+        userContact.contacts.put(contact.getId(), contact);
+        storage.setUserContact(userContact, user);
+    }
+
+    public void deleteContact(String user, int contactID){
+        UserContact userContact = storage.getUserContact(user);
+        userContact.deleteContact(contactID);
         storage.setUserContact(userContact, user);
     }
 

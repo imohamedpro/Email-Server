@@ -8,7 +8,6 @@ import university.project.MailBackend.Service.Storage;
 
 import java.io.IOException;
 import java.util.HashSet;
-import java.util.Map;
 
 @SpringBootApplication
 public class MailBackendApplication {
@@ -21,9 +20,9 @@ public class MailBackendApplication {
 		SpringApplication.run(MailBackendApplication.class, args);
 		FileService fileService = new FileService();
 		Storage storage = new Storage(fileService);
-		StorageFacade storageFacade = new StorageFacade(storage);
+		StorageAdapter storageAdapter = new StorageAdapter(storage);
 		UserInfo userInfo = new UserInfo("mohamed@site.com", "hello", 0);
-		storageFacade.setUserInfo(userInfo);
+		storageAdapter.setUserInfo(userInfo);
 		UserContact userContact = new UserContact();
 		HashSet<String> hashSet = new HashSet<>();
 		hashSet.add("hello@site.com");

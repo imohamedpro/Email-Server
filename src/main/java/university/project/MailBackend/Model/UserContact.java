@@ -29,4 +29,8 @@ public class UserContact {
         contacts.put(contact.getId(), contact);
     }
 
+    public void deleteContact(int contactID){
+        contacts.remove(contactID);
+    }
+
 }
