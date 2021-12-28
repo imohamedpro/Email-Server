@@ -45,7 +45,7 @@ public class FolderManager {
     // //     LinkedList<Email> es = storage.get;
     // //     return null;
     // // }
-    public List<EmailHeader> loadFolder(int folderID, String sortBy, Boolean reverse, String searchToken, int pageNumber, int emailsPerPage, String user){
+    public List<EmailHeader> loadFolder(int folderID, String sortBy, boolean reverse, String searchToken, int pageNumber, int emailsPerPage, String user){
         List<EmailHeader> headers = this.getFolderContent(folderID, user, searchToken);
         Collections.sort(headers, this.sortFactory.getSortType(sortBy));
         int l, h;

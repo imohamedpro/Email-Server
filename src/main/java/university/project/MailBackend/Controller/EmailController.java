@@ -1,14 +1,8 @@
 package university.project.MailBackend.Controller;
 
 import org.springframework.web.bind.annotation.*;
-import university.project.MailBackend.Model.Contact;
-import university.project.MailBackend.Model.Email;
-import university.project.MailBackend.Model.Folder;
-import university.project.MailBackend.Model.Requests.ContactAndUsername;
-import university.project.MailBackend.Model.Requests.ContactSearch;
-import university.project.MailBackend.Model.Requests.EmailDelete;
-import university.project.MailBackend.Model.Requests.SetFolder;
-import university.project.MailBackend.Model.UserInfo;
+import university.project.MailBackend.Model.*;
+import university.project.MailBackend.Model.Requests.*;
 import university.project.MailBackend.Service.*;
 
 import java.util.List;
@@ -47,7 +41,7 @@ public class EmailController {
         return folderManager.getFoldersNames(user);
     }
 
-    @GetMapping("/contacts/pages")
+    @GetMapping("/contact/pages")
     public int getContactPages(
             @RequestParam("user") String user,
             @RequestParam("perPage") int perPage)
@@ -55,8 +49,8 @@ public class EmailController {
         return contactManager.getNumberOfPages(user, perPage);
     }
 
-    @GetMapping("/contacts/get/List")
-    public List<Contact> getContactList(
+    @GetMapping("/contact/load")
+    public List<Contact> loadContacts(
             @RequestParam("user") String user,
             @RequestParam("pageNumber") int pageNumber,
             @RequestParam("perPage") int perPage,
@@ -65,7 +59,7 @@ public class EmailController {
         return contactManager.getContactsList(user, pageNumber, perPage, sorted);
     }
 
-    @GetMapping("/contacts/get")
+    @GetMapping("/contact/get")
     public Contact getContact(
             @RequestParam("user") String user,
             @RequestParam("id") int contactID)
@@ -73,19 +67,19 @@ public class EmailController {
         return contactManager.getContact(user, contactID);
     }
 
-    @GetMapping("/contacts/search")
+    @GetMapping("/contact/search")
     public List<Contact> searchContact(@RequestBody ContactSearch contactSearch){
         return contactManager.searchContact(contactSearch.user, contactSearch.tokens, contactSearch.pageNumber, contactSearch.perPage, contactSearch.sorted);
     }
 
-    @DeleteMapping("/contacts/delete")
+    @DeleteMapping("/contact/delete")
     public void deleteContact(
             @RequestParam("user") String user,
             @RequestParam("id") int contactID){
         contactManager.deleteContact(user, contactID);
     }
 
-    @PostMapping("/contacts/add")
+    @PostMapping("/contact/add")
     public void addContact(@RequestBody ContactAndUsername contactAndUsername){
         contactManager.addContact(contactAndUsername.user, contactAndUsername.contact);
     }
@@ -126,6 +120,27 @@ public class EmailController {
     @GetMapping("/folder/get")
     public Folder getFolder(@RequestParam("id") int folderID, @RequestParam("user") String user){
         return folderManager.getFolder(folderID, user);
+    }
+
+    @GetMapping("/folder/load")
+    public List<EmailHeader> loadFolder(@RequestBody LoadFolderClass loadFolderClass){
+        return folderManager.loadFolder(
+                loadFolderClass.folderID,
+                loadFolderClass.sortBy,
+                loadFolderClass.reverse,
+                loadFolderClass.searchToken,
+                loadFolderClass.pageNumber,
+                loadFolderClass.emailsPerPage,
+                loadFolderClass.user);
+    }
+
+    @GetMapping("/folder/pages")
+    public int getFolderPages(
+            @RequestParam("id") int folderID,
+            @RequestParam("perPage") int perPage,
+            @RequestParam("user") String user
+    ){
+        return folderManager.getNumberOfPages(folderID, perPage, user);
     }
 
 }
