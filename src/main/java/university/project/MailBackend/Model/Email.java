@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import university.project.MailBackend.Interfaces.Observable;
 import university.project.MailBackend.Interfaces.Observer;
@@ -16,6 +17,8 @@ public class Email implements Observable, Searchable {
     public Set<String> folders;
     public EmailHeader emailHeader;
     public EmailBody emailBody;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     public  Date deleteDate;
 
     @JsonCreator
@@ -36,18 +39,22 @@ public class Email implements Observable, Searchable {
 
     @Override
     public void markAsRead(Map<String, Folder> folders) { //map is used to save memory
-        this.isRead = true;
-        for(String s: this.folders){
-            Observer o = folders.get(s);
-            o.notify(-1);
+        if(!this.isRead){
+            this.isRead = true;
+            for(String s: this.folders){
+                Observer o = folders.get(s);
+                o.notify(-1);
+            }
         }
     }
     @Override
     public void markAsUnread(Map<String, Folder> folders) { //map is used to save memory
-        this.isRead = false;
-        for(String s: this.folders){
-            Observer o = folders.get(s);
-            o.notify(1);
+        if(this.isRead){
+            this.isRead = false;
+            for(String s: this.folders){
+                Observer o = folders.get(s);
+                o.notify(1);
+            }
         }
     }
     @Override

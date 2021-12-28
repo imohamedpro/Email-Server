@@ -11,7 +11,6 @@ import university.project.MailBackend.Model.UserInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class StorageAdapter {
     private IStorage storage;
@@ -32,16 +31,22 @@ public class StorageAdapter {
         data.addEmail(email, type);
         storage.setUserData(data, user);
     }
+    public void markAsRead(int emailID, String user){
+        storage.getUserData(user).markASRead(emailID);
+    }
 
+    public void markAsUnread(int emailID, String user){
+        storage.getUserData(user).markAsUnread(emailID);
+    }
     public void moveToTrash(String user, int emailID){
         UserData data = storage.getUserData(user);
         data.moveToTrash(emailID);
-        storage.getUserData(user);
+        storage.setUserData(data, user);
     }
     public void deleteEmail(String user, int emailID){
         UserData data = storage.getUserData(user);
         data.deleteEmail(emailID);
-        storage.getUserData(user);
+        storage.setUserData(data, user);
     }
 
     public Folder getFolder(String user, String folderName){

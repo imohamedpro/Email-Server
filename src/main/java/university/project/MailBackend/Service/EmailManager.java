@@ -4,10 +4,14 @@ import university.project.MailBackend.Model.Email;
 
 public class EmailManager {
     StorageAdapter storage;
-    EmailManager(StorageAdapter storageAdapter){
+    public EmailManager(StorageAdapter storageAdapter){
         this.storage = storageAdapter;
     }
-    public void sendEmail(Email email){
+
+    /*
+         clonning needed??
+    */ 
+    public void sendEmail(Email email){ 
         String from = email.emailHeader.from;
         String[] recipients = email.emailHeader.to;
         storage.setEmail(from, email, "sent");
@@ -38,4 +42,14 @@ public class EmailManager {
         return storage.readEmail(user, emailID);
     }
     
+    public void markASUnread(int[] emailIDs, String user){
+        for(int id: emailIDs){
+            storage.markAsUnread(id, user);
+        }
+    }
+    public void markASRead(int[] emailIDs, String user){
+        for(int id: emailIDs){
+            storage.markAsRead(id, user);
+        }
+    }
 }

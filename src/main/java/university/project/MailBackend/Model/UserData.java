@@ -16,8 +16,10 @@ public class UserData{
     public Map<Integer, Email> emails;
     private int nextEmailID;
 
-    UserData(){
+    public UserData(){
+        emails = new HashMap<Integer, Email>();
         folders = new HashMap<String, Folder>();
+        nextEmailID = 0;
         folders.put("inbox", new Folder("inbox", new ArrayList<String>()));
         folders.put("sent", new Folder("sent", new ArrayList<String>()));
         folders.put("draft", new Folder("draft", new ArrayList<String>()));
@@ -64,7 +66,15 @@ public class UserData{
                 break;
         }
     }
+    public void markASRead(int emailID){
+        Email e = this.emails.get(emailID);
+        e.markAsRead(folders);
+    }
 
+    public void markAsUnread(int emailID){
+        Email e = this.emails.get(emailID);
+        e.markAsUnread(folders);
+    }
     public void moveToTrash(Integer emailID){
         if(emails.containsKey(emailID)){
             Email email = emails.get(emailID);
