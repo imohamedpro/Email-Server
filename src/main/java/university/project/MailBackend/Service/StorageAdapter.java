@@ -61,17 +61,17 @@ public class StorageAdapter {
         data.restoreEmail(emailID);
         storage.setUserData(data, user);
     }    
-    public void moveEmail(String user, int emailID, String destination){
+    public void moveEmail(String user, int emailID, Integer destinationID){
         UserData data = storage.getUserData(user);
-        data.moveEmail(emailID, destination);
+        data.moveEmail(emailID, destinationID);
         storage.setUserData(data, user);
     }
 
-    public Folder getFolder(String user, String folderName){
-        return storage.getUserData(user).folders.get(folderName);
+    public Folder getFolder(String user, int folderID){
+        return storage.getUserData(user).folders.get(folderID);
     }
-    public Email[] getFolderContent(String user, String name, String searchToken){
-        return storage.getUserData(user).getFolderContent(name, searchToken);
+    public Email[] getFolderContent(String user, int folderID, String searchToken){
+        return storage.getUserData(user).getFolderContent(folderID, searchToken);
     }
 
     public void setFolder(String user, Folder folder){
@@ -123,7 +123,11 @@ public class StorageAdapter {
     }
 
     public String[] getFoldersNames(String user){
-        return storage.getUserData(user).getFoldersName();
+        /*
+            to be implemented
+        */
+        // return storage.getUserData(user).getFoldersName();
+        return null;
     }
 
 }
