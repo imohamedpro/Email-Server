@@ -37,16 +37,16 @@
 <div id="contents">
     <div *ngFor="let email of emails; let i = index">
         <!-- <hr> -->
-        <div class="emailBar" [ngClass]="selected.has(i)? 'selected': ''">
+        <div (click)="goToEmail(emails[i].id)" class="emailBar" [ngClass]="selected.has(i)? 'selected': ''">
             <input type="checkBox" (change)="select(i)">
-            <div (click)="goToEmail(emails[i].id)" class="emailHead" [ngClass]="email.isRead? '': 'unread'">
+            <div  class="emailHead" [ngClass]="email.isRead? '': 'unread'">
                 <span>{{email.from}}</span>
                 <span>{{email.subject}}</span>
                 <span>{{email.date.toLocaleString()}}</span>
             </div>
             <div class="controls">
-                <button (click)="delete(i)">delete</button>
-                <button (click)="toggleRead(i)">{{emails[i].isRead? 'mark as unread': 'mark as read'}}</button>
+                <button (click)="delete(i,$event)">delete</button>
+                <button (click)="toggleRead(i,$event)">{{emails[i].isRead? 'mark as unread': 'mark as read'}}</button>
             </div>
         </div>
 

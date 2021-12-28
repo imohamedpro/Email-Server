@@ -112,12 +112,14 @@ export class FolderViewComponent implements OnInit {
     }
   }
 
-  delete(index: number){
+  delete(index: number, e: any){
+    e.stopPropagation();
     console.log(index + " is deleted");
     //call api
     this.emails.splice(index, 1);
   }
-  toggleRead(index: number){
+  toggleRead(index: number, e: any){
+    e.stopPropagation();
     this.emails[index].isRead = !this.emails[index].isRead;
     //call api
   }
