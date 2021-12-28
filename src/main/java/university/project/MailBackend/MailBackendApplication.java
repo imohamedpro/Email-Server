@@ -8,7 +8,6 @@ import university.project.MailBackend.Service.*;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Set;
 
 @SpringBootApplication
 public class MailBackendApplication {
@@ -37,9 +36,9 @@ public class MailBackendApplication {
 		userContact.addContact(new Contact("Ahmed", hashSet, 1));
 		storageAdapter.createAcount(userInfo, userData, userContact);
 		EmailManager emailManager = new EmailManager(storageAdapter);
-		Set<String> set = new HashSet<>();
-		set.add("Inbox");
-		Email email = new Email(-1, false, set, new EmailHeader("hello@site.com", new String[]{"moh@site.com"}, "Heyyyy", new Date(), 4), new EmailBody("Hellooooo", null), null);
+//		Set<Integer> set = ;
+//		set.add("Inbox");
+		Email email = new Email(-1, false, new HashSet<>(), new EmailHeader("hello@site.com", new String[]{"moh@site.com"}, "Heyyyy", new Date(), 4), new EmailBody("Hellooooo", null), null);
 		emailManager.sendEmail(email);
 	}
 

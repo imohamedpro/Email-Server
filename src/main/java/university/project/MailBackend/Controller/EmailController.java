@@ -119,7 +119,7 @@ public class EmailController {
 
     @PostMapping("/folder/set")
     public void setFolder(@RequestBody SetFolder setFolder){
-        
+
     }
 
 
