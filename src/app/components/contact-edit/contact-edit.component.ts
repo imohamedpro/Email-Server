@@ -11,11 +11,21 @@ export class ContactEditComponent implements OnInit {
   contact!: contactsRequest;
   hasChanged: boolean = false;
   hasContactName: boolean = true;
-  constructor() {
+  constructor(private r: ActivatedRoute) {
     //this.r.params.subscribe(val =>{});
-    this.contact = JSON.parse(sessionStorage.getItem("contact") as string);
-    console.log(this.contact);
-    if(this.contact.contactName == "") this.hasContactName = false;
+    if(sessionStorage.length != 0){
+      this.contact = JSON.parse(sessionStorage.getItem("contact") as string);
+      console.log(this.contact);
+    }
+    else{
+      this.hasContactName = false;
+      this.contact ={
+        contactName: "",
+        emails: [],
+        id: Number.parseInt(this.r.snapshot.paramMap.get("id") as string),
+      };
+      console.log(this.contact);
+    }
    }
 
   ngOnInit(): void {
@@ -23,15 +33,18 @@ export class ContactEditComponent implements OnInit {
   removeContactName(){
     this.contact.contactName = "";
     this.hasContactName = false;
+    console.log(this.contact);
   }
   deleteEmail(index: number){
     this.contact.emails.splice(index, 1);
+    console.log(this.contact);
   }
   editContactName(event: any){
     if(event.key == " " || event.key == "Enter"){
       event.preventDefault();
       if(event.target.value != ""){
         this.contact.contactName = event.target.value;
+        console.log(this.contact);
         event.target.value = "";
         this.hasChanged = true;
         this.hasContactName = true;
@@ -43,7 +56,7 @@ export class ContactEditComponent implements OnInit {
       event.preventDefault();
       if(event.target.value != ""){
         this.contact.emails.push(event.target.value);
-        console.log(this.contact.emails);
+        console.log(this.contact);
         event.target.value = "";
         this.hasChanged = true;
       }

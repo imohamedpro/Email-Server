@@ -73,6 +73,13 @@ export class ContactsFolderComponent implements OnInit {
     sessionStorage.setItem("contact",JSON.stringify(this.contacts[index]));
     return this.router.navigate([this.contacts[index].id], { relativeTo: this.r });
   }
+  createNewContact(){
+    //let newContact = new contactsRequest;
+    let index = this.totalPageNumber*4;
+    //this.contacts.push(newContact);
+    sessionStorage.removeItem("contact");
+    return this.router.navigate([index], { relativeTo: this.r });
+  }
   delete(index: number) {
     this.contacts.splice(index, 1);
   }

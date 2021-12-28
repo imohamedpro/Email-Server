@@ -23,8 +23,11 @@
     </select>
 </div>
 <div class="search">
-    <span (click)="updateSearching()" class="material-icons-outlined">search</span>
+    <span class="material-icons" (click)="updateSearching()">search</span>
     <input  type="text" [(ngModel)]="selectedSearching" placeholder="Search: ">
+</div>
+<div class="addContact">
+    <span class="material-icons" (click)="createNewContact()">person_add</span>
 </div>
 <nav>
     <span class="material-icons" (click)="moveBackward()">arrow_back_ios</span>

@@ -45,13 +45,7 @@ button:hover{
     left: 50%;
     transform: translate(-50%,-50%);
 }
-.material-icons{
-    color: #c2c0e6;
-}
-.material-icons:hover{
-    color: #4448D5;
-    cursor: pointer;
-}
+
 .pageNumber{
     position: absolute;
     top: 100%;
@@ -109,7 +103,14 @@ button:hover{
 .search span{
     color: #c2c0e6;
 }
-.search span:hover{
-    cursor: pointer;
+.material-icons{
+    color: #c2c0e6;
+}
+.material-icons:hover{
     color: #4448D5;
+    cursor: pointer;
+}
+.search .material-icons:hover{
+    color: #4448D5;
+    cursor: pointer;
 }
