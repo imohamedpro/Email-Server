@@ -12,7 +12,7 @@ public class AccountManager {
     }
 
     public boolean signUp(UserInfo userInfo){
-        if(storage.getUserInfo(userInfo.getEmail()) != null){
+        if(storage.getUserInfo(userInfo.getEmail()) == null){
             UserData data = new UserData();
             UserContact contact = new UserContact();
             storage.createAcount(userInfo, data, contact);
@@ -22,7 +22,11 @@ public class AccountManager {
     }
 
     public boolean signIn(UserInfo userInfo){
-        return storage.getUserInfo(userInfo.getEmail()).authenticate(userInfo);
+        UserInfo info = storage.getUserInfo(userInfo.getEmail());
+        if(info != null){
+            return info.authenticate(userInfo);
+        }
+        return false;
     }
 
     public String[] getFoldersNames(String user){

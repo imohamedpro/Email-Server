@@ -7,10 +7,14 @@ import java.util.Comparator;
 public class SortFactory {
     public Comparator<?> getSortType(String type){
         return switch (type.toLowerCase()) {
-            case "subject" -> Comparator.comparing(EmailHeader::getSubject, String::compareToIgnoreCase);
-            case "from" -> Comparator.comparing(EmailHeader::getFrom, String::compareToIgnoreCase);
-            case "priority" -> Comparator.comparing(EmailHeader::getPriority);
-            default -> Comparator.comparing(EmailHeader::getDate);
+            case "subject d" -> Comparator.comparing(EmailHeader::getSubject, String::compareToIgnoreCase).reversed();
+            case "from d" -> Comparator.comparing(EmailHeader::getFrom, String::compareToIgnoreCase).reversed();
+            case "priority d" -> Comparator.comparing(EmailHeader::getPriority).reversed();
+            case "date a" -> Comparator.comparing(EmailHeader::getDate);
+            case "subject a" -> Comparator.comparing(EmailHeader::getSubject, String::compareToIgnoreCase);
+            case "from a" -> Comparator.comparing(EmailHeader::getFrom, String::compareToIgnoreCase);
+            case "priority a" -> Comparator.comparing(EmailHeader::getPriority);
+            default -> Comparator.comparing(EmailHeader::getDate).reversed();
         };
     }
 }
