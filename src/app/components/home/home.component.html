@@ -25,7 +25,18 @@
 			<span class="material-icons" >contact_page</span>
 			<span class="menu-item-label">Contacts</span>
 		</div>
-		<div class="menu-item">
+        <div class="customizedFolders" *ngFor="let customFolder of customFolders; let i = index;">
+            <div (click)="goToCustomFolder(i)" class="menu-item">
+                <span class="material-icons">folder</span>
+                <span *ngIf="!isSelected[i]" class="menu-item-label">{{customFolder}}</span>
+                <div class="controls">
+                    <input id="rename" (click)="avoidP($event)"  *ngIf="isSelected[i]" type="text" [(ngModel)]="temp" placeholder={{customFolder}} >
+                    <span class="material-icons" (click)="toggleInput(i,$event)">edit</span>
+                    <span class="material-icons"  (click)="deleteFolder(i,$event)">delete</span>
+                </div>
+            </div>
+        </div>
+		<div class="menu-item" (click)="addNewFolder()">
 			<span class="material-icons">add</span>
 			<span class="menu-item-label">Add folder</span>
 		</div>
