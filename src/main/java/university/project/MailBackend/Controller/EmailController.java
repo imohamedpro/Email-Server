@@ -7,9 +7,7 @@ import university.project.MailBackend.Model.Requests.ContactAndUsername;
 import university.project.MailBackend.Model.Requests.ContactSearch;
 import university.project.MailBackend.Model.Requests.EmailDelete;
 import university.project.MailBackend.Model.UserInfo;
-import university.project.MailBackend.Service.AccountManager;
-import university.project.MailBackend.Service.ContactManager;
-import university.project.MailBackend.Service.EmailManager;
+import university.project.MailBackend.Service.*;
 
 import java.util.List;
 
@@ -21,10 +19,13 @@ public class EmailController {
     private ContactManager contactManager;
     private EmailManager emailManager;
 
-    public EmailController(AccountManager accountManager, ContactManager contactManager, EmailManager emailManager) {
-        this.accountManager = accountManager;
-        this.contactManager = contactManager;
-        this.emailManager = emailManager;
+    public EmailController(FileService fileService) {
+        Storage storage = new Storage(fileService);
+        StorageProxy storageProxy = new StorageProxy(storage);
+        StorageAdapter storageAdapter = new StorageAdapter(storageProxy);
+        this.accountManager = new AccountManager(storageAdapter);
+        this.contactManager = new ContactManager(storageAdapter);
+        this.emailManager = new EmailManager(storageAdapter);
     }
 
     @PostMapping("/signup")
@@ -50,7 +51,7 @@ public class EmailController {
         return contactManager.getNumberOfPages(user, perPage);
     }
 
-    @GetMapping("/contacts/get")
+    @GetMapping("/contacts/get/List")
     public List<Contact> getContactList(
             @RequestParam("user") String user,
             @RequestParam("pageNumber") int pageNumber,
@@ -68,19 +69,19 @@ public class EmailController {
         return contactManager.getContact(user, contactID);
     }
 
-    @GetMapping("/contacts/get")
+    @GetMapping("/contacts/search")
     public List<Contact> searchContact(@RequestBody ContactSearch contactSearch){
         return contactManager.searchContact(contactSearch.user, contactSearch.tokens, contactSearch.pageNumber, contactSearch.perPage, contactSearch.sorted);
     }
 
-    @DeleteMapping("/contacts")
+    @DeleteMapping("/contacts/delete")
     public void deleteContact(
             @RequestParam("user") String user,
             @RequestParam("id") int contactID){
         contactManager.deleteContact(user, contactID);
     }
 
-    @PostMapping("/contacts")
+    @PostMapping("/contacts/add")
     public void addContact(@RequestBody ContactAndUsername contactAndUsername){
         contactManager.addContact(contactAndUsername.user, contactAndUsername.contact);
     }

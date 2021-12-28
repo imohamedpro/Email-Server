@@ -13,7 +13,10 @@ public class ContactManager {
 
     public int getNumberOfPages(String user, int contactsPerPage){
         List<Contact> contacts = storage.getContactsList(user);
-        return contacts.size() / contactsPerPage + 1;
+        int pages = contacts.size() / contactsPerPage;
+        if(pages == 0)
+            return 1;
+        return pages;
     }
 
     public List<Contact> getContactsList(String user, int pageNumber, int contactsPerPage, boolean sorted){
