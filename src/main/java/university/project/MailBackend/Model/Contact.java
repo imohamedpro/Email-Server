@@ -11,10 +11,10 @@ public class Contact {
     private HashSet<String> usernames;
     private int id;
 
-    Contact(String name, int id){
+    Contact(String name){
         this.name = name;
         usernames = new HashSet<String>();
-        this.id = id;
+        this.id = -1;
     }
 
     @JsonCreator
@@ -27,8 +27,12 @@ public class Contact {
         this.usernames = usernames;
         this.id = id;
     }
+
     public int getID(){
         return this.id;
+    }
+    public int setID(int id){
+        return this.id = id;
     }
     public String getName() {
         return this.name;
