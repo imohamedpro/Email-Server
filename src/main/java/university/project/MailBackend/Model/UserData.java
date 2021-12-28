@@ -13,22 +13,22 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class UserData{
-    public Map<String, Folder> folders;
+    public Map<Integer, Folder> folders;
     public Map<Integer, Email> emails;
     private int nextEmailID;
 
     public UserData(){
         emails = new HashMap<Integer, Email>();
-        folders = new HashMap<String, Folder>();
+        folders = new HashMap<Integer, Folder>();
         nextEmailID = 0;
-        folders.put("inbox", new Folder("inbox", new ArrayList<String>()));
-        folders.put("sent", new Folder("sent", new ArrayList<String>()));
-        folders.put("draft", new Folder("draft", new ArrayList<String>()));
-        folders.put("trash", new Folder("trash", new ArrayList<String>()));
+        folders.put(0, new Folder(0, "inbox", new ArrayList<String>()));
+        folders.put(1, new Folder(1, "sent", new ArrayList<String>()));
+        folders.put(2, new Folder(2, "draft", new ArrayList<String>()));
+        folders.put(3, new Folder(3, "trash", new ArrayList<String>()));
     }
     @JsonCreator
     public UserData(
-            @JsonProperty("folders") Map<String, Folder> folders,
+            @JsonProperty("folders") Map<Integer, Folder> folders,
             @JsonProperty("emails") Map<Integer, Email> emails,
             @JsonProperty("nextEmailID") int nextEmailID) {
         this.folders = folders;
@@ -49,18 +49,18 @@ public class UserData{
         Folder folder;
         switch (type.toLowerCase()){
             case "draft":
-                folder = folders.get("draft");
+                folder = folders.get(2);    // draft
                 folder.addEmail(email);
                 break;
             case "sent":
-                folder = folders.get("draft");
+                folder = folders.get(2);
                 folder.removeEmail(email);
-                folder = folders.get("sent");
+                folder = folders.get(1);    //sent
                 folder.addEmail(email);
                 break;
             case "received":
                 email.isRead = false;
-                folder = folders.get("inbox");
+                folder = folders.get(3);    //inbox
                 folder.addEmail(email);
                 for(Folder f: folders.values()){
                     f.filter(email);        // default folders doesn't have filter tokens(null object ?)
@@ -80,34 +80,34 @@ public class UserData{
     public void moveToTrash(Integer emailID){
         if(emails.containsKey(emailID)){
             Email email = emails.get(emailID);
-            for(String folderName: email.folders){
-                Folder folder = this.folders.get(folderName);
+            for(int folderID: email.folders){
+                Folder folder = this.folders.get(folderID);
                 folder.moveToTrash(emailID);
             }
-            Folder trash = folders.get("trash");
+            Folder trash = folders.get(3);      //trahs
             email.deleteDate = new Date();
             trash.restoreEmail(emailID); /// dunno
         }
     }
     public void restoreEmail(int emailID){
         Email email = this.emails.get(emailID);
-        for(String f: email.folders){
-            Folder folder = this.folders.get(f);
+        for(Integer folderID: email.folders){
+            Folder folder = this.folders.get(folderID);
             folder.restoreEmail(emailID);
         }
         email.deleteDate = null;
-        this.folders.get("trash").moveToTrash(emailID); ///dunno
+        this.folders.get(3).moveToTrash(emailID); ///dunno
     }
 
     public void deleteEmail(int emailID){
         if(emails.containsKey(emailID)){
-            Folder trash = folders.get("trash");
+            Folder trash = folders.get(3);
             Email email = emails.remove(emailID);
             trash.removeEmail(email);
         }
     }
-    public void moveEmail(int emailID, String folderName){
-        Folder folder =  this.folders.get(folderName);
+    public void moveEmail(int emailID, Integer folderID){
+        Folder folder =  this.folders.get(folderID);
         Email email = this.emails.get(emailID);
         folder.addEmail(email);
     }
@@ -115,7 +115,7 @@ public class UserData{
 
 
     public void autoDelete(){
-        Folder trash = folders.get("trash");
+        Folder trash = folders.get(3); // trash
         for(int emailID: trash.emails){
             Email email = emails.get(emailID);
             if(TimeUnit.DAYS.convert(new Date().getTime() - email.deleteDate.getTime(), TimeUnit.MILLISECONDS) > 30){
@@ -126,16 +126,16 @@ public class UserData{
     }
 
     public void addFolder(Folder folder){
-        this.folders.put(folder.name, folder);
+        this.folders.put(folder.id, folder);
     }
-    public void deleteFolder(String name){
-        Folder folder = this.folders.remove(name);
+    public void deleteFolder(int folderID){
+        Folder folder = this.folders.remove(folderID);
         for(int emailID: folder.emails){
             folder.removeEmail(this.emails.get(emailID));
         }
     }
-    public Email[] getFolderContent(String name, String searchToken) {
-        Folder folder = this.folders.get(name);
+    public Email[] getFolderContent(int folderID, String searchToken) {
+        Folder folder = this.folders.get(folderID);
         LinkedList<Email> l = new LinkedList<Email>();
         for(int id: folder.emails){
             Email e = this.emails.get(id);
@@ -146,7 +146,7 @@ public class UserData{
         return l.toArray(new Email[0]);
     }
 
-    public String[] getFoldersName(){
-        return folders.keySet().toArray(new String[0]);
+    public Folder[] getFoldersName(){
+        return folders.values().toArray(new Folder[0]);
     }
 }
