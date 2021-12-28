@@ -108,6 +108,6 @@ export class HomeComponent implements OnInit {
   goToCustomFolder(folderNumber: number) {
     this.doNotEdit = folderNumber;
     this.deselectAll();
-    this.router.navigate([this.customFolders[folderNumber].replace(" ", "")], { relativeTo: this.r });
+    this.router.navigate([folderNumber], { relativeTo: this.r });
   }
 }
