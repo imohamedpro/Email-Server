@@ -95,4 +95,8 @@ public class StorageAdapter {
         storage.setUserData(data, info.getEmail());
     }
 
+    public String[] getFoldersNames(String user){
+        return storage.getUserData(user).getFoldersName();
+    }
+
 }

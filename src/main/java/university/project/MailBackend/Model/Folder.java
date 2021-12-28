@@ -9,7 +9,7 @@ import university.project.MailBackend.Interfaces.Observer;
 
 public class Folder implements Observer {
     public String name;
-    public ArrayList<Integer> emails;
+    public HashSet<Integer> emails;
     public int unreadCount;
     public List<String> filterTokens;
 
@@ -17,13 +17,13 @@ public class Folder implements Observer {
         this. name = name;
         this.filterTokens = filterTokens;
         unreadCount = 0;
-        emails = new ArrayList<>();
+        emails = new HashSet<>();
     }
 
     @JsonCreator
     public Folder(
             @JsonProperty("name") String name,
-            @JsonProperty("emails") ArrayList<Integer> emails,
+            @JsonProperty("emails") HashSet<Integer> emails,
             @JsonProperty("unreadCount") int unreadCount,
             @JsonProperty("filterTokens") List<String> filterTokens) {
         this.name = name;

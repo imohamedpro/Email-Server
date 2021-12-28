@@ -130,4 +130,7 @@ public class UserData{
         return l.toArray(new Email[0]);
     }
 
+    public String[] getFoldersName(){
+        return folders.keySet().toArray(new String[0]);
+    }
 }
