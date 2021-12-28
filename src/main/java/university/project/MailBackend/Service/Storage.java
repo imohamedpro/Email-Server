@@ -47,7 +47,7 @@ public class Storage implements IStorage {
 
     @Override
     public void setUserContact(UserContact contact, String user) {
-        String path = defaultPath + user + "/Contact.json";
+        String path = defaultPath + user + "/Contacts.json";
         fileService.writeFile(path, contact);
     }
 }

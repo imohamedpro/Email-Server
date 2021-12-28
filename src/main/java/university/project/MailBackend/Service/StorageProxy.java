@@ -19,7 +19,8 @@ public class StorageProxy implements IStorage {
     final int CACHE_CAPACITY = 5;
 
 
-    public StorageProxy() {
+    public StorageProxy(IStorage storage) {
+        this.storage = storage;
         cachedInfo = new HashMap<String, UserInfo>(5);
         cachedData = new HashMap<String, UserData>(5);
         cachedContact = new HashMap<String, UserContact>(5);

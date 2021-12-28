@@ -2,6 +2,7 @@ package university.project.MailBackend.Service;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 
@@ -18,6 +19,7 @@ public class FileService {
 
     public Object readFile(String path, Class<?> cls, boolean isArrayList){
         Path p = Path.of(path);
+        objectMapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
         if(Files.exists(p)){
             String json = null;
             CollectionType listType = objectMapper.getTypeFactory().constructCollectionType(ArrayList.class, cls);

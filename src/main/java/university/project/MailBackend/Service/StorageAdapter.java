@@ -11,7 +11,6 @@ import university.project.MailBackend.Model.UserInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class StorageAdapter {
     private IStorage storage;

@@ -4,7 +4,7 @@ import university.project.MailBackend.Model.Email;
 
 public class EmailManager {
     StorageAdapter storage;
-    EmailManager(StorageAdapter storageAdapter){
+    public EmailManager(StorageAdapter storageAdapter){
         this.storage = storageAdapter;
     }
     public void sendEmail(Email email){

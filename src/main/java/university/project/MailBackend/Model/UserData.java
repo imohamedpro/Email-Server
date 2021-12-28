@@ -16,8 +16,10 @@ public class UserData{
     public Map<Integer, Email> emails;
     private int nextEmailID;
 
-    UserData(){
+    public UserData(){
+        emails = new HashMap<Integer, Email>();
         folders = new HashMap<String, Folder>();
+        nextEmailID = 0;
         folders.put("inbox", new Folder("inbox", new ArrayList<String>()));
         folders.put("sent", new Folder("sent", new ArrayList<String>()));
         folders.put("draft", new Folder("draft", new ArrayList<String>()));

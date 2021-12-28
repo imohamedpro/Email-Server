@@ -1,9 +1,6 @@
 package university.project.MailBackend.Model;
 
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -12,7 +9,7 @@ import university.project.MailBackend.Interfaces.Observer;
 
 public class Folder implements Observer {
     public String name;
-    public HashSet<Integer> emails;
+    public ArrayList<Integer> emails;
     public int unreadCount;
     public List<String> filterTokens;
 
@@ -20,13 +17,13 @@ public class Folder implements Observer {
         this. name = name;
         this.filterTokens = filterTokens;
         unreadCount = 0;
-        emails = new HashSet<Integer>();
+        emails = new ArrayList<>();
     }
 
     @JsonCreator
     public Folder(
             @JsonProperty("name") String name,
-            @JsonProperty("emails") HashSet<Integer> emails,
+            @JsonProperty("emails") ArrayList<Integer> emails,
             @JsonProperty("unreadCount") int unreadCount,
             @JsonProperty("filterTokens") List<String> filterTokens) {
         this.name = name;

@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import university.project.MailBackend.Interfaces.Observable;
 import university.project.MailBackend.Interfaces.Observer;
@@ -16,6 +17,8 @@ public class Email implements Observable, Searchable {
     public Set<String> folders;
     public EmailHeader emailHeader;
     public EmailBody emailBody;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     public  Date deleteDate;
 
     @JsonCreator
