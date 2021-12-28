@@ -3,6 +3,7 @@ package university.project.MailBackend.Controller;
 import org.springframework.web.bind.annotation.*;
 import university.project.MailBackend.Model.Contact;
 import university.project.MailBackend.Model.Email;
+import university.project.MailBackend.Model.Folder;
 import university.project.MailBackend.Model.Requests.ContactAndUsername;
 import university.project.MailBackend.Model.Requests.ContactSearch;
 import university.project.MailBackend.Model.Requests.EmailDelete;
@@ -119,9 +120,12 @@ public class EmailController {
 
     @PostMapping("/folder/set")
     public void setFolder(@RequestBody SetFolder setFolder){
-
+        folderManager.setFolder(setFolder.folderID, setFolder.folderName, setFolder.filterTokens, setFolder.user);
     }
 
-
+    @GetMapping("/folder/get")
+    public Folder getFolder(@RequestParam("id") int folderID, @RequestParam("user") String user){
+        return folderManager.getFolder(folderID, user);
+    }
 
 }
