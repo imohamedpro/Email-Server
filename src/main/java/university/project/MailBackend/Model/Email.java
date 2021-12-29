@@ -109,4 +109,9 @@ public class Email implements Observable, Searchable {
     //     }
         
     // }
+
+    public void update(Email e){
+        this.emailHeader = e.emailHeader;
+        this.emailBody = e.emailBody;
+    }
 }
