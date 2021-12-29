@@ -21,12 +21,12 @@ export class ControllerService {
 
   constructor(private http: HttpClient) { }
 
-  signUp(userInfo: UserInfo){                      //this way the signUp will
-    const body = JSON.stringify(userInfo);                   //also sendconfirmed password
-    return this.http.post(this.apiUrl + 'signup', body); //is that right or a class
-  }                                                      //should be made
+  signUp(userInfo: UserInfo){    //done                  
+    const body = JSON.stringify(userInfo);                   
+    return this.http.post(this.apiUrl + 'signup', body);
+  }                                                      
 
-  logIn(userInfo: UserInfo){
+  logIn(userInfo: UserInfo){   //done
     const body = JSON.stringify(userInfo);
     return this.http.post(this.apiUrl + 'login', body);
   }
@@ -53,7 +53,7 @@ export class ControllerService {
     return this.http.get<Array<Contact>>(this.apiUrl + 'contact/load', {params});
   }
 
-  getContact(user: string, contactId: number){
+  getContact(user: string, contactId: number){  //not needed since we can get it with session storage
     let params = new HttpParams();
     params.append('user',user);
     params.append('id', contactId);

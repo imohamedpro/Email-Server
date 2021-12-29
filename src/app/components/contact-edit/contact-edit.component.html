@@ -4,7 +4,7 @@
             <label for="username">Contact Name: </label>
             <div class="fieldWrapper">
                 <div class="tag" *ngIf="hasContactName" >
-                    <span >{{contact.contactName}}</span>
+                    <span >{{contact.name}}</span>
                     <button (click)="removeContactName()">x</button>
                 </div>
                 <input type="email" id="username" (keypress)="editContactName($event)">
@@ -14,8 +14,8 @@
        <div class="container">
         <label for="emails">Eamils: </label>
             <div class="fieldWrapper">
-                <div *ngFor="let emails of contact.emails; let i = index" class="tag">
-                    <span >{{emails}}</span>
+                <div *ngFor="let username of contact.usernames; let i = index" class="tag">
+                    <span >{{username}}</span>
                     <button (click)="deleteEmail(i)">x</button>
                 </div>
                 <input type="email" id="emails" (keypress)="addEmail($event)">
