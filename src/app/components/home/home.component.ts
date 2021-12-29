@@ -12,8 +12,14 @@ export class HomeComponent implements OnInit {
   temp: string = "";
   doNotEdit: number = -1;
   constructor(private router: Router, private r: ActivatedRoute) {
-    this.customFolders = [];
-    this.isSelected = [];
+    r.params.subscribe(val =>{
+      if(sessionStorage.getItem("customPages")){
+        this.customFolders = JSON.parse(sessionStorage.getItem("customPages") as string);
+      }else{
+        this.customFolders = [];
+      }
+      this.isSelected = [];
+    });
   }
 
   ngOnInit(): void {
