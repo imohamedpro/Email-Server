@@ -50,4 +50,19 @@ public class Storage implements IStorage {
         String path = defaultPath + user + "/Contacts.json";
         fileService.saveAsJson(path, contact);
     }
+
+    // @Override
+    // public void delete(String user, int id, String name) {
+    //     String path = defaultPath + user + "/attachments/" + id + "/" + name;
+    //     fileService.deleteFile(path);
+        
+    // }
+
+    @Override
+    public void delete(String user, int id) {
+        String path = defaultPath + user + "/attachments/" + id;
+        fileService.deleteFile(path);
+    }
+
+    
 }

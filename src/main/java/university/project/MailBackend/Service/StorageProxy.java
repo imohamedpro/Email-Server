@@ -44,7 +44,7 @@ public class StorageProxy implements IStorage {
             data = storage.getUserData(user);
             CacheData(data, user);
         }
-        data.autoDelete();
+        this.delete(data.autoDelete(), user);
         return data;
     }
 
@@ -71,7 +71,7 @@ public class StorageProxy implements IStorage {
 
     @Override
     public void setUserData(UserData data, String user) {
-        data.autoDelete();
+        this.delete(data.autoDelete(), user);
         if(cachedData.containsKey(user)){
             cachedData.put(user, data);
         }else{
@@ -121,6 +121,22 @@ public class StorageProxy implements IStorage {
             cachedContact.remove(randKey);
         }
         cachedContact.put(user, contact);
+    }
+
+    private void delete(List<Integer> deleted, String user){
+        for(int id: deleted){
+            storage.delete(user, id);
+        }
+    }
+
+    // @Override
+    // public void delete(String user, int id, String name) {
+    //     storage.delete(user, id, name);        
+    // }
+
+    @Override
+    public void delete(String user, int id) {
+        storage.delete(user, id);
     }
         
 }

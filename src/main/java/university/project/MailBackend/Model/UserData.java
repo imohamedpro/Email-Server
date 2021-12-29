@@ -1,5 +1,6 @@
 package university.project.MailBackend.Model;
 
+import java.nio.file.Files;
 import java.util.ArrayList;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -39,14 +40,17 @@ public class UserData{
         this.nextEmailID = nextEmailID;
         this.nextFolderID = nextFolderID;
     }
-
+    public int createEmail(){
+        emails.put(nextEmailID, new Email(nextEmailID));
+        return nextEmailID++;
+    }
     public Email readEmail(int emailID){
         Email e = emails.get(emailID);
         e.markAsRead(folders);
         return e;
     }
     public void addEmail(Email email, String type){
-        if(email.id < 0){
+        if(email.id < 0){       //when received
             email.id = nextEmailID++;
         }
         emails.put(email.id, email);
@@ -118,15 +122,18 @@ public class UserData{
 
 
 
-    public void autoDelete(){
+    public List<Integer> autoDelete(){
         Folder trash = folders.get(3); // trash
+        LinkedList<Integer> deleted = new LinkedList<Integer>();
         for(int emailID: trash.emails){
             Email email = emails.get(emailID);
             if(TimeUnit.DAYS.convert(new Date().getTime() - email.deleteDate.getTime(), TimeUnit.MILLISECONDS) > 30){
                 emails.remove(email.id);
+                deleted.add(email.id);
                 trash.removeEmail(email);
             }
         }
+        return deleted;
     }
 
     public void addFolder(Folder folder){

@@ -37,8 +37,8 @@ public class Email implements Observable, Searchable {
         this.emailBody = emailBody;
         this.deleteDate = deleteDate;
     }
-    public Email(){
-        this.id = -1;
+    public Email(int id){       //create new Email (draft)
+        this.id = id;
         this.isRead = true;
         this.folders = new HashSet<Integer>();
     }

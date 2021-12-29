@@ -95,6 +95,10 @@ public class EmailController {
         contactManager.addContact(contactAndUsername.user, contactAndUsername.contact);
     }
 
+    @GetMapping("/email/create")
+    public int createEmail(@RequestBody String user){
+        return emailManager.createEmail(user);
+    }
     @PostMapping("/email/send")
     public void sendEmail(@RequestBody Email email){
         emailManager.sendEmail(email);

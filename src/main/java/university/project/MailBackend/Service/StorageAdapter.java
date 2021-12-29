@@ -9,6 +9,7 @@ import university.project.MailBackend.Model.UserContact;
 import university.project.MailBackend.Model.UserData;
 import university.project.MailBackend.Model.UserInfo;
 
+// import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -18,7 +19,12 @@ public class StorageAdapter {
     public StorageAdapter(IStorage storage){
         this.storage = storage;
     }
-
+    public int createEmail(String user){
+        UserData data = storage.getUserData(user);
+        int id = data.createEmail();
+        storage.setUserData(data, user);
+        return id;
+    }
     public Email getEmail(String user, int emailID){
         return storage.getUserData(user).emails.get(emailID);
     }
@@ -55,6 +61,7 @@ public class StorageAdapter {
         UserData data = storage.getUserData(user);
         data.deleteEmail(emailID);
         storage.setUserData(data, user);
+        storage.delete(user, emailID);
     }
     public void restoreEmail(String user, int emailID){
         UserData data = storage.getUserData(user);
