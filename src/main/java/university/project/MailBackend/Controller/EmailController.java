@@ -115,8 +115,8 @@ public class EmailController {
     }
 
     @DeleteMapping("/email/trash")
-    public void moveToTrash(@RequestBody EmailUserClass email){
-        emailManager.moveToTrash(email.emailIDs, email.user);
+    public void moveToTrash(@RequestParam("emailIDs") int[] emailIDs, @RequestParam("user") String user){
+        emailManager.moveToTrash(emailIDs, user);
     }
 
     @DeleteMapping("/email/delete")
