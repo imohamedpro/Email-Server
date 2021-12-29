@@ -13,7 +13,7 @@ export class ContactEditComponent implements OnInit {
   hasContactName: boolean = true;
   constructor(private r: ActivatedRoute) {
     //this.r.params.subscribe(val =>{});
-    if(sessionStorage.length != 0){
+    if(sessionStorage.getItem("contact")){
       this.contact = JSON.parse(sessionStorage.getItem("contact") as string);
       console.log(this.contact);
     }

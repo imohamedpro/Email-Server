@@ -82,3 +82,69 @@ button{
     cursor: pointer;
     color: #4448D5;
 }
+.container{
+    display: flex;
+    flex-direction: row;
+    border: solid 1px;
+}
+.fieldWrapper{
+    flex-basis: 100%;
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+.tag{
+    display: inline-block;
+    border: 1px solid black;
+    margin: 2px 0px;
+    margin-right: 5px;
+    padding: 1px 5px;
+    background-color: #ddd;
+    border-radius: 50px;
+    pointer-events: fill;
+    display: flex;
+    align-items: center;
+    width: fit-content;
+
+}
+.tag button{
+    font-weight: bold;
+    padding: 0px;
+    padding-left: 5px;
+    background-color: inherit;
+    border: 0px;
+}
+/*label{
+    margin: 5px;
+    border: 0px;
+    display: inline-block;
+    white-space: nowrap;
+}*/
+.container input{
+    border: 0px;
+    height: 25px;
+    outline-width: 0px;
+    width: 100%;
+}
+nav .navContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+nav span{
+    display: block;
+}
+nav label,
+.drop-down span{
+    color: #c2c0e6;
+}
+.drop-down span:hover{
+    color: #4448D5;
+    cursor: pointer;
+}
+.drop-down-container{
+    overflow: auto;
+    max-height: 70px;
+}

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TokensRequest } from 'src/app/classes/Requests/TokensRequest';
 import { EmailHeaderResponse } from '../../classes/Responses/EmailHeaderResponse';
 
 @Component({
@@ -16,6 +17,11 @@ export class FolderViewComponent implements OnInit {
   emails!: EmailHeaderResponse[];
   selected: Set<number>;
   pageNumber: number = 1;
+  tokens!: TokensRequest;
+  tokensHaveChanged: boolean = false;
+  editingTokens: boolean = false;
+  copyIsClicked: boolean = false;
+  customPages!: string[];
   constructor(private router: Router, private r: ActivatedRoute) {
     r.params.subscribe(val =>{
       console.log(this.getPageName());
@@ -62,12 +68,37 @@ export class FolderViewComponent implements OnInit {
           isRead: true,
         },
       ]
+      this.customPages = JSON.parse(sessionStorage.getItem("customPages") as string);
+      console.log(this.customPages);
     });
+    this.tokens = {
+      values: ["Karim","Magdy","Youssef","Youhanna"],
+    }
     this.selected = new Set<number>();
    }
 
   ngOnInit(): void {
     
+  }
+  addToken(event: any){
+    if(event.key == "Enter" || event.key == " "){
+      event.preventDefault();
+      if(event.target.value != ""){
+        this.tokens.values.push(event.target.value);
+        event.target.value = "";
+        this.tokensHaveChanged = true;
+      }
+    }
+  }
+  deleteToken(index: number){
+    this.tokens.values.splice(index,1);
+    this.tokensHaveChanged = true;
+  }
+  saveTokens(){
+    if(this.tokensHaveChanged){
+      //api here
+    }
+    this.editingTokens = false;
   }
   updateSorting(e: any){
     this.selectedSorting = e.target.value  ;
@@ -79,8 +110,8 @@ export class FolderViewComponent implements OnInit {
   updateRadio(b: boolean){
     this.selectedRadio = b;
   }
- 
-  select(index: number){
+  select(index: number, e: any){
+    e.stopPropagation();
     if(this.selected.has(index)){
       this.selected.delete(index);
       console.log(index + " is deselected");
@@ -89,6 +120,24 @@ export class FolderViewComponent implements OnInit {
       this.selected.add(index);
       console.log(index + " is selected");
 
+    }
+  }
+  copySelected(folderID: number){
+    if(this.selected.size != 0){
+      //api call
+      console.log("move selected to",`${folderID}`);
+      this.selected.clear();
+    }
+  }
+  deleteSelected(){
+    if(this.selected.size != 0){
+      //api call
+      console.log("selected are deleted");
+    }
+  }
+  clearSelected(){
+    if(this.selected.size != 0){
+      this.selected.clear();
     }
   }
   getPageName(){
@@ -111,7 +160,14 @@ export class FolderViewComponent implements OnInit {
       //api to get the emails;
     }
   }
-
+  isCustomFolder(){
+    let pageName = this.getPageName();
+    if(pageName != "compose" && pageName != "inbox" && pageName != "trash" && pageName != "draft"
+        && pageName != "contacts" && pageName != "sent" ){
+      return true;
+    }
+    return false;
+  }
   delete(index: number, e: any){
     e.stopPropagation();
     console.log(index + " is deleted");

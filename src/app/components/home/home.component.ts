@@ -12,8 +12,14 @@ export class HomeComponent implements OnInit {
   temp: string = "";
   doNotEdit: number = -1;
   constructor(private router: Router, private r: ActivatedRoute) {
-    this.customFolders = [];
-    this.isSelected = [];
+    r.params.subscribe(val =>{
+      if(sessionStorage.getItem("customPages")){
+        this.customFolders = JSON.parse(sessionStorage.getItem("customPages") as string);
+      }else{
+        this.customFolders = [];
+      }
+      this.isSelected = [];
+    });
   }
 
   ngOnInit(): void {
@@ -40,6 +46,7 @@ export class HomeComponent implements OnInit {
     if (index != this.doNotEdit) {
       e.stopPropagation();
       this.customFolders.splice(index, 1);
+      sessionStorage.setItem("customPages",JSON.stringify(this.customFolders));
     }
   }
   toggleInput(index: number, e: any) {
@@ -61,6 +68,7 @@ export class HomeComponent implements OnInit {
         this.customFolders[index] = `Folder ${index + 1}`;
         this.isSelected[index] = true;
       }
+      sessionStorage.setItem("customPages",JSON.stringify(this.customFolders));
     }
   }
   deSelect(index: number) {
@@ -108,6 +116,6 @@ export class HomeComponent implements OnInit {
   goToCustomFolder(folderNumber: number) {
     this.doNotEdit = folderNumber;
     this.deselectAll();
-    this.router.navigate([this.customFolders[folderNumber].replace(" ", "")], { relativeTo: this.r });
+    this.router.navigate([folderNumber], { relativeTo: this.r });
   }
 }
