@@ -86,7 +86,7 @@ export class ControllerService {
   sendEmail(email: Email){
     const body = JSON.stringify(email);
     console.log(body);
-    return this.http.post(this.apiUrl + 'email/send', body);
+    return this.http.post(this.apiUrl + 'email/send', body, this.config);
   }
 
   saveDraft(email: Email){ 

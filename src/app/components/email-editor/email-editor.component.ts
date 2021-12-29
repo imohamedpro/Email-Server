@@ -28,14 +28,16 @@ export class EmailEditorComponent implements OnInit {
               private r: ActivatedRoute) {
     this.receivers = [];
     this.attachments = [];
-    this.user = 'admin';
+    this.user = 'hello@site.com';
     this.emailID = '0';
     r.params.subscribe(()=>{
 
       controller.getEmail(this.emailID, this.user).subscribe((email)=>{
     //load draft   
-          this.receivers = email.emailHeader.to;
-          this.attachments = email.emailBody.attachments;
+          this.receivers = email.emailHeader.to || new Array<string>();
+          console.log(email.emailHeader.to);
+          console.log(this.receivers);
+          this.attachments = email.emailBody.attachments || new Array<string>();
           this.form = this.fb.group({
             priority: email.emailHeader.priority,
             receiver: '',
@@ -66,13 +68,13 @@ export class EmailEditorComponent implements OnInit {
   ngOnInit(): void {
 
     // //load draft   
-    // this.form = this.fb.group({
-    //   priority: '2',
-    //   receiver: '',
-    //   subject: '',
-    //   body: '',
-    //   file: null,
-    // });
+    this.form = this.fb.group({
+      priority: '2',
+      receiver: '',
+      subject: '',
+      body: '',
+      file: null,
+    });
 
     //  this.form.valueChanges.subscribe(()=>{
     //    this.changed = true;

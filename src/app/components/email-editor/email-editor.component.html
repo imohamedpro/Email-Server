@@ -20,8 +20,8 @@
        </div>
        <hr>
         <textarea placeholder="Body:" formControlName="body" (resize)="false" id="Body"></textarea>
-        <hr *ngIf="attachments.length > 0">
-        <div id="attachments" *ngIf="attachments.length > 0">
+        <hr *ngIf=" attachments != null && attachments.length > 0">
+        <div id="attachments" *ngIf="attachments != null && attachments.length > 0">
             <label>Attachments:</label>
             <div *ngFor="let attachment of attachments; let i = index" class="tag">
                 <!-- <a [href]="viewAttachment(attachment)" [download]="getAttachmentName(attachment)">{{getAttachmentName(attachment)}}</a> -->
