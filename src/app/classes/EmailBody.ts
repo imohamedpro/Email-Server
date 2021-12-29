@@ -1,4 +1,4 @@
 export class EmailBody {
     body!: string;
-    attachments!: null;
+    attachments!: string[];
 }

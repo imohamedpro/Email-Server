@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TokensRequest } from 'src/app/classes/Requests/TokensRequest';
+import { TokensRequest } from '../../classes/Requests/TokensRequest';
 import { EmailHeaderResponse } from '../../classes/Responses/EmailHeaderResponse';
 
 @Component({

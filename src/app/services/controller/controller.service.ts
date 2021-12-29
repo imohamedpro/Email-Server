@@ -1,22 +1,23 @@
 import { Injectable } from '@angular/core';
-import { HttpClient,HttpClientModule, HttpParams} from '@angular/common/http'
+import { HttpClient,HttpClientModule, HttpHeaders, HttpParams} from '@angular/common/http'
 import { FormGroup } from '@angular/forms';
-import { EmailBodyResponse } from 'src/app/classes/Responses/EmailBodyResponse';
-import { Email } from 'src/app/classes/Email';
-import { Contact } from 'src/app/classes/Contact';
-import { ContactSearch } from 'src/app/classes/ContactSearch';
-import { ContactAndUsername } from 'src/app/classes/ContactAndUsername';
-import { EmailUserClass } from 'src/app/classes/EmailUserClass';
-import { MoveEmailClass } from 'src/app/classes/MoveEmailClass';
-import { SetFolder } from 'src/app/classes/SetFolder';
-import { LoadFolderClass } from 'src/app/classes/LoadFolderClass';
-import { Folder } from 'src/app/classes/Folder';
+import { EmailBodyResponse } from '../../classes/Responses/EmailBodyResponse';
+import { Email } from '../../classes/Email';
+import { Contact } from '../../classes/Contact';
+import { ContactSearch } from '../../classes/ContactSearch';
+import { ContactAndUsername } from '../../classes/ContactAndUsername';
+import { EmailUserClass } from '../../classes/EmailUserClass';
+import { MoveEmailClass } from '../../classes/MoveEmailClass';
+import { SetFolder } from '../../classes/SetFolder';
+import { LoadFolderClass } from '../../classes/LoadFolderClass';
+import { Folder } from '../../classes/Folder';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ControllerService {
-  private readonly apiUrl = 'http://localhost:4050/api/'; 
+  private readonly apiUrl = 'http://localhost:8082/api/'; 
 
   constructor(private http: HttpClient) { }
 
@@ -97,7 +98,38 @@ export class ControllerService {
     params.append('user', user);
     return this.http.post(this.apiUrl + 'email/delete', {params});
   }*/
+  uploadAttachment(file: File | undefined, user: string  | null, emailID: string | null){
+    // const params = new HttpParams();
+    if(user === null || emailID === null || file === undefined) return;
+    const params = new FormData();
+    // f.append('file', file);
+    params.append("file", file);
+    params.append('user', user);
+    params.append('emailID', emailID);
+    params.append('fileName', file.name);
+    return this.http.post(`${this.apiUrl}attachment/upload`, params);
+  }
 
+  downloadAttachment(fileName: string, emailID: string, user: string){
+    const params = new HttpParams();
+    params.append("user", user);
+    params.append("emailID", emailID);
+    params.append("fileName", fileName);
+    return this.http.get(`${this.apiUrl}attachment/download`, {params});
+  }
+
+  deleteAttachment(fileName: string, emailID: string, user: string): Observable<string>{
+    let headers =  new HttpHeaders({
+      'Content-Type':  'application/json',
+      'Authorization': 'my-auth-token'
+    });
+    let params = new HttpParams();
+    params = params.append("user", user);
+    params = params.append("emailID", emailID);
+    params = params.append("fileName", fileName);
+    console.log(params);
+    return this.http.delete<string>(`${this.apiUrl}attachment/delete`, {headers,params});
+  }
   getEmail(emailId: number, user: string){
     let params = new HttpParams();
     params.append('id', emailId);

@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
+import { Email } from '../../classes/Email';
 import { AttachmentResponse } from '../../classes/Responses/AttachmentsResponse';
+import { ControllerService } from '../../services/controller/controller.service';
 
 @Component({
   selector: 'app-email-editor',
@@ -12,9 +15,13 @@ export class EmailEditorComponent implements OnInit {
 
   form!: FormGroup; 
   receivers: string[];
-  attachments: AttachmentResponse[];
+  attachments: string[];
   changed: boolean = false;
-  constructor(private fb: FormBuilder, private sanitizer:DomSanitizer) {
+  constructor(private fb: FormBuilder,
+              private sanitizer:DomSanitizer,
+              private controller: ControllerService,
+              private r: ActivatedRoute) {
+
     this.receivers = [];
     this.attachments = [];
    }
@@ -66,10 +73,35 @@ export class EmailEditorComponent implements OnInit {
   }
 
   onFileChange(event: any){
-    this.attachments.push(new AttachmentResponse(event.target.files.item(0)));
+    this.attachments.push(event.target.files.item(0).name);
+    this.controller.uploadAttachment(event.target.files.item(0),
+                                      'hi' ,
+                                      'hello')?.subscribe(()=>{console.log('uploaded')});
     console.log(event.target.files.item(0));
   }
+  deleteAttachment(i: number){
+    let name = this.attachments.slice(i, 1);
+    this.controller.deleteAttachment(name[0],
+                                      'hi',
+                                      'hello').subscribe(()=>{console.log('deleted ' + name)});
+  }
+  viewAttachment(attachment: string){
+    // if(attachment.link == ''){
+    //   return this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(attachment.file));
+    // }else{
+    //   return attachment.link;
+    // }
+    this.controller.downloadAttachment(
+      attachment,
+      'hi',
+      'hello'
+    ).subscribe((link)=>{
+      console.log(link);
+      const download = document.createElement('a');
+      // download.setAttribute('href', link.);
 
+    });
+  }
   send(event: any){
     console.log(event);
     if(event.key == 'Enter'){
@@ -84,13 +116,7 @@ export class EmailEditorComponent implements OnInit {
 
     let email = this.buildEmail();
   }
-  viewAttachment(attachment: AttachmentResponse){
-    if(attachment.link == ''){
-      return this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(attachment.file));
-    }else{
-      return attachment.link;
-    }
-  }
+
   getAttachmentName(attachment: AttachmentResponse): string{
     if(attachment.name != undefined){
       return attachment.name
@@ -102,16 +128,23 @@ export class EmailEditorComponent implements OnInit {
   }
 
   buildEmail(){
+    let email = new Email();
     console.log(this.form.controls['priority'].value);
+    email.emailHeader.priority = this.form.controls['priority'].value;
     this.receivers.forEach((receiver)=>{
       console.log(receiver);
+      email.emailHeader.to.push(receiver);
     });
     console.log(this.form.controls['subject'].value);
+    email.emailHeader.subject = this.form.controls['subject'].value;
     console.log(this.form.controls['body'].value);
+    email.emailBody.body = this.form.controls['body'].value;
     this.attachments.forEach((attachment)=>{
-      console.log(attachment.file);
+      console.log(attachment);
+      email.emailBody.attachments.push(attachment);
     });
-    return null;
+    this.controller.saveDraft(email).subscribe();
+    return email;
   }
 
   disableEnter(event: any){
@@ -119,5 +152,8 @@ export class EmailEditorComponent implements OnInit {
     if(event.key == 'Enter'){
       event.preventDefault();
     }
+  }
+  getEmailID(){
+    return this.r.snapshot.paramMap.get("id");
   }
 }
