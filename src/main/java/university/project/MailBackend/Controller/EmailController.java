@@ -156,7 +156,18 @@ public class EmailController {
     public Folder getFolder(@RequestParam("id") int folderID, @RequestParam("user") String user){
         return folderManager.getFolder(folderID, user);
     }
-
+    @PutMapping("/folder/rename")
+    public void renameFolder(@RequestParam("id") int folderID, @RequestParam("newName") String newName, @RequestParam("user") String user){
+        folderManager.rename(folderID, newName, user);
+    }
+    @PutMapping("/folder/editFilterTokens")
+    public void editFilterTokens(@RequestParam("id") int folderID, @RequestParam("user") String user, @RequestBody List<String> tokens){
+        folderManager.editTokens(folderID, tokens, user);
+    }
+    @GetMapping("/folder/getFilterTokens")
+    public void getFilterTokens(@RequestParam("id") int folderID, @RequestParam("user") String user){
+        folderManager.getFilterTokens(folderID, user);
+    }
     @GetMapping("/folder/load")
     public List<HeaderResponse> loadFolder(@RequestBody LoadFolderClass loadFolderClass){
         return folderManager.loadFolder(
