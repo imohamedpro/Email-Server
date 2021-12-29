@@ -27,6 +27,7 @@ public class EmailController {
     private FileService fileService;
 
     public EmailController(FileService fileService) {
+        this.fileService = new FileService();
         Storage storage = new Storage(fileService);
         StorageProxy storageProxy = new StorageProxy(storage);
         StorageAdapter storageAdapter = new StorageAdapter(storageProxy);
@@ -182,9 +183,8 @@ public class EmailController {
         String path = "Database/" + username + "/attachments/" + emailID + "/" + fileName;
         File file = new File(path);
 
-        InputStreamResource resource = null;
         try {
-            resource = new InputStreamResource(new FileInputStream(file));
+            InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
             HttpHeaders headers = new HttpHeaders();
             headers.add("Content-Disposition", String.format("attachment; filename=\"%s\"", file.getName()));
             headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
@@ -213,6 +213,7 @@ public class EmailController {
             return ResponseEntity.status(HttpStatus.OK)
                     .body("Files uploaded successfully: " + file.getOriginalFilename());
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED)
                     .body("Exception occurred for: " + file.getOriginalFilename() + "!");
         }
