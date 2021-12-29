@@ -43,7 +43,7 @@
     <button class="save" *ngIf="editingTokens == true;" (click)="saveTokens()">Save changes</button>
 </div>
 <div class="radio">
-    <input class="radio-input" type="radio" name="radioButton" id="radio1" (click)="updateRadio(true)">
+    <input class="radio-input" type="radio" name="radioButton" id="radio1" (click)="updateRadio(true)" checked="checked">
     <label class="radio-label" for="radio1">
         Acseascending
     </label>
@@ -54,30 +54,29 @@
         Descending
     </label>
 </div>
-<div class="sort" *ngIf="selectedRadio == true">
-    <label for="sorting">Sort according to: </label>
-    <select style="font-family: cursive;" id="sorting" (change)="updateSorting($event)">
-        <option value="datea" selected="selected">Date: Old to new</option>
-        <option value="prioritya">Priority: Lower to Higher</option>
-        <option value="alphaa">Alphabetical order: A to Z</option>
-    </select>
-</div>
 <div class="sort" *ngIf="selectedRadio == false">
     <label for="sorting">Sort according to: </label>
     <select style="font-family: cursive;" id="sorting" (change)="updateSorting($event)">
-        <option value="dated" selected="selected">Date: New to old</option>
-        <option value="priorityd">Priority: Higher to lower</option>
-        <option value="alphad">Alphabetical order: Z to A</option>
+        <option value="date" selected="selected">Date: Old to new</option>
+        <option value="priority">Priority: Lower to Higher</option>
+        <option value="alpha">Alphabetical order: A to Z</option>
+    </select>
+</div>
+<div class="sort" *ngIf="selectedRadio == true">
+    <label for="sorting">Sort according to: </label>
+    <select style="font-family: cursive;" id="sorting" (change)="updateSorting($event)">
+        <option value="date" selected="selected">Date: New to old</option>
+        <option value="priority">Priority: Higher to lower</option>
+        <option value="alpha">Alphabetical order: Z to A</option>
     </select>
 </div>
 <div class="search">
-    <span (click)="updateSearching()" class="material-icons-outlined">search</span>
-    <input type="text" [(ngModel)]="selectedSearching" placeholder="Search: ">
+    <input type="text" [(ngModel)]="selectedSearching" (input)="updateSearching($event)" placeholder="Search: ">
 </div>
 <div id="contents">
-    <div *ngFor="let email of emails; let i = index">
+    <div *ngFor="let email of emailHeaders; let i = index">
         <!-- <hr> -->
-        <div (click)="goToEmail(emails[i].id)" class="emailBar" [ngClass]="selected.has(i)? 'selected': ''">
+        <div (click)="goToEmail(email.id)" class="emailBar" [ngClass]="selected.has(i)? 'selected': ''">
             <input type="checkBox" [checked]="selected.has(i)" (click)="select(i,$event)">
             <div class="emailHead" [ngClass]="email.isRead? '': 'unread'">
                 <span>{{email.from}}</span>
@@ -86,7 +85,7 @@
             </div>
             <div class="controls">
                 <button (click)="delete(i,$event)">delete</button>
-                <button (click)="toggleRead(i,$event)">{{emails[i].isRead? 'mark as unread': 'mark as read'}}</button>
+                <button (click)="toggleRead(i,$event)">{{email.isRead? 'mark as unread': 'mark as read'}}</button>
             </div>
         </div>
 

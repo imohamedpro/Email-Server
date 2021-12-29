@@ -13,6 +13,7 @@ import { LoadFolderClass } from '../../classes/LoadFolderClass';
 import { Folder } from '../../classes/Folder';
 import { Observable } from 'rxjs';
 import { UserInfo } from '../../classes/UserInfo';
+import { EmailHeader } from 'src/app/classes/EmailHeader';
 
 @Injectable({
   providedIn: 'root'
@@ -38,20 +39,19 @@ export class ControllerService {
     return this.http.get<Array<string>>(this.apiUrl + '/home-folders/', {params});
   }
 
-  getContactPages(user: string, perPage: number){
+  getContactPages(user: string, perPage: number){ //done
     let params = new HttpParams();
     params = params.append('user',user);
     params = params.append('perPage', perPage);
     return this.http.get<number>(this.apiUrl + "contact/pages",{params});
   }
 
-  loadContacts(user: string, pageNumber: number, perPage: number, sorted: boolean){
+  loadContacts(user: string, pageNumber: number, perPage: number, sorted: boolean){ //done
     let params = new HttpParams();
     params = params.append('user', user);
     params = params.append('pageNumber', pageNumber);
     params = params.append('perPage', perPage);
     params = params.append('sorted', sorted);
-    console.log(params.getAll);
     return this.http.get<Array<Contact>>(this.apiUrl + 'contact/load', {params});
   }
 
@@ -62,7 +62,7 @@ export class ControllerService {
     return this.http.delete<Contact>(this.apiUrl + "contact/get", {params});
   }
 
-  searchContact(user: string, tokens: string, pageNumber: number, perPage: number, sorted: boolean){
+  searchContact(user: string, tokens: string, pageNumber: number, perPage: number, sorted: boolean){  //done
     let params = new HttpParams();
     params = params.append('user',user);
     params = params.append('tokens',tokens);
@@ -72,7 +72,7 @@ export class ControllerService {
     return this.http.get<Array<Contact>>(this.apiUrl + "contact/search", {params});
   }
 
-  deleteContact(user: string, contactId: number){
+  deleteContact(user: string, contactId: number){   //done
     let params = new HttpParams();
     params = params.append('user',user);
     params = params.append('id', contactId);
@@ -101,8 +101,8 @@ export class ControllerService {
 
   /*deleteEmails(emailId: number, user: string){
     let params = new HttpParams();
-    params.append('emailId',emailId);
-    params.append('user', user);
+    params = params.append('emailId',emailId);
+    params = params.append('user', user);
     return this.http.post(this.apiUrl + 'email/delete', {params});
   }*/
   uploadAttachment(file: File | undefined, emailID: string  | null, user: string | null){
@@ -175,10 +175,17 @@ export class ControllerService {
     return this.http.get<Folder>(this.apiUrl + 'folder/set', {params});
   }
 
-  /*loadFolder(loadFolderClass: LoadFolderClass){
-    const body = JSON.stringify(loadFolderClass);
-    return this.http.get(this.apiUrl + 'folder/load', body);
-  }*/
+  loadFolder(folderId: number, sortBy: string, reverse: boolean, searchToken: string, pageNumber: number, perPage: number, user: string){
+    let params = new HttpParams();
+    params = params.append('folderId', folderId);
+    params = params.append('sortBy', sortBy);
+    params = params.append('reverse', reverse);
+    params = params.append('searchToken', searchToken);
+    params = params.append('pageNumber', pageNumber);
+    params = params.append('perPage', perPage);
+    params = params.append('user', user);
+    return this.http.get<Array<EmailHeader>>(this.apiUrl + 'folder/load', {params});
+  }
 
   getFolderPages(folderId: number, perPage: number, user: string){
     let params = new HttpParams();
