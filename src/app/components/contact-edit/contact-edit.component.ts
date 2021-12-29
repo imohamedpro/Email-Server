@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { contactsRequest } from 'src/app/classes/Requests/ContactsRequest';
+import { contactsRequest } from '../../classes/Requests/ContactsRequest';
 
 @Component({
   selector: 'app-contact-edit',

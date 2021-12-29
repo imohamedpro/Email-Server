@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { EmailRequest } from 'src/app/classes/Requests/EmailRequest';
+import { EmailRequest } from '../../classes/Requests/EmailRequest';
 
 @Component({
   selector: 'app-email-view',
