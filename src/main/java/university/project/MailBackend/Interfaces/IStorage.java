@@ -11,5 +11,7 @@ public interface IStorage {
     void setUserInfo(UserInfo info);
     void setUserData(UserData data, String user);
     void setUserContact(UserContact contact, String user);
+    // void delete(String user, int id, String name);
+    void delete(String user, int id);
 
 }

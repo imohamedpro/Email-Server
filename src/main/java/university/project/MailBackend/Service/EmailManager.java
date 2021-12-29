@@ -20,7 +20,9 @@ public class EmailManager {
         }
     }
 
-
+    public int createEmail(String user){
+        return storage.createEmail(user);
+    }
     /*
         Needs refactoring (template dp or smth)
     */

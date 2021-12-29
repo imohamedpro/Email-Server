@@ -1,6 +1,6 @@
 package university.project.MailBackend.Model;
 
-import java.io.File;
+// import java.io.File;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -9,12 +9,12 @@ import university.project.MailBackend.Interfaces.Searchable;
 
 public class EmailBody implements Searchable{
     public String body;
-    public List<File> attachments;
+    public List<String> attachments;
 
     @JsonCreator
     public EmailBody(
             @JsonProperty("body") String body,
-            @JsonProperty("attachments") List<File> attachments) {
+            @JsonProperty("attachments") List<String> attachments) {
         this.body = body;
         this.attachments = attachments;
     }
@@ -26,8 +26,8 @@ public class EmailBody implements Searchable{
                 return true;
             }
             if(attachments != null) {
-                for (File f : attachments) {
-                    if (f.getName().contains(token)) {
+                for (String s : attachments) {
+                    if (s.contains(token)) {
                         return true;
                     }
                 }
