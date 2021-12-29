@@ -12,13 +12,14 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 @Service
 public class FileService {
     ObjectMapper objectMapper = new ObjectMapper();
 
-    public Object readFile(String path, Class<?> cls, boolean isArrayList){
+    public Object readJson(String path, Class<?> cls, boolean isArrayList){
         Path p = Path.of(path);
         objectMapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
         if(Files.exists(p)){
@@ -37,13 +38,8 @@ public class FileService {
         return null;
     }
 
-    public void writeFile(String path, Object object){
-        String[] directories = path.split("/");
-        String dir = "";
-        for(String directory: Arrays.copyOfRange(directories, 0, directories.length-1)){
-            dir = dir + directory + "/";
-            createDirectory(dir);
-        }
+    public void saveAsJson(String path, Object object){
+        createDirIfNotExist(path);
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE);
@@ -55,6 +51,11 @@ public class FileService {
             e.printStackTrace();
         }
         System.out.println(path + " updated");
+    }
+
+    public void writeFile(String path, byte[] bytes) throws IOException {
+        createDirIfNotExist(path);
+        Files.write(Paths.get(path), bytes);
     }
 
     public void deleteFile(String path){
@@ -72,6 +73,15 @@ public class FileService {
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void createDirIfNotExist(String path){
+        String[] directories = path.split("/");
+        String dir = "";
+        for(String directory: Arrays.copyOfRange(directories, 0, directories.length-1)){
+            dir = dir + directory + "/";
+            createDirectory(dir);
         }
     }
 }

@@ -7,6 +7,7 @@ import java.util.List;
 import university.project.MailBackend.Model.Email;
 import university.project.MailBackend.Model.EmailHeader;
 import university.project.MailBackend.Model.Folder;
+import university.project.MailBackend.Model.Requests.FoldersInfo;
 import university.project.MailBackend.Model.Requests.HeaderResponse;
 
 public class FolderManager {
@@ -71,7 +72,7 @@ public class FolderManager {
         return (int)Math.ceil(storage.getFolder(user, folderID).emails.size() / (double)emailPerPage);
     }
 
-    public String[] getFoldersNames(String user){
-        return storage.getFoldersNames(user);
+    public FoldersInfo getFoldersInfo(String user){
+        return new FoldersInfo(storage.getFolders(user));
     }
 }
