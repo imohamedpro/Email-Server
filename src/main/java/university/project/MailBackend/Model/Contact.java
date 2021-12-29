@@ -7,6 +7,7 @@ import university.project.MailBackend.Interfaces.Searchable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 
 public class Contact implements Searchable {
     private String name;
@@ -64,10 +65,11 @@ public class Contact implements Searchable {
     @Override
     public boolean contains(List<String> tokens, boolean filter) {
         for(String token: tokens){
-            if(name.contains(token))
+            token = token.toLowerCase();
+            if(name.toLowerCase().contains(token))
                 return true;
             for(String username: usernames){
-                if(username.contains(token))
+                if(username.toLowerCase().contains(token))
                     return true;
             }
         }
