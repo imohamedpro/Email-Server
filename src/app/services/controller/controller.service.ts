@@ -23,12 +23,12 @@ export class ControllerService {
 
   signUp(userInfo: UserInfo){    //done                  
     const body = JSON.stringify(userInfo);                   
-    return this.http.post(this.apiUrl + 'signup', body);
+    return this.http.post<boolean>(this.apiUrl + 'signup', body);
   }                                                      
 
   logIn(userInfo: UserInfo){   //done
     const body = JSON.stringify(userInfo);
-    return this.http.post(this.apiUrl + 'login', body);
+    return this.http.post<boolean>(this.apiUrl + 'login', body);
   }
 
   getHomeFolders(user: string){ 
