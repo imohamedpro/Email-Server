@@ -1,6 +1,7 @@
 <div class="background">
     <div class="container">
         <h1><b>Signup</b></h1>
+        <small *ngIf="this.invalid == true" class="taken">This email is taken</small>
         <form [formGroup]="signupForm">
             <div class="row">
                 <input formControlName="firstName" type="text" placeholder=" " required>

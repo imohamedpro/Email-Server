@@ -10,7 +10,7 @@
                 <input formControlName="userEmail" type="email" placeholder=" " required>
                 <span></span>
                 <label>Email address</label>
-                <span *ngIf="invalid" class="danger">invalid email or password</span>
+                <small *ngIf="invalid" class="danger">invalid email or password</small>
               </div>
               <div class="text-field">
                 <input formControlName="userPassword" title="Password first letter must be capital and its size must be 8+ "

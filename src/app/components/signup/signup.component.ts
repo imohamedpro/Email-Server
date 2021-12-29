@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormControlName, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { UserInfo } from 'src/app/classes/UserInfo';
+import { ControllerService } from 'src/app/services/controller/controller.service';
 
 @Component({
   selector: 'app-signup',
@@ -10,7 +13,14 @@ export class SignupComponent implements OnInit {
   signupForm!: FormGroup;
   isSubmitted: boolean = false;
   isMatched: boolean = true;
-  constructor() { }
+  userInfo!: UserInfo;
+  invalid!: boolean;
+  constructor(private apiService: ControllerService, private router: Router, private r: ActivatedRoute) {
+    this.userInfo = {
+      email: "",
+      password: ""
+    }
+   }
 
   ngOnInit(): void {
     this.signupForm = new FormGroup({
@@ -24,15 +34,19 @@ export class SignupComponent implements OnInit {
 
   onSubmit(): void{
     this.isSubmitted = true;
-    if(!Object.is(this.password?.value,this.confirmedPassword?.value) && !this.isEmpty(this.confirmedPassword?.value)){
-      console.log(this.password?.value);
-      console.log(this.confirmedPassword?.value);
-      this.password?.reset();
-      this.confirmedPassword?.reset();
-      this.isMatched = false;
-      console.log(this.signupForm);
-    }else{
-      this.isMatched = true;
+    if(Object.is(this.password?.value,this.confirmedPassword?.value) && this.signupForm.valid){
+      this.userInfo.email = this.signupForm.get('email')?.value;
+      this.userInfo.password = this.signupForm.get('password')?.value;
+      this.apiService.signUp(this.userInfo)
+      .subscribe(data =>{
+        if(data == true){
+          sessionStorage.setItem("user",this.userInfo.email);
+          this.router.navigate(['../home/inbox'], { relativeTo: this.r });
+        }else{
+          this.invalid = true;
+          this.signupForm.get('email')?.reset();
+        }
+      });
     }
   }
 
