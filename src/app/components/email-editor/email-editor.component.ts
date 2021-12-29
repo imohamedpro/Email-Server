@@ -28,7 +28,7 @@ export class EmailEditorComponent implements OnInit {
               private r: ActivatedRoute) {
     this.receivers = [];
     this.attachments = [];
-    this.user = 'admin';
+    this.user = 'moh@site.com';
     this.emailID = '0';
     r.params.subscribe(()=>{
 
