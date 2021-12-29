@@ -11,6 +11,7 @@ import { MoveEmailClass } from 'src/app/classes/MoveEmailClass';
 import { SetFolder } from 'src/app/classes/SetFolder';
 import { LoadFolderClass } from 'src/app/classes/LoadFolderClass';
 import { Folder } from 'src/app/classes/Folder';
+import { UserInfo } from 'src/app/classes/UserInfo';
 
 @Injectable({
   providedIn: 'root'
@@ -20,13 +21,13 @@ export class ControllerService {
 
   constructor(private http: HttpClient) { }
 
-  signUp(data: FormGroup['value']){                      //this way the signUp will
-    const body = JSON.stringify(data);                   //also sendconfirmed password
+  signUp(userInfo: UserInfo){                      //this way the signUp will
+    const body = JSON.stringify(userInfo);                   //also sendconfirmed password
     return this.http.post(this.apiUrl + 'signup', body); //is that right or a class
   }                                                      //should be made
 
-  logIn(data: FormGroup['value']){
-    const body = JSON.stringify(data);
+  logIn(userInfo: UserInfo){
+    const body = JSON.stringify(userInfo);
     return this.http.post(this.apiUrl + 'login', body);
   }
 
@@ -71,7 +72,7 @@ export class ControllerService {
     return this.http.delete<Contact>(this.apiUrl + "contact/delete",{params});
   }
 
-  addContact(contactAndUsername: ContactAndUsername){
+  addContact(contactAndUsername: ContactAndUsername){ //done
     const body = JSON.stringify(contactAndUsername);
     return this.http.post(this.apiUrl + "/contact/add", body);
   }
