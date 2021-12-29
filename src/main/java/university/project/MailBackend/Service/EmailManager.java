@@ -1,5 +1,7 @@
 package university.project.MailBackend.Service;
 
+import java.io.File;
+
 import university.project.MailBackend.Model.Email;
 
 public class EmailManager {
@@ -16,7 +18,18 @@ public class EmailManager {
         String[] recipients = email.emailHeader.to;
         storage.setEmail(from, email, "sent");
         for(String recipient: recipients){
-            storage.setEmail(recipient, new Email(email), "received");
+            try{
+                Email ne = new Email(email);
+                storage.setEmail(recipient, ne, "received");
+                for(String attachment: email.emailBody.attachments){
+                    String path = "Database/" + from + "/attachments/" + email.id + attachment;
+                    File f = new File(path);
+                    storage.addAttachment(ne.id, f, recipient);
+                    
+                }
+            }catch (Exception e){
+
+            }
         }
     }
 

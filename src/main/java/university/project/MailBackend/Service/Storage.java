@@ -1,5 +1,12 @@
 package university.project.MailBackend.Service;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import org.apache.tomcat.util.http.fileupload.FileUtils;
+
 import university.project.MailBackend.Interfaces.IStorage;
 import university.project.MailBackend.Model.UserContact;
 import university.project.MailBackend.Model.UserData;
@@ -62,6 +69,16 @@ public class Storage implements IStorage {
     public void delete(String user, int id) {
         String path = defaultPath + user + "/attachments/" + id;
         fileService.deleteFile(path);
+    }
+
+    @Override
+    public void addAttachment(String user, int emaiID, File f) {
+        String path = defaultPath + user + "/attachments/" + emaiID;
+        try{
+            fileService.writeFile(path, Files.readAllBytes(Paths.get(f.getAbsolutePath())));
+
+        }catch(Exception e){}
+        // return new File(path);
     }
 
     
