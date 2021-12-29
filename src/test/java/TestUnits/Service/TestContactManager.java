@@ -90,17 +90,21 @@ public class TestContactManager {
         usernames4.add("me@bla.com");
         usernames5.add("meAgain@bla.com");
 
-        contact1 = new Contact(name1, usernames1, id1);
-        contact2 = new Contact(name2, usernames2, id2);
-        contact3 = new Contact(name3, usernames3, id3);
-        contact4 = new Contact("name4", usernames4, 4);
-        contact5 = new Contact("name5", usernames5, 5);
+        contact1 = new Contact(name1, usernames1, -1);
+        contact2 = new Contact(name2, usernames2, -1);
+        contact3 = new Contact(name3, usernames3, -1);
+        contact4 = new Contact("name4", usernames4, -1);
+        contact5 = new Contact("name5", usernames5, -1);
 
         contactList.add(contact1);  contactList.add(contact2); contactList.add(contact3);
         contactList.add(contact4);  contactList.add(contact5);
+        for(Contact contact: contactList){
+            contactManagerMock.addContact(user, contact);
+        }
+
         when(storageMock.getContactsList(user)).thenReturn((ArrayList<Contact>) contactList);
         assertEquals(contactList, storageMock.getContactsList(user));
-//        int num = contactManagerMock.getNumberOfPages(user, 2);
-//        assertEquals(2, num);
+        //int num = contactManagerMock.getNumberOfPages(user, 2);
+        //assertEquals(2, num);
     }
 }
