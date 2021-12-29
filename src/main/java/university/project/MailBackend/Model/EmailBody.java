@@ -25,9 +25,11 @@ public class EmailBody implements Searchable{
             if(body.contains(token)){
                 return true;
             }
-            for(File f: attachments){
-                if(f.getName().contains(token)){
-                    return true;
+            if(attachments != null) {
+                for (File f : attachments) {
+                    if (f.getName().contains(token)) {
+                        return true;
+                    }
                 }
             }
         }

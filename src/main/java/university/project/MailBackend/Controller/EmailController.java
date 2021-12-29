@@ -5,6 +5,7 @@ import university.project.MailBackend.Model.*;
 import university.project.MailBackend.Model.Requests.*;
 import university.project.MailBackend.Service.*;
 
+import java.util.HashSet;
 import java.util.List;
 
 @RestController
@@ -37,7 +38,7 @@ public class EmailController {
     }
 
     @GetMapping("/home-folders")
-    public String[] getHomeFolders(@RequestBody String user){
+    public String[] getHomeFolders(@RequestParam("user") String user){
         return folderManager.getFoldersNames(user);
     }
 
@@ -91,25 +92,45 @@ public class EmailController {
 
     @PostMapping("/email/save-draft")
     public void saveDraft(@RequestBody Email email){
-        emailManager.sendEmail(email);
+        emailManager.saveDraft(email);
     }
 
     @DeleteMapping("/email/trash")
-    public void moveToTrash(@RequestBody EmailDelete emailDelete){
-        emailManager.moveToTrash(emailDelete.emailIDs, emailDelete.user);
+    public void moveToTrash(@RequestBody EmailUserClass email){
+        emailManager.moveToTrash(email.emailIDs, email.user);
     }
 
     @DeleteMapping("/email/delete")
-    public void deleteEmails(@RequestBody EmailDelete emailDelete){
-        emailManager.deleteEmails(emailDelete.emailIDs, emailDelete.user);
+    public void deleteEmails(@RequestBody EmailUserClass email){
+        emailManager.deleteEmails(email.emailIDs, email.user);
     }
 
-    @GetMapping("/email/read")
-    public Email readEmail(
+    @GetMapping("/email/get")
+    public Email getEmail(
             @RequestParam("id") int emailID,
             @RequestParam("user") String user)
     {
         return emailManager.readEmail(emailID, user);
+    }
+
+    @PostMapping("/email/restore")
+    public void restoreEmails(@RequestBody EmailUserClass email){
+        emailManager.restoreEmails(email.emailIDs, email.user);
+    }
+
+    @PostMapping("/email/read")
+    public void markAsRead(@RequestBody EmailUserClass email){
+        emailManager.markAsRead(email.emailIDs, email.user);
+    }
+
+    @PostMapping("/email/unread")
+    public void markAsUnread(@RequestBody EmailUserClass email){
+        emailManager.markAsUnread(email.emailIDs, email.user);
+    }
+
+    @PostMapping("/email/move")
+    public void moveEmails(@RequestBody MoveEmailClass moveEmailObject){
+        emailManager.moveEmails(moveEmailObject.emailIDs, moveEmailObject.destinationID, moveEmailObject.user);
     }
 
     @PostMapping("/folder/set")
@@ -142,5 +163,4 @@ public class EmailController {
     ){
         return folderManager.getNumberOfPages(folderID, perPage, user);
     }
-
 }

@@ -95,7 +95,7 @@ public class StorageAdapter {
 
     public void setContact(String user, Contact contact){
         UserContact userContact = storage.getUserContact(user);
-        userContact.contacts.put(contact.getId(), contact);
+        userContact.addContact(contact);
         storage.setUserContact(userContact, user);
     }
 
