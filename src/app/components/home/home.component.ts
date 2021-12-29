@@ -93,25 +93,8 @@ export class HomeComponent implements OnInit {
   goToFolder(folderNumber: number) {
     this.deselectAll();
     this.doNotEdit = -1;
-    let folderName: string = "";
-    switch (folderNumber) {
-      case 1:
-        folderName = "inbox";
-        break;
-      case 2:
-        folderName = "sent";
-        break;
-      case 3:
-        folderName = "trash";
-        break;
-      case 4:
-        folderName = "draft";
-        break;
-      case 5:
-        folderName = "contacts";
-        break;
-    }
-    this.router.navigate([folderName], { relativeTo: this.r });
+    
+    this.router.navigate([folderNumber], { relativeTo: this.r });
   }
   goToCustomFolder(folderNumber: number) {
     this.doNotEdit = folderNumber;

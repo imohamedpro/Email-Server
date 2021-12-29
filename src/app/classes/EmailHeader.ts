@@ -4,4 +4,6 @@ export class EmailHeader {
     subject!: string;
     date!: string;
     priority!: number;
+    id!: number;
+    isRead!: boolean
 }

@@ -32,33 +32,49 @@ export class ContactsFolderComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   updateRadio(b: boolean) {
     if (b == true) {
       this.sorted = true;
-      this.apiService.loadContacts(sessionStorage.getItem('user') as string, this.pageNumber, 4, this.sorted)
-        .subscribe(data => {
-          this.contacts = data;
-        });
+      if (this.selectedSearching.length != 0) {
+        this.apiService.searchContact(sessionStorage.getItem('user') as string, this.selectedSearching, this.pageNumber, 4, this.sorted)
+          .subscribe(data => {
+            this.contacts = data;
+          });
+      } else {
+        this.apiService.loadContacts(sessionStorage.getItem('user') as string, this.pageNumber, 4, this.sorted)
+          .subscribe(data => {
+            this.contacts = data;
+          });
+      }
     } else {
-      this.sorted = false;
-      this.apiService.loadContacts(sessionStorage.getItem('user') as string, this.pageNumber, 4, this.sorted)
-        .subscribe(data => {
-          this.contacts = data;
-        });
+      if (this.selectedSearching.length != 0) {
+        this.apiService.searchContact(sessionStorage.getItem('user') as string, this.selectedSearching, this.pageNumber, 4, this.sorted)
+          .subscribe(data => {
+            this.contacts = data;
+          });
+      } else {
+        this.apiService.loadContacts(sessionStorage.getItem('user') as string, this.pageNumber, 4, this.sorted)
+          .subscribe(data => {
+            this.contacts = data;
+          });
+      }
     }
   }
 
   updateSearching(e: any) {
     this.selectedSearching = e.target.value;
     console.log(this.selectedSearching);
-    console.log(this.selectedSearching.length);
-    /*this.apiService.loadContacts(sessionStorage.getItem('user') as string, this.pageNumber, 4, this.sorted)
+    this.apiService.searchContact(sessionStorage.getItem('user') as string, this.selectedSearching, this.pageNumber, 4, this.sorted)
       .subscribe(data => {
         this.contacts = data;
       });
-    console.log(this.selectedSearching);*/
+    this.apiService.getContactPages(sessionStorage.getItem('user') as string, 4)
+      .subscribe(data => {
+        this.totalPageNumber = data;
+      });
+    console.log(this.selectedSearching);
   }
 
   goToContact(index: number) {
@@ -74,10 +90,17 @@ export class ContactsFolderComponent implements OnInit {
 
   delete(index: number) {
     this.apiService.deleteContact(sessionStorage.getItem('user') as string, this.contacts[index].id).subscribe();
-    this.apiService.loadContacts(sessionStorage.getItem('user') as string, this.pageNumber, 4, this.sorted)
-      .subscribe(data => {
-        this.contacts = data;
-      });
+    if (this.selectedSearching.length != 0) {
+      this.apiService.searchContact(sessionStorage.getItem('user') as string, this.selectedSearching, this.pageNumber, 4, this.sorted)
+        .subscribe(data => {
+          this.contacts = data;
+        });
+    } else {
+      this.apiService.loadContacts(sessionStorage.getItem('user') as string, this.pageNumber, 4, this.sorted)
+        .subscribe(data => {
+          this.contacts = data;
+        });
+    }
     this.apiService.getContactPages(sessionStorage.getItem('user') as string, 4)
       .subscribe(data => {
         this.totalPageNumber = data;
@@ -87,21 +110,35 @@ export class ContactsFolderComponent implements OnInit {
   moveForward() {
     if (this.pageNumber < this.totalPageNumber) {
       ++this.pageNumber;
-      this.apiService.loadContacts(sessionStorage.getItem('user') as string, this.pageNumber, 4, this.sorted)
-        .subscribe(data => {
-          this.contacts = data;
-        });
+      if (this.selectedSearching.length != 0) {
+        this.apiService.searchContact(sessionStorage.getItem('user') as string, this.selectedSearching, this.pageNumber, 4, this.sorted)
+          .subscribe(data => {
+            this.contacts = data;
+          });
+      } else {
+        this.apiService.loadContacts(sessionStorage.getItem('user') as string, this.pageNumber, 4, this.sorted)
+          .subscribe(data => {
+            this.contacts = data;
+          });
+      }
     }
   }
 
   moveBackward() {
-    console.log(this.selectedSearching.length);
     if (this.pageNumber > 1) {
       --this.pageNumber;
-      this.apiService.loadContacts(sessionStorage.getItem('user') as string, this.pageNumber, 4, this.sorted)
-        .subscribe(data => {
-          this.contacts = data;
-        });
+      if (this.selectedSearching.length != 0) {
+        this.apiService.searchContact(sessionStorage.getItem('user') as string, this.selectedSearching, this.pageNumber, 4, this.sorted)
+          .subscribe(data => {
+            this.contacts = data;
+          });
+      } else {
+        this.apiService.loadContacts(sessionStorage.getItem('user') as string, this.pageNumber, 4, this.sorted)
+          .subscribe(data => {
+            this.contacts = data;
+          });
+      }
     }
+
   }
 }
