@@ -4,6 +4,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 
@@ -73,11 +74,15 @@ public class Storage implements IStorage {
 
     @Override
     public void addAttachment(String user, int emaiID, File f) {
-        String path = defaultPath + user + "/attachments/" + emaiID;
+        String path = defaultPath + user + "/attachments/" + emaiID+ "/";
         try{
-            fileService.writeFile(path, Files.readAllBytes(Paths.get(f.getAbsolutePath())));
+            byte[] b = Files.readAllBytes(Paths.get(f.getAbsolutePath()));
+            fileService.writeFile(path + f.getName(), b);
+            // Files.copy(Paths.get(f.getAbsolutePath()), Paths.get(path + f.getName()), StandardCopyOption.REPLACE_EXISTING);
 
-        }catch(Exception e){}
+        }catch(Exception e){
+            int x = 0;
+        }
         // return new File(path);
     }
 
