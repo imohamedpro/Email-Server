@@ -24,6 +24,7 @@ public class EmailController {
     private ContactManager contactManager;
     private EmailManager emailManager;
     private FolderManager folderManager;
+    private FileService fileService;
 
     public EmailController(FileService fileService) {
         Storage storage = new Storage(fileService);
@@ -208,10 +209,7 @@ public class EmailController {
     {
         String path = "Database/" + username + "/attachments/" + emailID + "/" + fileName;
         try {
-            //createDirIfNotExist();
-
-            byte[] bytes = file.getBytes();
-//            Files.write(Paths.get(FileUtil.folderPath + file.getOriginalFilename()), bytes);
+            fileService.writeFile(path, file.getBytes());
             return ResponseEntity.status(HttpStatus.OK)
                     .body("Files uploaded successfully: " + file.getOriginalFilename());
         } catch (Exception e) {
@@ -227,7 +225,7 @@ public class EmailController {
             @RequestParam("fileName") String fileName)
     {
         String path = "Database/" + username + "/attachments/" + emailID + "/" + fileName;
-        //Delete file path
+        fileService.deleteFile(path);
         //Delete file from email
     }
 

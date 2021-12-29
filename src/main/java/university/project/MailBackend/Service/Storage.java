@@ -17,37 +17,37 @@ public class Storage implements IStorage {
     @Override
     public UserInfo getUserInfo(String user) {
         String path = defaultPath + user + "/Info.json";
-        return (UserInfo) fileService.readFile(path, UserInfo.class, false);
+        return (UserInfo) fileService.readJson(path, UserInfo.class, false);
     }
 
     @Override
     public UserData getUserData(String user) {
         String path = defaultPath + user + "/Data.json";
-        return  (UserData) fileService.readFile(path, UserData.class, false);
+        return  (UserData) fileService.readJson(path, UserData.class, false);
     }
 
     @Override
     public UserContact getUserContact(String user) {
         String path = defaultPath + user + "/Contacts.json";
-        return  (UserContact) fileService.readFile(path, UserContact.class, false);
+        return  (UserContact) fileService.readJson(path, UserContact.class, false);
     }
 
     @Override
     public void setUserInfo(UserInfo info) {
         String email = info.getEmail();
         String path = defaultPath + email + "/Info.json";
-        fileService.writeFile(path, info);
+        fileService.saveAsJson(path, info);
     }
 
     @Override
     public void setUserData(UserData data, String user) {
         String path = defaultPath + user + "/Data.json";
-        fileService.writeFile(path, data);
+        fileService.saveAsJson(path, data);
     }
 
     @Override
     public void setUserContact(UserContact contact, String user) {
         String path = defaultPath + user + "/Contacts.json";
-        fileService.writeFile(path, contact);
+        fileService.saveAsJson(path, contact);
     }
 }
