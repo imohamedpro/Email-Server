@@ -61,16 +61,21 @@ export class ControllerService {
     return this.http.delete<Contact>(this.apiUrl + "contact/get", {params});
   }
 
-  /*searchContact(contactSearch: ContactSearch){
-    const body = JSON.stringify(contactSearch);
-    return this.http.get<Array<Contact>>(this.apiUrl + "contact/search", body);
-  }*/
+  searchContact(user: string, tokens: string, pageNumber: number, perPage: number, sorted: boolean){
+    let params = new HttpParams();
+    params.append('user',user);
+    params.append('tokens',tokens);
+    params.append('pageNumber',pageNumber);
+    params.append('perPage',perPage);
+    params.append('sorted',sorted);
+    return this.http.get<Array<Contact>>(this.apiUrl + "contact/search", {params});
+  }
 
   deleteContact(user: string, contactId: number){
     let params = new HttpParams();
     params.append('user',user);
     params.append('id', contactId);
-    return this.http.delete<Contact>(this.apiUrl + "contact/delete",{params});
+    return this.http.delete(this.apiUrl + "contact/delete",{params});
   }
 
   addContact(contactAndUsername: ContactAndUsername){ //done

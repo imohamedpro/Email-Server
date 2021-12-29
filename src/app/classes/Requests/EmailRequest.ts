@@ -4,5 +4,5 @@ export class EmailRequest{
     priority!: number;
     subject!: string;
     content!: string;
-    attachmentsLinks!: string[];
+    attachments!: string[];
 }
