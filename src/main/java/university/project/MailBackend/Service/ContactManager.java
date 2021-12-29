@@ -62,7 +62,7 @@ public class ContactManager {
             return result.subList(startIndex, stopIndex);
     }
 
-    private List<Contact> Sort(List<Contact> contacts){
+    protected List<Contact> Sort(List<Contact> contacts){
         contacts.sort(Comparator.comparing(Contact::getName, String::compareToIgnoreCase));
         return contacts;
     }

@@ -79,8 +79,13 @@ public class EmailController {
     }
 
     @GetMapping("/contact/search")
-    public List<Contact> searchContact(@RequestBody ContactSearch contactSearch){
-        return contactManager.searchContact(contactSearch.user, contactSearch.tokens, contactSearch.pageNumber, contactSearch.perPage, contactSearch.sorted);
+    public List<Contact> searchContact(@RequestParam("user") String user,
+                                       @RequestParam("tokens") List<String> tokens,
+                                       @RequestParam("pageNumber") int pageNumber,
+                                       @RequestParam("perPage") int perPage,
+                                       @RequestParam("sorted") boolean sorted)
+    {
+        return contactManager.searchContact(user, tokens, pageNumber, perPage, sorted);
     }
 
     @DeleteMapping("/contact/delete")
@@ -96,7 +101,7 @@ public class EmailController {
     }
 
     @GetMapping("/email/create")
-    public int createEmail(@RequestBody String user){
+    public int createEmail(@RequestParam("user") String user){
         return emailManager.createEmail(user);
     }
     @PostMapping("/email/send")
@@ -110,13 +115,13 @@ public class EmailController {
     }
 
     @DeleteMapping("/email/trash")
-    public void moveToTrash(@RequestBody EmailUserClass email){
-        emailManager.moveToTrash(email.emailIDs, email.user);
+    public void moveToTrash(@RequestParam("emailIDs") int[] emailIDs, @RequestParam("user") String user){
+        emailManager.moveToTrash(emailIDs, user);
     }
 
     @DeleteMapping("/email/delete")
-    public void deleteEmails(@RequestBody EmailUserClass email){
-        emailManager.deleteEmails(email.emailIDs, email.user);
+    public void deleteEmails(@RequestParam("emailIDs") int[] emailIDs, @RequestParam("user") String user){
+        emailManager.deleteEmails(emailIDs, user);
     }
 
     @GetMapping("/email/get")
@@ -169,15 +174,14 @@ public class EmailController {
         folderManager.getFilterTokens(folderID, user);
     }
     @GetMapping("/folder/load")
-    public List<HeaderResponse> loadFolder(@RequestBody LoadFolderClass loadFolderClass){
-        return folderManager.loadFolder(
-                loadFolderClass.folderID,
-                loadFolderClass.sortBy,
-                loadFolderClass.reverse,
-                loadFolderClass.searchToken,
-                loadFolderClass.pageNumber,
-                loadFolderClass.emailsPerPage,
-                loadFolderClass.user);
+    public List<HeaderResponse> loadFolder(@RequestParam("folderID") int folderID,
+                                           @RequestParam("sortBy") String sortBy,
+                                           @RequestParam("reverse") boolean reverse,
+                                           @RequestParam("searchToken") String searchToken,
+                                           @RequestParam("pageNumber") int pageNumber,
+                                           @RequestParam("perPage") int perPage,
+                                           @RequestParam("user") String user){
+        return folderManager.loadFolder(folderID,sortBy,reverse,searchToken,pageNumber,perPage,user);
     }
 
     @GetMapping("/folder/pages")
