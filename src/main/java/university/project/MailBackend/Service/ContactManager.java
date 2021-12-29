@@ -40,6 +40,9 @@ public class ContactManager {
     }
 
     public List<Contact> searchContact(String user, List<String> tokens, int pageNumber, int contactsPerPage, boolean sorted){
+        if(tokens.isEmpty()){
+            return getContactsList(user, pageNumber, contactsPerPage, sorted);
+        }
         List<Contact> contacts = storage.getContactsList(user);
         List<Contact> result = new ArrayList<>();
         for(Contact contact: contacts){
