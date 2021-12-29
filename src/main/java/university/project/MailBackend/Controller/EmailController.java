@@ -178,7 +178,7 @@ public class EmailController {
             @RequestParam("emailID") int emailID,
             @RequestParam("fileName") String fileName)
     {
-        String path = "Database/" + username + "/" + emailID + "/" + fileName;
+        String path = "Database/" + username + "/attachments/" + emailID + "/" + fileName;
         File file = new File(path);
 
         InputStreamResource resource = null;
@@ -206,6 +206,7 @@ public class EmailController {
             @RequestParam("emailID") int emailID,
             @RequestParam("fileName") String fileName)
     {
+        String path = "Database/" + username + "/attachments/" + emailID + "/" + fileName;
         try {
             //createDirIfNotExist();
 
@@ -225,7 +226,7 @@ public class EmailController {
             @RequestParam("emailID") int emailID,
             @RequestParam("fileName") String fileName)
     {
-        String path = "Database/" + username + "/" + emailID + "/" + fileName;
+        String path = "Database/" + username + "/attachments/" + emailID + "/" + fileName;
         //Delete file path
         //Delete file from email
     }
