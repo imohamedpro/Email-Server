@@ -20,6 +20,8 @@ export class FolderViewComponent implements OnInit {
   tokens!: TokensRequest;
   tokensHaveChanged: boolean = false;
   editingTokens: boolean = false;
+  copyIsClicked: boolean = false;
+  customPages!: string[];
   constructor(private router: Router, private r: ActivatedRoute) {
     r.params.subscribe(val =>{
       console.log(this.getPageName());
@@ -66,6 +68,8 @@ export class FolderViewComponent implements OnInit {
           isRead: true,
         },
       ]
+      this.customPages = JSON.parse(sessionStorage.getItem("customPages") as string);
+      console.log(this.customPages);
     });
     this.tokens = {
       values: ["Karim","Magdy","Youssef","Youhanna"],
@@ -116,6 +120,24 @@ export class FolderViewComponent implements OnInit {
       this.selected.add(index);
       console.log(index + " is selected");
 
+    }
+  }
+  copySelected(folderID: number){
+    if(this.selected.size != 0){
+      //api call
+      console.log("move selected to",`${folderID}`);
+      this.selected.clear();
+    }
+  }
+  deleteSelected(){
+    if(this.selected.size != 0){
+      //api call
+      console.log("selected are deleted");
+    }
+  }
+  clearSelected(){
+    if(this.selected.size != 0){
+      this.selected.clear();
     }
   }
   getPageName(){

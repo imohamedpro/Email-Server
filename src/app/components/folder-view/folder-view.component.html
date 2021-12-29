@@ -1,6 +1,35 @@
+<nav>
+    <div class="navContainer">
+        <div class="row"> 
+            <span class="material-icons" (click)="moveBackward()">arrow_back_ios</span>
+            <label class="material-icons-label">Previous page</label>
+        </div>
+        <div class="row">
+            <span class="material-icons" (click)="moveForward()">arrow_forward_ios</span>
+            <label class="material-icons-label">Next Page</label>
+        </div>
+        <div class="row">
+            <span class="material-icons" (click)="copyIsClicked = !copyIsClicked;">copy_all</span>
+            <label class="material-icons-label">Copy selected</label>
+            <div *ngIf="copyIsClicked == true;" class="drop-down-container">
+                <div *ngFor="let customPage of customPages; let i = index;" class="drop-down">
+                    <span (click)="copySelected(i); copyIsClicked = !copyIsClicked;" >{{customPage}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <span class="material-icons" (click)="deleteSelected()">delete_outline</span>
+            <label class="material-icons-label">Delete selected</label>
+        </div>
+        <div class="row">
+            <span class="material-icons" (click)="clearSelected()">clear</span>
+            <label class="material-icons-label">Clear selected</label>
+        </div>
+    </div>
+</nav>
 <div *ngIf="isCustomFolder()" class="tokensContainer">
     <span class="material-icons" *ngIf="editingTokens == false;" (click)="editingTokens = true;">settings</span>
-    <label *ngIf="editingTokens == false;" >Edit tokens</label>
+    <label *ngIf="editingTokens == false;">Edit tokens</label>
     <div *ngIf="editingTokens == true;" class="container">
         <label for="tokens">Tokens: </label>
         <div class="fieldWrapper">
@@ -45,15 +74,11 @@
     <span (click)="updateSearching()" class="material-icons-outlined">search</span>
     <input type="text" [(ngModel)]="selectedSearching" placeholder="Search: ">
 </div>
-<nav>
-    <span class="material-icons" (click)="moveBackward()">arrow_back_ios</span>
-    <span class="material-icons" (click)="moveForward()">arrow_forward_ios</span>
-</nav>
 <div id="contents">
     <div *ngFor="let email of emails; let i = index">
         <!-- <hr> -->
         <div (click)="goToEmail(emails[i].id)" class="emailBar" [ngClass]="selected.has(i)? 'selected': ''">
-            <input type="checkBox" (click)="select(i,$event)">
+            <input type="checkBox" [checked]="selected.has(i)" (click)="select(i,$event)">
             <div class="emailHead" [ngClass]="email.isRead? '': 'unread'">
                 <span>{{email.from}}</span>
                 <span>{{email.subject}}</span>

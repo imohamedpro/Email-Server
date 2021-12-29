@@ -40,6 +40,7 @@ export class HomeComponent implements OnInit {
     if (index != this.doNotEdit) {
       e.stopPropagation();
       this.customFolders.splice(index, 1);
+      sessionStorage.setItem("customPages",JSON.stringify(this.customFolders));
     }
   }
   toggleInput(index: number, e: any) {
@@ -61,6 +62,7 @@ export class HomeComponent implements OnInit {
         this.customFolders[index] = `Folder ${index + 1}`;
         this.isSelected[index] = true;
       }
+      sessionStorage.setItem("customPages",JSON.stringify(this.customFolders));
     }
   }
   deSelect(index: number) {
