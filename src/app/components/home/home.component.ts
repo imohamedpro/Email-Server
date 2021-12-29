@@ -93,8 +93,12 @@ export class HomeComponent implements OnInit {
   goToFolder(folderNumber: number) {
     this.deselectAll();
     this.doNotEdit = -1;
-    
     this.router.navigate([folderNumber], { relativeTo: this.r });
+  }
+  goToContacts(){
+    this.deselectAll();
+    this.doNotEdit = -1;
+    this.router.navigate(["contacts"], { relativeTo: this.r });
   }
   goToCustomFolder(folderNumber: number) {
     this.doNotEdit = folderNumber;
