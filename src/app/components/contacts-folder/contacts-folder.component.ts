@@ -75,7 +75,7 @@ export class ContactsFolderComponent implements OnInit {
   }
   createNewContact(){
     //let newContact = new contactsRequest;
-    let index = this.totalPageNumber*4;
+    let index = -1;
     //this.contacts.push(newContact);
     sessionStorage.removeItem("contact");
     return this.router.navigate([index], { relativeTo: this.r });

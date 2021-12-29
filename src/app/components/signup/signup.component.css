@@ -116,3 +116,10 @@ form{
     margin-top: 2px;
     color: red; 
 }
+
+.taken{
+    position: absolute;
+    margin-top: -20px;
+    left: 36%;
+    color: red; 
+}

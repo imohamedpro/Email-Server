@@ -12,6 +12,7 @@ import { SetFolder } from '../../classes/SetFolder';
 import { LoadFolderClass } from '../../classes/LoadFolderClass';
 import { Folder } from '../../classes/Folder';
 import { Observable } from 'rxjs';
+import { UserInfo } from '../../classes/UserInfo';
 
 @Injectable({
   providedIn: 'root'
@@ -20,15 +21,15 @@ export class ControllerService {
   private readonly apiUrl = 'http://localhost:8082/api/'; 
 
   constructor(private http: HttpClient) { }
+  config = { headers: new HttpHeaders().set('Content-Type', 'application/json') };
+  signUp(userInfo: UserInfo){    //done                  
+    const body = JSON.stringify(userInfo);                   
+    return this.http.post<boolean>(this.apiUrl + 'signup', body, this.config);
+  }                                                      
 
-  signUp(data: FormGroup['value']){                      //this way the signUp will
-    const body = JSON.stringify(data);                   //also sendconfirmed password
-    return this.http.post(this.apiUrl + 'signup', body); //is that right or a class
-  }                                                      //should be made
-
-  logIn(data: FormGroup['value']){
-    const body = JSON.stringify(data);
-    return this.http.post(this.apiUrl + 'login', body);
+  logIn(userInfo: UserInfo){   //done
+    const body = JSON.stringify(userInfo);
+    return this.http.post<boolean>(this.apiUrl + 'login', body, this.config);
   }
 
   getHomeFolders(user: string){ 
@@ -53,7 +54,7 @@ export class ControllerService {
     return this.http.get<Array<Contact>>(this.apiUrl + 'contact/load', {params});
   }
 
-  getContact(user: string, contactId: number){
+  getContact(user: string, contactId: number){  //not needed since we can get it with session storage
     let params = new HttpParams();
     params.append('user',user);
     params.append('id', contactId);
@@ -72,7 +73,7 @@ export class ControllerService {
     return this.http.delete<Contact>(this.apiUrl + "contact/delete",{params});
   }
 
-  addContact(contactAndUsername: ContactAndUsername){
+  addContact(contactAndUsername: ContactAndUsername){ //done
     const body = JSON.stringify(contactAndUsername);
     return this.http.post(this.apiUrl + "/contact/add", body);
   }
