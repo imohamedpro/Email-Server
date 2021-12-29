@@ -43,31 +43,33 @@
     <button class="save" *ngIf="editingTokens == true;" (click)="saveTokens()">Save changes</button>
 </div>
 <div class="radio">
-    <input class="radio-input" type="radio" name="radioButton" id="radio1" (click)="updateRadio(true)" checked="checked">
+    <input class="radio-input" type="radio" name="radioButton" id="radio1" (click)="updateRadio(true)" >
     <label class="radio-label" for="radio1">
         Acseascending
     </label>
 </div>
 <div class="radio">
-    <input class="radio-input" type="radio" name="radioButton" id="radio2" (click)="updateRadio(false)">
+    <input class="radio-input" type="radio" name="radioButton" id="radio2" (click)="updateRadio(false)" checked="checked">
     <label class="radio-label" for="radio2">
         Descending
     </label>
 </div>
-<div class="sort" *ngIf="selectedRadio == false">
+<div class="sort" *ngIf="selectedRadio == true">
     <label for="sorting">Sort according to: </label>
     <select style="font-family: cursive;" id="sorting" (change)="updateSorting($event)">
         <option value="date" selected="selected">Date: Old to new</option>
         <option value="priority">Priority: Lower to Higher</option>
-        <option value="alpha">Alphabetical order: A to Z</option>
+        <option value="subject">Subject: Alphabetical order A to Z</option>
+        <option value="from">Sender: Alphabetical order A to Z</option>
     </select>
 </div>
-<div class="sort" *ngIf="selectedRadio == true">
+<div class="sort" *ngIf="selectedRadio == false">
     <label for="sorting">Sort according to: </label>
     <select style="font-family: cursive;" id="sorting" (change)="updateSorting($event)">
         <option value="date" selected="selected">Date: New to old</option>
         <option value="priority">Priority: Higher to lower</option>
-        <option value="alpha">Alphabetical order: Z to A</option>
+        <option value="subject">Subject: Alphabetical order Z to A</option>
+        <option value="from">Sender: Alphabetical order Z to A</option>
     </select>
 </div>
 <div class="search">
