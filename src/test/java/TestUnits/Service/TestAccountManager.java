@@ -26,6 +26,11 @@ public class TestAccountManager {
     @Mock UserData userDataMock;
     @Mock UserContact userContactMock;
 
+    /*
+        testSignIn tests that if it is called with a userInfo with no email
+        then info == null
+        then it will return false.
+     */
     @Test
     public void testSignIn( ) {
         AccountManager accountManager = new AccountManager(storageMock);
@@ -35,6 +40,10 @@ public class TestAccountManager {
         assertFalse(check);
         System.out.println(userInfoMock);
     }
+
+    /*
+        testSignUp is not ready yet!
+     */
     @Test
     public void testSignUp( ) {
         AccountManager accountManager = new AccountManager(storageMock);
