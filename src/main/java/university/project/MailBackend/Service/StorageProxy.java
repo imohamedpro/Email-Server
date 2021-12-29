@@ -1,5 +1,6 @@
 package university.project.MailBackend.Service;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -137,6 +138,11 @@ public class StorageProxy implements IStorage {
     @Override
     public void delete(String user, int id) {
         storage.delete(user, id);
+    }
+
+    @Override
+    public void addAttachment(String user, int emaiID, File f) {
+        storage.addAttachment(user, emaiID, f);        
     }
         
 }

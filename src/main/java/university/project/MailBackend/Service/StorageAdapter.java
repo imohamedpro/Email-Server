@@ -9,9 +9,11 @@ import university.project.MailBackend.Model.UserContact;
 import university.project.MailBackend.Model.UserData;
 import university.project.MailBackend.Model.UserInfo;
 
+import java.io.File;
 // import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
+
 
 public class StorageAdapter {
     private IStorage storage;
@@ -32,10 +34,17 @@ public class StorageAdapter {
     public Email readEmail(String user, int emailID){
         return storage.getUserData(user).readEmail(emailID);
     }
-    public void setEmail(String user, Email email, String type){
+    public boolean setEmail(String user, Email email, String type){
         UserData data = storage.getUserData(user);
+        if(data == null){
+            return false;
+        }
         data.addEmail(email, type);
         storage.setUserData(data, user);
+        return true;
+    }
+    void addAttachment(int emailID, File f, String user){
+        storage.addAttachment(user, emailID, f);
     }
 
     /*

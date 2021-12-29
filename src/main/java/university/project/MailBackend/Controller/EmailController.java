@@ -196,10 +196,11 @@ public class EmailController {
     @GetMapping("/attachment/download")
     public ResponseEntity<Object> downloadAttachment(
             @RequestParam("user") String username,
-            @RequestParam("emailID") int emailID,
+            @RequestParam("emailID") String emailID,
             @RequestParam("fileName") String fileName)
     {
         String path = "Database/" + username + "/attachments/" + emailID + "/" + fileName;
+        System.out.println(path);
         File file = new File(path);
 
         try {
@@ -241,11 +242,13 @@ public class EmailController {
     @DeleteMapping("/attachment/delete")
     public void deleteFile(
             @RequestParam("user") String username,
-            @RequestParam("emailID") int emailID,
+            @RequestParam("emailID") String emailID,
             @RequestParam("fileName") String fileName)
     {
+
         String path = "Database/" + username + "/attachments/" + emailID + "/" + fileName;
         System.out.println(path);
+
         fileService.deleteFile(path);
         //Delete file from email
     }
