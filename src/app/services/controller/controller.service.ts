@@ -80,12 +80,13 @@ export class ControllerService {
 
   sendEmail(email: Email){
     const body = JSON.stringify(email);
+    console.log(body);
     return this.http.post(this.apiUrl + 'email/send', body);
   }
 
   saveDraft(email: Email){ 
     const body = JSON.stringify(email);
-    return this.http.post(this.apiUrl + 'email/save-draft', body);
+    return this.http.post(this.apiUrl + 'email/save-draft', body, this.config);
   }
 
   /*moveToTrash(email: EmailUserClass){ 
