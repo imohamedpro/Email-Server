@@ -1,5 +1,5 @@
 export class EmailRequest{
-    date!: Date;
+    date!: string;
     from!: string;
     priority!: number;
     subject!: string;

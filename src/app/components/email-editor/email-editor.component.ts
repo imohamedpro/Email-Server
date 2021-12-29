@@ -32,7 +32,7 @@ export class EmailEditorComponent implements OnInit {
     this.emailID = '0';
     r.params.subscribe(()=>{
 
-      controller.getEmail(Number(this.emailID), this.user).subscribe((email)=>{
+      controller.getEmail(this.emailID, this.user).subscribe((email)=>{
     //load draft   
           this.receivers = email.emailHeader.to;
           this.attachments = email.emailBody.attachments;

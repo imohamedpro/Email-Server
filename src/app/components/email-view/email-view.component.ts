@@ -14,15 +14,15 @@ export class EmailViewComponent implements OnInit {
   user: string;
   emailID: string;
   constructor(private controller: ControllerService, private r: ActivatedRoute) {
-      this.user = 'admin';
+      this.user = 'hello@site.com';
       this.emailID = '0';
       r.params.subscribe(()=>{
 
-      controller.getEmail(Number(this.emailID), this.user).subscribe((email)=>{
-      //load draft   
+      controller.getEmail(this.emailID, this.user).subscribe((email)=>{
+      //load email  
         this.email.attachments = email.emailBody.attachments;
         this.email.content = email.emailBody.body;
-        this.email.date = new Date(email.emailHeader.date);
+        this.email.date = email.emailHeader.date;
         this.email.from = email.emailHeader.from;
         this.email.priority = email.emailHeader.priority;
         this.email.subject = email.emailHeader.subject;
@@ -35,7 +35,8 @@ export class EmailViewComponent implements OnInit {
     //api here
     this.email = 
       {
-        date: new Date("2019-10-12"),
+        // date: new Date("2019-10-12"),
+        date: 'hhhh',
         from: "youssef",
         priority: 1,
         subject: "nothing",

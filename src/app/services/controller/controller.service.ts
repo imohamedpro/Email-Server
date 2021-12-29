@@ -136,10 +136,10 @@ export class ControllerService {
     console.log(params);
     return this.http.delete<string>(`${this.apiUrl}attachment/delete`, {params});
   }
-  getEmail(emailId: number, user: string){
+  getEmail(emailId: string, user: string){
     let params = new HttpParams();
-    params.append('id', emailId);
-    params.append('user', user);
+    params = params.append('id', Number(emailId));
+    params = params.append('user', user);
     return this.http.get<Email>(this.apiUrl + 'email/get', {params});
   }
 
