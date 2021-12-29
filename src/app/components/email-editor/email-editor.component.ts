@@ -80,7 +80,7 @@ export class EmailEditorComponent implements OnInit {
     console.log(event.target.files.item(0));
   }
   deleteAttachment(i: number){
-    let name = this.attachments.slice(i, 1);
+    let name = this.attachments.splice(i, 1);
     this.controller.deleteAttachment(name[0],
                                       'hi',
                                       'hello').subscribe(()=>{console.log('deleted ' + name)});

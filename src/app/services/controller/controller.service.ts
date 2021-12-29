@@ -99,7 +99,7 @@ export class ControllerService {
     params.append('user', user);
     return this.http.post(this.apiUrl + 'email/delete', {params});
   }*/
-  uploadAttachment(file: File | undefined, user: string  | null, emailID: string | null){
+  uploadAttachment(file: File | undefined, emailID: string  | null, user: string | null){
     // const params = new HttpParams();
     if(user === null || emailID === null || file === undefined) return;
     const params = new FormData();
@@ -113,23 +113,22 @@ export class ControllerService {
 
   downloadAttachment(fileName: string, emailID: string, user: string){
     const params = new HttpParams();
-    params.append("user", user);
+    params.append("username", user);
     params.append("emailID", emailID);
     params.append("fileName", fileName);
     return this.http.get(`${this.apiUrl}attachment/download`, {params});
   }
 
   deleteAttachment(fileName: string, emailID: string, user: string): Observable<string>{
-    let headers =  new HttpHeaders({
-      'Content-Type':  'application/json',
-      'Authorization': 'my-auth-token'
-    });
+    // let headers =  new HttpHeaders({
+    //   'Content-Type':  'application/json',
+    // });
     let params = new HttpParams();
     params = params.append("user", user);
     params = params.append("emailID", emailID);
     params = params.append("fileName", fileName);
-    console.log(params);
-    return this.http.delete<string>(`${this.apiUrl}attachment/delete`, {headers,params});
+    // console.log( {headers,params});
+    return this.http.delete<string>(`${this.apiUrl}attachment/delete`, {params});
   }
   getEmail(emailId: number, user: string){
     let params = new HttpParams();
