@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { EmailHeader } from '../../classes/EmailHeader';
 import { TokensRequest } from '../../classes/Requests/TokensRequest';
+import { ControllerService } from '../../services/controller/controller.service';
 import { EmailHeaderResponse } from '../../classes/Responses/EmailHeaderResponse';
 
 @Component({
@@ -11,172 +13,177 @@ import { EmailHeaderResponse } from '../../classes/Responses/EmailHeaderResponse
 })
 export class FolderViewComponent implements OnInit {
   selectedRadio!: boolean;
-  selectedSearching!: any; 
-  selectedSorting: string = "date";
+  selectedSearching!: any;
+  selectedSorting!: string;
   settingsForm!: FormGroup;
-  emails!: EmailHeaderResponse[];
+  emailHeaders!: EmailHeader[];
   selected: Set<number>;
-  pageNumber: number = 1;
+  pageNumber!: number;
+  totalPages!: number;
   tokens!: TokensRequest;
   tokensHaveChanged: boolean = false;
   editingTokens: boolean = false;
   copyIsClicked: boolean = false;
   customPages!: string[];
-  constructor(private router: Router, private r: ActivatedRoute) {
-    r.params.subscribe(val =>{
+  constructor(private router: Router, private r: ActivatedRoute, private apiService: ControllerService) {
+    this.pageNumber = 1;
+    this.selectedRadio = false;
+    this.selectedSorting = "date";
+    this.emailHeaders = [];
+    this.selectedSearching = "";
+    r.params.subscribe(val => {
       console.log(this.getPageName());
-      //api to get emails
-      this.emails = [
-        {
-          id: 0,
-          from: '0',
-          date: new Date("2019-10-12"),
-          priority: 2,
-          subject: 'eee',
-          isRead: false,
-        },
-        {
-          id: 1,
-          from: '1',
-          date: new Date("2020-06-05"),
-          priority: 1,
-          subject: 'fff',
-          isRead: true,
-        },
-        {
-          id: 2,
-          from: '2',
-          date: new Date("2020-06-05"),
-          priority: 1,
-          subject: 'fff',
-          isRead: true,
-        },
-        {
-          id: 3,
-          from: '3',
-          date: new Date("2020-06-05"),
-          priority: 1,
-          subject: 'fff',
-          isRead: true,
-        },
-        {
-          id: 4,
-          from: '4',
-          date: new Date("2020-06-05"),
-          priority: 1,
-          subject: 'fff',
-          isRead: true,
-        },
-      ]
+      this.apiService.getHomeFolders(sessionStorage.getItem('user') as string)
+        .subscribe(data => {
+          sessionStorage.setItem('customPages', JSON.stringify(data));
+        });
+
+      this.apiService.loadFolder(Number.parseInt(this.getPageName() as string), this.selectedSorting, this.selectedRadio, "", 1, 5,
+        sessionStorage.getItem('user') as string)
+        .subscribe(data => {
+          this.emailHeaders = data;
+        })
+      this.apiService.getFolderPages(Number.parseInt(this.getPageName() as string), 5, sessionStorage.getItem('user') as string)
+        .subscribe(data => {
+          this.totalPages = data
+        })
       this.customPages = JSON.parse(sessionStorage.getItem("customPages") as string);
       console.log(this.customPages);
     });
     this.tokens = {
-      values: ["Karim","Magdy","Youssef","Youhanna"],
+      values: ["Karim", "Magdy", "Youssef", "Youhanna"],
     }
     this.selected = new Set<number>();
-   }
+  }
 
   ngOnInit(): void {
-    
+
   }
-  addToken(event: any){
-    if(event.key == "Enter" || event.key == " "){
+  addToken(event: any) {
+    if (event.key == "Enter" || event.key == " ") {
       event.preventDefault();
-      if(event.target.value != ""){
+      if (event.target.value != "") {
         this.tokens.values.push(event.target.value);
         event.target.value = "";
         this.tokensHaveChanged = true;
       }
     }
   }
-  deleteToken(index: number){
-    this.tokens.values.splice(index,1);
+  deleteToken(index: number) {
+    this.tokens.values.splice(index, 1);
     this.tokensHaveChanged = true;
   }
-  saveTokens(){
-    if(this.tokensHaveChanged){
+  saveTokens() {
+    if (this.tokensHaveChanged) {
       //api here
     }
     this.editingTokens = false;
   }
-  updateSorting(e: any){
-    this.selectedSorting = e.target.value  ;
+  updateSorting(e: any) {
+    this.selectedSorting = e.target.value;
     console.log(this.selectedSorting);
   }
-  updateSearching(){
-    console.log(this.selectedSearching);
+  updateSearching(e: any) {
+    this.selectedSearching = e.target.value;
+    this.apiService.loadFolder(Number.parseInt(this.getPageName() as string), this.selectedSorting, this.selectedRadio, this.selectedSearching, 1, 5,
+      sessionStorage.getItem('user') as string)
+      .subscribe(data => {
+        this.emailHeaders = data;
+      })
+    this.apiService.getFolderPages(Number.parseInt(this.getPageName() as string), 5, sessionStorage.getItem('user') as string)
+      .subscribe(data => {
+        this.totalPages = data
+      })
   }
-  updateRadio(b: boolean){
+  updateRadio(b: boolean) {
     this.selectedRadio = b;
   }
-  select(index: number, e: any){
+  select(index: number, e: any) {
     e.stopPropagation();
-    if(this.selected.has(index)){
+    if (this.selected.has(index)) {
       this.selected.delete(index);
       console.log(index + " is deselected");
 
-    }else{
+    } else {
       this.selected.add(index);
       console.log(index + " is selected");
 
     }
   }
-  copySelected(folderID: number){
-    if(this.selected.size != 0){
+  copySelected(folderID: number) {
+    if (this.selected.size != 0) {
       //api call
-      console.log("move selected to",`${folderID}`);
+      console.log("move selected to", `${folderID}`);
       this.selected.clear();
     }
   }
-  deleteSelected(){
-    if(this.selected.size != 0){
+  deleteSelected() {
+    if (this.selected.size != 0) {
       //api call
       console.log("selected are deleted");
     }
   }
-  clearSelected(){
-    if(this.selected.size != 0){
+  clearSelected() {
+    if (this.selected.size != 0) {
       this.selected.clear();
     }
   }
-  getPageName(){
+  getPageName() {
     return this.r.snapshot.paramMap.get("folder");
   }
 
-  goToEmail(id: number){
-    if(this.emails[id].isRead == false) this.emails[id].isRead = true;
-    this.router.navigate([id],{relativeTo: this.r});
+  goToEmail(id: number) {
+    // if (this.emailHeaders[id].isRead == false) this.emailHeaders[id].isRead = true;
+    this.router.navigate([id], { relativeTo: this.r });
   }
-  moveForward(){
-    if(this.emails.length == 5){
+  moveForward() {
+    if (this.pageNumber < this.totalPages) {
       ++this.pageNumber;
-      //api to get the emails in case of none -> --this.pageNumber;
+      this.apiService.loadFolder(Number.parseInt(this.getPageName() as string), this.selectedSorting, this.selectedRadio,
+       this.selectedSearching, this.pageNumber, 5, sessionStorage.getItem('user') as string)
+      .subscribe(data => {
+        this.emailHeaders = data;
+      })
+    this.apiService.getFolderPages(Number.parseInt(this.getPageName() as string), 5, sessionStorage.getItem('user') as string)
+      .subscribe(data => {
+        this.totalPages = data
+      })
     }
   }
-  moveBackward(){
-    if(this.pageNumber > 1){
+  moveBackward() {
+    if (this.pageNumber > 1) {
       --this.pageNumber;
-      //api to get the emails;
+      if (this.pageNumber < this.totalPages) {
+        ++this.pageNumber;
+        this.apiService.loadFolder(Number.parseInt(this.getPageName() as string), this.selectedSorting, this.selectedRadio,
+         this.selectedSearching, this.pageNumber, 5, sessionStorage.getItem('user') as string)
+        .subscribe(data => {
+          this.emailHeaders = data;
+        })
+      this.apiService.getFolderPages(Number.parseInt(this.getPageName() as string), 5, sessionStorage.getItem('user') as string)
+        .subscribe(data => {
+          this.totalPages = data
+        })
+      }
     }
   }
-  isCustomFolder(){
+  isCustomFolder() {
     let pageName = this.getPageName();
-    if(pageName != "compose" && pageName != "inbox" && pageName != "trash" && pageName != "draft"
-        && pageName != "contacts" && pageName != "sent" ){
+    if (pageName != "0" && pageName != "1" && pageName != "2" && pageName != "3"
+      && pageName != "compose") {
       return true;
     }
     return false;
   }
-  delete(index: number, e: any){
+  delete(index: number, e: any) {
     e.stopPropagation();
     console.log(index + " is deleted");
     //call api
-    this.emails.splice(index, 1);
+    this.emailHeaders.splice(index, 1);
   }
-  toggleRead(index: number, e: any){
+  toggleRead(index: number, e: any) {
     e.stopPropagation();
-    this.emails[index].isRead = !this.emails[index].isRead;
+    // this.emailHeaders[index].isRead = !this.emailHeaders[index].isRead;
     //call api
   }
 }
