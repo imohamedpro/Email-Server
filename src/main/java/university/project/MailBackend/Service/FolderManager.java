@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import university.project.MailBackend.Model.Email;
-import university.project.MailBackend.Model.EmailHeader;
+// import university.project.MailBackend.Model.EmailHeader;
 import university.project.MailBackend.Model.Folder;
 import university.project.MailBackend.Model.Requests.FoldersInfo;
 import university.project.MailBackend.Model.Requests.HeaderResponse;
@@ -74,5 +74,21 @@ public class FolderManager {
 
     public FoldersInfo getFoldersInfo(String user){
         return new FoldersInfo(storage.getFolders(user));
+    }
+
+    public void rename(int folderID, String newName, String user){
+        Folder folder = getFolder(folderID, user);
+        folder.name = newName;
+        storage.setFolder(user, folder);
+    }
+
+    public void editTokens(int folderID, List<String> tokens, String user){
+        Folder folder = getFolder(folderID, user);
+        folder.filterTokens = tokens;
+        storage.setFolder(user, folder);
+    }
+
+    public List<String> getFilterTokens(int folderID, String user){
+        return getFolder(folderID, user).filterTokens;
     }
 }
