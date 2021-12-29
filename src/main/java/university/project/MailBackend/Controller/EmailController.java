@@ -219,7 +219,7 @@ public class EmailController {
     public ResponseEntity<String> uploadFile(
             @RequestParam("file") MultipartFile file,
             @RequestParam("user") String username,
-            @RequestParam("emailID") int emailID,
+            @RequestParam("emailID") String emailID,
             @RequestParam("fileName") String fileName)
     {
         String path = "Database/" + username + "/attachments/" + emailID + "/" + fileName;
@@ -241,6 +241,7 @@ public class EmailController {
             @RequestParam("fileName") String fileName)
     {
         String path = "Database/" + username + "/attachments/" + emailID + "/" + fileName;
+        System.out.println(path);
         fileService.deleteFile(path);
         //Delete file from email
     }
