@@ -53,12 +53,16 @@ public class FolderManager {
             l = headers.size() - pageNumber * emailsPerPage;
             h = headers.size() - (pageNumber - 1) * emailsPerPage;
             if(l < 0)                   l = 0;
+            headers = headers.subList(l, h);
+
         }else{
             l = (pageNumber - 1) * emailsPerPage;
             h = (pageNumber) * emailsPerPage;
             if(h > headers.size())      h = headers.size();
+            headers = headers.subList(l, h);
+            Collections.reverse(headers);
         }
-        return headers.subList(l, h);
+        return headers;
     }
 
     public int getNumberOfPages(int folderID, int emailPerPage, String user){
