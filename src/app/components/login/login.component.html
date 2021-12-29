@@ -10,10 +10,11 @@
                 <input formControlName="userEmail" type="email" placeholder=" " required>
                 <span></span>
                 <label>Email address</label>
+                <span *ngIf="invalid" class="danger">invalid email or password</span>
               </div>
               <div class="text-field">
                 <input formControlName="userPassword" title="Password first letter must be capital and its size must be 8+ "
-                 type="password" placeholder=" " required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 3}$">
+                 type="password" placeholder=" " required>
                 <span></span>
                 <label>Password</label>
               </div>

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams} from '@angular/common/http'
+import { HttpClient,HttpClientModule, HttpParams} from '@angular/common/http'
 import { FormGroup } from '@angular/forms';
 import { EmailBodyResponse } from 'src/app/classes/Responses/EmailBodyResponse';
 import { Email } from 'src/app/classes/Email';

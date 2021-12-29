@@ -14,6 +14,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { EmailViewComponent } from './components/email-view/email-view.component';
 import { ContactsFolderComponent } from './components/contacts-folder/contacts-folder.component';
 import { ContactEditComponent } from './components/contact-edit/contact-edit.component';
+import { HttpClient, HttpClientModule, HttpParams } from '@angular/common/http';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { ContactEditComponent } from './components/contact-edit/contact-edit.com
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
