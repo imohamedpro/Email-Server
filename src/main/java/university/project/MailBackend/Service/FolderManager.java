@@ -24,7 +24,7 @@ public class FolderManager {
     }
     private List<EmailHeader> getFolderContent(int folderID, String user, String searchToken){
         Email[] emails = storage.getFolderContent(user, folderID, searchToken);
-        List<EmailHeader> headers = new ArrayList<EmailHeader>(emails.length);
+        List<EmailHeader> headers = new ArrayList<EmailHeader>();
         for(int i = 0; i < emails.length; i++){
             headers.add(emails[i].emailHeader);
         }
