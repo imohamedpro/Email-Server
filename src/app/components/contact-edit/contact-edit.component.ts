@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Contact } from 'src/app/classes/Contact';
-import { ContactAndUsername } from 'src/app/classes/ContactAndUsername';
-import { contactsRequest } from 'src/app/classes/Requests/ContactsRequest';
-import { ControllerService } from 'src/app/services/controller/controller.service';
+import { Contact } from '../../classes/Contact';
+import { ContactAndUsername } from '../../classes/ContactAndUsername';
+import { contactsRequest } from '../../classes/Requests/ContactsRequest';
+import { ControllerService } from '../../services/controller/controller.service';
 
 @Component({
   selector: 'app-contact-edit',

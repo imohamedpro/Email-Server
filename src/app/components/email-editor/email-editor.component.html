@@ -24,8 +24,10 @@
         <div id="attachments" *ngIf="attachments.length > 0">
             <label>Attachments:</label>
             <div *ngFor="let attachment of attachments; let i = index" class="tag">
-                <a [href]="viewAttachment(attachment)" [download]="getAttachmentName(attachment)">{{getAttachmentName(attachment)}}</a>
-                <button (click)="deleteItem(i, attachments)">x</button>
+                <!-- <a [href]="viewAttachment(attachment)" [download]="getAttachmentName(attachment)">{{getAttachmentName(attachment)}}</a> -->
+                <a [href]="downloadLink" [download]="attachment" (click)="viewAttachment(attachment)">{{attachment}}</a>
+                <!-- <span (click)="viewAttachment(attachment)">{{attachment}}</span> -->
+                <button (click)="deleteAttachment(i)">x</button>
 
             </div>
         </div>

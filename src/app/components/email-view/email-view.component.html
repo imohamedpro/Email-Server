@@ -29,11 +29,11 @@
         </div>
    </div>
     
-    <!--<hr *ngIf="attachments.length > 0">
-    <div id="attachments" *ngIf="attachments.length > 0">
+    <hr *ngIf="email.attachments.length > 0">
+    <div id="attachments" *ngIf="email.attachments.length > 0">
         <span class="label">Attachments:</span>
-        <div *ngFor="let attachment of attachments; let i = index" class="tag">
-            <a [href]="viewAttachment(attachment)" [download]="getAttachmentName(attachment)">{{getAttachmentName(attachment)}}</a>
+        <div *ngFor="let attachment of email.attachments; let i = index" class="tag">
+            <a [href]="downloadLink" [download]="attachment" (click)="viewAttachment(attachment)">{{attachment}}</a>
         </div>
-    </div>-->
+    </div>
 </div>
