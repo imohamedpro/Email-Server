@@ -36,7 +36,7 @@ export class ControllerService {
   getHomeFolders(user: string){ 
     let params = new HttpParams();
     params = params.append('user',user);
-    return this.http.get<Array<string>>(this.apiUrl + '/home-folders/', {params});
+    return this.http.get<Array<string>>(this.apiUrl + 'home-folders/', {params});
   }
 
   getContactPages(user: string, perPage: number){ //done
@@ -179,7 +179,7 @@ export class ControllerService {
 
   loadFolder(folderId: number, sortBy: string, reverse: boolean, searchToken: string, pageNumber: number, perPage: number, user: string){
     let params = new HttpParams();
-    params = params.append('folderId', folderId);
+    params = params.append('folderID', folderId);
     params = params.append('sortBy', sortBy);
     params = params.append('reverse', reverse);
     params = params.append('searchToken', searchToken);
