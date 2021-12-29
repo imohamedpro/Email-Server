@@ -82,6 +82,12 @@ export class FolderViewComponent implements OnInit {
   updateSorting(e: any) {
     this.selectedSorting = e.target.value;
     console.log(this.selectedSorting);
+    console.log(this.selectedRadio);
+    this.apiService.loadFolder(Number.parseInt(this.getPageName() as string), this.selectedSorting, this.selectedRadio, this.selectedSearching, 1, 5,
+      sessionStorage.getItem('user') as string)
+      .subscribe(data => {
+        this.emailHeaders = data;
+      });
   }
   updateSearching(e: any) {
     this.selectedSearching = e.target.value;
@@ -89,14 +95,22 @@ export class FolderViewComponent implements OnInit {
       sessionStorage.getItem('user') as string)
       .subscribe(data => {
         this.emailHeaders = data;
-      })
+      });
     this.apiService.getFolderPages(Number.parseInt(this.getPageName() as string), 5, sessionStorage.getItem('user') as string)
       .subscribe(data => {
         this.totalPages = data
-      })
+      });
   }
   updateRadio(b: boolean) {
     this.selectedRadio = b;
+    this.selectedSorting = 'date';
+    console.log("reverse: " + this.selectedRadio);
+    console.log("sort: " + this.selectedSorting);
+    this.apiService.loadFolder(Number.parseInt(this.getPageName() as string), this.selectedSorting, this.selectedRadio, this.selectedSearching, 1, 5,
+      sessionStorage.getItem('user') as string)
+      .subscribe(data => {
+        this.emailHeaders = data;
+      });
   }
   select(index: number, e: any) {
     e.stopPropagation();
