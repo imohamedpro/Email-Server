@@ -22,7 +22,7 @@ public class EmailManager {
                 Email ne = new Email(email);
                 storage.setEmail(recipient, ne, "received");
                 for(String attachment: email.emailBody.attachments){
-                    String path = "Database/" + from + "/attachments/" + email.id + attachment;
+                    String path = "Database/" + from + "/attachments/" + email.id + "/" + attachment;
                     File f = new File(path);
                     storage.addAttachment(ne.id, f, recipient);
                     

@@ -49,11 +49,17 @@ public class UserData{
         e.markAsRead(folders);
         return e;
     }
-    public void addEmail(Email email, String type){
-        if(email.id < 0){       //when received
-            email.id = nextEmailID++;
+    public void addEmail(Email e, String type){
+        Email email;
+        if(e.id < 0){       //when received
+            e.id = nextEmailID++;
+            emails.put(e.id, e);
+            email = e;
+        }else{
+            email = emails.get(e.id);
+            email.update(e);
         }
-        emails.put(email.id, email);
+        email.emailHeader.date = new Date();
         Folder folder;
         switch (type.toLowerCase()){
             case "draft":
