@@ -1,11 +1,19 @@
 package university.project.MailBackend.Controller;
 
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import university.project.MailBackend.Model.*;
 import university.project.MailBackend.Model.Requests.*;
 import university.project.MailBackend.Service.*;
 
-import java.util.HashSet;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.List;
 
 @RestController
@@ -38,8 +46,8 @@ public class EmailController {
     }
 
     @GetMapping("/home-folders")
-    public String[] getHomeFolders(@RequestParam("user") String user){
-        return folderManager.getFoldersNames(user);
+    public FoldersInfo getHomeFolders(@RequestParam("user") String user){
+        return folderManager.getFoldersInfo(user);
     }
 
     @GetMapping("/contact/pages")
@@ -163,4 +171,63 @@ public class EmailController {
     ){
         return folderManager.getNumberOfPages(folderID, perPage, user);
     }
+
+    @GetMapping("/attachment/download")
+    public ResponseEntity<Object> downloadAttachment(
+            @RequestParam("user") String username,
+            @RequestParam("emailID") int emailID,
+            @RequestParam("fileName") String fileName)
+    {
+        String path = "Database/" + username + "/" + emailID + "/" + fileName;
+        File file = new File(path);
+
+        InputStreamResource resource = null;
+        try {
+            resource = new InputStreamResource(new FileInputStream(file));
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Content-Disposition", String.format("attachment; filename=\"%s\"", file.getName()));
+            headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
+            headers.add("Pragma", "no-cache");
+            headers.add("Expires", "0");
+
+            return ResponseEntity.ok().headers(headers).contentLength(file.length()).contentType(
+                    MediaType.parseMediaType("application/txt")).body(resource);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED)
+                    .body("Exception occurred for: " + fileName + "!");
+        }
+    }
+
+    @PostMapping("/attachment/upload")
+    public ResponseEntity<String> uploadFile(
+            @RequestParam("file") MultipartFile file,
+            @RequestParam("user") String username,
+            @RequestParam("emailID") int emailID,
+            @RequestParam("fileName") String fileName)
+    {
+        try {
+            //createDirIfNotExist();
+
+            byte[] bytes = file.getBytes();
+//            Files.write(Paths.get(FileUtil.folderPath + file.getOriginalFilename()), bytes);
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body("Files uploaded successfully: " + file.getOriginalFilename());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED)
+                    .body("Exception occurred for: " + file.getOriginalFilename() + "!");
+        }
+    }
+
+    @DeleteMapping("/attachment/delete")
+    public void deleteFile(
+            @RequestParam("user") String username,
+            @RequestParam("emailID") int emailID,
+            @RequestParam("fileName") String fileName)
+    {
+        String path = "Database/" + username + "/" + emailID + "/" + fileName;
+        //Delete file path
+        //Delete file from email
+    }
+
 }

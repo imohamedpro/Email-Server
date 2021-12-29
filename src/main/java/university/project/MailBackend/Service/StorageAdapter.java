@@ -70,6 +70,10 @@ public class StorageAdapter {
     public Folder getFolder(String user, int folderID){
         return storage.getUserData(user).folders.get(folderID);
     }
+
+    public Folder[] getFolders(String user){
+        return  storage.getUserData(user).folders.values().toArray(new Folder[0]);
+    }
     public Email[] getFolderContent(String user, int folderID, String searchToken){
         return storage.getUserData(user).getFolderContent(folderID, searchToken);
     }
