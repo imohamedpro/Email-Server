@@ -112,11 +112,11 @@ export class ControllerService {
   }
 
   downloadAttachment(fileName: string, emailID: string, user: string){
-    const params = new HttpParams();
-    params.append("username", user);
-    params.append("emailID", emailID);
-    params.append("fileName", fileName);
-    return this.http.get(`${this.apiUrl}attachment/download`, {params});
+    let params = new HttpParams();
+    params = params.append("user", user);
+    params = params.append("emailID", emailID);
+    params = params.append("fileName", fileName);
+    return this.http.get<any>(`${this.apiUrl}attachment/download`, {params});
   }
 
   deleteAttachment(fileName: string, emailID: string, user: string): Observable<string>{
@@ -127,7 +127,7 @@ export class ControllerService {
     params = params.append("user", user);
     params = params.append("emailID", emailID);
     params = params.append("fileName", fileName);
-    // console.log( {headers,params});
+    console.log(params);
     return this.http.delete<string>(`${this.apiUrl}attachment/delete`, {params});
   }
   getEmail(emailId: number, user: string){

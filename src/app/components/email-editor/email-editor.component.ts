@@ -17,6 +17,7 @@ export class EmailEditorComponent implements OnInit {
   receivers: string[];
   attachments: string[];
   changed: boolean = false;
+  downloadLink = '';
   constructor(private fb: FormBuilder,
               private sanitizer:DomSanitizer,
               private controller: ControllerService,
@@ -91,14 +92,19 @@ export class EmailEditorComponent implements OnInit {
     // }else{
     //   return attachment.link;
     // }
+    console.log(attachment);
     this.controller.downloadAttachment(
       attachment,
       'hi',
       'hello'
-    ).subscribe((link)=>{
-      console.log(link);
-      const download = document.createElement('a');
-      // download.setAttribute('href', link.);
+    ).subscribe((file)=>{
+      this.downloadLink = file;
+      console.log('hello');
+      // const download = document.createElement('a');
+      // download.setAttribute('href', file);
+      // return this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(file));
+      // download.click();
+
 
     });
   }
