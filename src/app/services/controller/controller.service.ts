@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient,HttpClientModule, HttpParams} from '@angular/common/http'
+import { HttpClient,HttpClientModule, HttpHeaders, HttpParams} from '@angular/common/http'
 import { FormGroup } from '@angular/forms';
 import { EmailBodyResponse } from 'src/app/classes/Responses/EmailBodyResponse';
 import { Email } from 'src/app/classes/Email';
@@ -20,15 +20,15 @@ export class ControllerService {
   private readonly apiUrl = 'http://localhost:4050/api/'; 
 
   constructor(private http: HttpClient) { }
-
+  config = { headers: new HttpHeaders().set('Content-Type', 'application/json') };
   signUp(userInfo: UserInfo){    //done                  
     const body = JSON.stringify(userInfo);                   
-    return this.http.post<boolean>(this.apiUrl + 'signup', body);
+    return this.http.post<boolean>(this.apiUrl + 'signup', body, this.config);
   }                                                      
 
   logIn(userInfo: UserInfo){   //done
     const body = JSON.stringify(userInfo);
-    return this.http.post<boolean>(this.apiUrl + 'login', body);
+    return this.http.post<boolean>(this.apiUrl + 'login', body, this.config);
   }
 
   getHomeFolders(user: string){ 
