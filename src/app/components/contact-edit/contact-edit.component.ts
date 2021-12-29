@@ -70,7 +70,7 @@ export class ContactEditComponent implements OnInit {
     if(this.hasChanged){
       let contactAndUsername = new ContactAndUsername();
       contactAndUsername = {
-        user: sessionStorage.getItem('username') as string,
+        user: sessionStorage.getItem('user') as string,
         contact: this.contact
       };
       this.apiService.addContact(contactAndUsername).subscribe();
