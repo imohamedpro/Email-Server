@@ -7,6 +7,7 @@ import java.util.List;
 import university.project.MailBackend.Model.Email;
 import university.project.MailBackend.Model.EmailHeader;
 import university.project.MailBackend.Model.Folder;
+import university.project.MailBackend.Model.Requests.HeaderResponse;
 
 public class FolderManager {
     private StorageAdapter storage;
@@ -22,11 +23,11 @@ public class FolderManager {
     public Folder getFolder(int folderID, String user){
         return storage.getFolder(user, folderID);
     }
-    private List<EmailHeader> getFolderContent(int folderID, String user, String searchToken){
+    private List<HeaderResponse> getFolderContent(int folderID, String user, String searchToken){
         Email[] emails = storage.getFolderContent(user, folderID, searchToken);
-        List<EmailHeader> headers = new ArrayList<EmailHeader>();
+        List<HeaderResponse> headers = new ArrayList<HeaderResponse>();
         for(int i = 0; i < emails.length; i++){
-            headers.add(emails[i].emailHeader);
+            headers.add(new HeaderResponse(emails[i]));
         }
         return headers;
     }
@@ -45,8 +46,8 @@ public class FolderManager {
     // //     LinkedList<Email> es = storage.get;
     // //     return null;
     // // }
-    public List<EmailHeader> loadFolder(int folderID, String sortBy, boolean reverse, String searchToken, int pageNumber, int emailsPerPage, String user){
-        List<EmailHeader> headers = this.getFolderContent(folderID, user, searchToken);
+    public List<HeaderResponse> loadFolder(int folderID, String sortBy, boolean reverse, String searchToken, int pageNumber, int emailsPerPage, String user){
+        List<HeaderResponse> headers = this.getFolderContent(folderID, user, searchToken);
         Collections.sort(headers, this.sortFactory.getSortType(sortBy));
         int l, h;
         if(reverse){

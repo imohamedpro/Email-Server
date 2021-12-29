@@ -5,8 +5,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import university.project.MailBackend.Model.*;
 import university.project.MailBackend.Service.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Date;
+import java.util.Dictionary;
 import java.util.HashSet;
 
 @SpringBootApplication
@@ -22,6 +24,10 @@ public class MailBackendApplication {
 		Storage storage = new Storage(fileService);
 		StorageProxy storageProxy = new StorageProxy(storage);
 		StorageAdapter storageAdapter = new StorageAdapter(storageProxy);
+//		File file = new File("Database.rar");
+//		fileService.writeFile("Database.json", file);
+//		File file2 = (File) fileService.readFile("Database.json", File.class, false);
+//		boolean x = file2.renameTo(new File("Database2.rar"));
 //		Email email = new Email(-1, false, new HashSet<>(), new EmailHeader("moh@site.com", new String[]{"hello@site.com"}, "Done", new Date(), 4), new EmailBody("DODODO", null), null);
 //		EmailManager emailManager = new EmailManager(storageAdapter);
 		//emailManager.sendEmail(email);

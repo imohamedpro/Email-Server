@@ -144,7 +144,7 @@ public class EmailController {
     }
 
     @GetMapping("/folder/load")
-    public List<EmailHeader> loadFolder(@RequestBody LoadFolderClass loadFolderClass){
+    public List<HeaderResponse> loadFolder(@RequestBody LoadFolderClass loadFolderClass){
         return folderManager.loadFolder(
                 loadFolderClass.folderID,
                 loadFolderClass.sortBy,
