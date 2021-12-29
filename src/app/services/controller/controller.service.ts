@@ -144,6 +144,7 @@ export class ControllerService {
     return this.http.get<Folder>(this.apiUrl + 'folder/set', {params});
   }
 
+
   loadFolder(folderId: number, sortBy: string, reverse: boolean, searchToken: string, pageNumber: number, perPage: number, user: string){
     let params = new HttpParams();
     params = params.append('folderId', folderId);
@@ -162,6 +163,23 @@ export class ControllerService {
     params = params.append('perPage', perPage);
     params = params.append('user', user);
     return this.http.get<number>(this.apiUrl + 'folder/pages', {params});
+  }
+
+  renameFolder(folder: SetFolder){
+    const body = JSON.stringify(folder);
+    return this.http.put(this.apiUrl + 'folder/rename', body);
+  }
+
+  editFolderToken(folder: SetFolder){
+    const body = JSON.stringify(folder);
+    return this.http.put(this.apiUrl + 'folder/editFilterTokens', body);
+  }
+
+  getFilterTokens(folderId: number, user: string){
+    let params = new HttpParams();
+    params = params.append('id', folderId);
+    params = params.append('user',user)
+    return this.http.get(this.apiUrl + 'folder/getFilterTokens', )
   }
 }
 
