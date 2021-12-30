@@ -92,6 +92,11 @@ export class ControllerService {
     return this.http.post(this.apiUrl + 'email/send', body, this.config);
   }
 
+  createEmail(user: string){
+    let params = new HttpParams().append("user", user);
+    return this.http.get(this.apiUrl + 'email/create', {params});
+  }
+
   saveDraft(email: Email){ 
     const body = JSON.stringify(email);
     return this.http.post(this.apiUrl + 'email/save-draft', body, this.config);
