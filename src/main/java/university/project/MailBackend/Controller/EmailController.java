@@ -117,6 +117,7 @@ public class EmailController {
     @DeleteMapping("/email/trash")
     public void moveToTrash(@RequestParam("emailIDs") int[] emailIDs, @RequestParam("user") String user){
         emailManager.moveToTrash(emailIDs, user);
+        System.out.println(emailIDs[0] + " is moved to trash");
     }
 
     @DeleteMapping("/email/delete")
@@ -188,9 +189,10 @@ public class EmailController {
     public int getFolderPages(
             @RequestParam("id") int folderID,
             @RequestParam("perPage") int perPage,
-            @RequestParam("user") String user
+            @RequestParam("user") String user,
+            @RequestParam(value = "searchToken") String token
     ){
-        return folderManager.getNumberOfPages(folderID, perPage, user);
+        return folderManager.getNumberOfPages(folderID, perPage, user, token);
     }
 
     @GetMapping("/attachment/download")

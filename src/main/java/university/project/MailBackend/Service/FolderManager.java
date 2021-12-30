@@ -68,8 +68,13 @@ public class FolderManager {
         return headers;
     }
 
-    public int getNumberOfPages(int folderID, int emailPerPage, String user){
-        return (int)Math.ceil(storage.getFolder(user, folderID).emails.size() / (double)emailPerPage);
+    public int getNumberOfPages(int folderID, int emailPerPage, String user, String searchToken){
+        int size;
+        if(searchToken.isBlank())
+            size = storage.getFolder(user, folderID).emails.size();
+        else
+            size = getFolderContent(folderID, user, searchToken).size();
+        return (int)Math.ceil(size / (double)emailPerPage);
     }
 
     public FoldersInfo getFoldersInfo(String user){
