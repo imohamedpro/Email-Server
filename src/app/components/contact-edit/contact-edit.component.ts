@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Contact } from '../../classes/Contact';
 import { ContactAndUsername } from '../../classes/ContactAndUsername';
 import { contactsRequest } from '../../classes/Requests/ContactsRequest';
@@ -14,7 +14,7 @@ export class ContactEditComponent implements OnInit {
   contact!: Contact;
   hasChanged: boolean = false;
   hasContactName: boolean = true;
-  constructor(private r: ActivatedRoute, private apiService: ControllerService) {
+  constructor(private router: Router, private r: ActivatedRoute, private apiService: ControllerService) {
     //this.r.params.subscribe(val =>{});
     if(sessionStorage.getItem("contact")){
       this.contact = JSON.parse(sessionStorage.getItem("contact") as string);

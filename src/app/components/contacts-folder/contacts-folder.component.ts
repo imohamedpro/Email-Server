@@ -89,7 +89,9 @@ export class ContactsFolderComponent implements OnInit {
   }
 
   delete(index: number) {
-    this.apiService.deleteContact(sessionStorage.getItem('user') as string, this.contacts[index].id).subscribe();
+    this.apiService.deleteContact(sessionStorage.getItem('user') as string, this.contacts[index].id).subscribe(body => {
+      this.contacts.splice(index,1);
+    });
     if (this.selectedSearching.length != 0) {
       this.apiService.searchContact(sessionStorage.getItem('user') as string, this.selectedSearching, this.pageNumber, 4, this.sorted)
         .subscribe(data => {
