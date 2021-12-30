@@ -14,6 +14,7 @@ import { Folder } from '../../classes/Folder';
 import { Observable } from 'rxjs';
 import { UserInfo } from '../../classes/UserInfo';
 import { EmailHeader } from '../../classes/EmailHeader';
+import { FoldersInfo } from 'src/app/classes/FoldersInfo';
 
 @Injectable({
   providedIn: 'root'
@@ -36,7 +37,7 @@ export class ControllerService {
   getHomeFolders(user: string){ 
     let params = new HttpParams();
     params = params.append('user',user);
-    return this.http.get<Array<string>>(this.apiUrl + 'home-folders/', {params});
+    return this.http.get<Array<FoldersInfo>>(this.apiUrl + 'home-folders/', {params});
   }
 
   getContactPages(user: string, perPage: number){ //done
@@ -213,7 +214,9 @@ export class ControllerService {
     let params = new HttpParams();
     params = params.append('id', folderId);
     params = params.append('user',user)
-    return this.http.get(this.apiUrl + 'folder/getFilterTokens', )
+    return this.http.get(this.apiUrl + 'folder/getFilterTokens');
   }
+
+
 }
 

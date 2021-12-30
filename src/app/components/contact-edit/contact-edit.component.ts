@@ -18,6 +18,9 @@ export class ContactEditComponent implements OnInit {
     //this.r.params.subscribe(val =>{});
     if(sessionStorage.getItem("contact")){
       this.contact = JSON.parse(sessionStorage.getItem("contact") as string);
+      if(this.contact.name == ""){
+        this.hasContactName = false;
+      }
       console.log(this.contact);
     }
     else{
@@ -41,6 +44,7 @@ export class ContactEditComponent implements OnInit {
   }
   deleteEmail(index: number){
     this.contact.usernames.splice(index, 1);
+    this.hasChanged = true;
     console.log(this.contact);
   }
   editContactName(event: any){
@@ -75,6 +79,7 @@ export class ContactEditComponent implements OnInit {
       };
       this.apiService.addContact(contactAndUsername).subscribe();
     }
+    this.router.navigate(['../../contacts'],{relativeTo: this.r});
   }
 
 }

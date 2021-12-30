@@ -8,4 +8,9 @@ export class Email {
     emailHeader!: EmailHeader;
     emailBody!: EmailBody;
     deleteDate!: null;
+
+    constructor(){
+        this.emailHeader = new EmailHeader();
+        this.emailBody = new EmailBody();
+    }
 }
