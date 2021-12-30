@@ -55,9 +55,10 @@ public class EmailController {
     @GetMapping("/contact/pages")
     public int getContactPages(
             @RequestParam("user") String user,
-            @RequestParam("perPage") int perPage)
+            @RequestParam("perPage") int perPage,
+            @RequestParam("tokens") List<String> tokens)
     {
-        return contactManager.getNumberOfPages(user, perPage);
+        return contactManager.getNumberOfPages(user, perPage, tokens);
     }
 
     @GetMapping("/contact/load")

@@ -11,8 +11,17 @@ public class ContactManager {
         this.storage = storageAdapter;
     }
 
-    public int getNumberOfPages(String user, int contactsPerPage){
-        return (int)Math.ceil(storage.getContactsList(user).size() / (double)contactsPerPage);
+    public int getNumberOfPages(String user, int contactsPerPage, List<String> tokens){
+        int size = 0;
+        if(tokens.size() == 0){
+            size = storage.getContactsList(user).size();
+        }else{
+            for(Contact contact: storage.getContactsList(user)){
+                if(contact.contains(tokens, true))
+                    size++;
+            }
+        }
+        return (int)Math.ceil(size / (double)contactsPerPage);
     }
 
     public List<Contact> getContactsList(String user, int pageNumber, int contactsPerPage, boolean sorted){

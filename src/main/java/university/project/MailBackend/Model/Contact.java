@@ -69,7 +69,7 @@ public class Contact implements Searchable {
             if(name.toLowerCase().contains(token))
                 return true;
             for(String username: usernames){
-                if(username.toLowerCase().contains(token))
+                if(username.substring(0,username.indexOf("@")).toLowerCase().contains(token))
                     return true;
             }
         }
