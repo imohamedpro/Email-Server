@@ -44,6 +44,7 @@ export class FolderViewComponent implements OnInit {
       this.getFolderPages();
       this.customPages = JSON.parse(sessionStorage.getItem("customPages") as string);
       console.log(this.customPages);
+      console.log(this.emailHeaders);
     });
     this.tokens = {
       values: ["Karim", "Magdy", "Youssef", "Youhanna"],
@@ -128,10 +129,10 @@ export class FolderViewComponent implements OnInit {
     return this.r.snapshot.paramMap.get("folder");
   }
 
-  goToEmail(id: number) {
-    if(!this.emailHeaders[id].isRead) this.markAsRead([id]);
-    sessionStorage.setItem("emailID", id.toString())
-    this.router.navigate([id], { relativeTo: this.r });
+  goToEmail(index: number) {
+    if(!this.emailHeaders[index].isRead) this.markAsRead([this.emailHeaders[index].id]);
+    sessionStorage.setItem("emailID", index.toString())
+    this.router.navigate([this.emailHeaders[index].id], { relativeTo: this.r });
   }
   moveForward() {
     if (this.pageNumber < this.totalPages) {

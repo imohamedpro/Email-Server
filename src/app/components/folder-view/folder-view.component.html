@@ -79,7 +79,7 @@
 <div id="contents">
     <div *ngFor="let email of emailHeaders; let i = index">
         <!-- <hr> -->
-        <div (click)="goToEmail(email.id)" class="emailBar" [ngClass]="selected.has(email.id)? 'selected': ''">
+        <div (click)="goToEmail(i)" class="emailBar" [ngClass]="selected.has(email.id)? 'selected': ''">
             <input type="checkBox" [checked]="selected.has(email.id)" (click)="select(email.id,$event)">
             <div class="emailHead" [ngClass]="email.isRead? '': 'unread'">
                 <span>{{email.from}}</span>

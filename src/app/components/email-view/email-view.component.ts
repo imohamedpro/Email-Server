@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { EmailRequest } from '../../classes/Requests/EmailRequest';
+import { Email } from 'src/app/classes/Email';
+import { EmailBody } from 'src/app/classes/EmailBody';
+import { EmailHeader } from 'src/app/classes/EmailHeader';
 import { ControllerService } from '../../services/controller/controller.service';
 
 @Component({
@@ -9,28 +11,27 @@ import { ControllerService } from '../../services/controller/controller.service'
   styleUrls: ['./email-view.component.css']
 })
 export class EmailViewComponent implements OnInit {
-  email!: EmailRequest;
+  email!: Email;
   downloadLink = '';
   user: string;
   emailID: string;
   from!: string;
   constructor(private controller: ControllerService, private r: ActivatedRoute) {
+      this.email = new Email();
       this.user = sessionStorage.getItem("user") as string;
       this.emailID = this.r.snapshot.paramMap.get("id") as string
     }
-
 
   ngOnInit(): void {
     //api here
     this.controller.getEmail(this.emailID, this.user).subscribe((email)=>{
       //load email  
-        this.email.attachments = email.emailBody.attachments;
-        this.email.content = email.emailBody.body;
-        this.email.date = email.emailHeader.date;
-        this.email.from = email.emailHeader.from;
-        this.from = email.emailHeader.from;
-        this.email.priority = email.emailHeader.priority;
-        this.email.subject = email.emailHeader.subject;
+        this.email.id = email.id;
+        this.email.isRead = email.isRead;
+        this.email.folders = email.folders;
+        this.email.emailHeader = email.emailHeader;
+        this.email.emailBody = email.emailBody;
+        this.email.deleteDate = email.deleteDate;
         });
   }
 

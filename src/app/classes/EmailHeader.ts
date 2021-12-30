@@ -5,5 +5,5 @@ export class EmailHeader {
     date!: string;
     priority!: number;
     id!: number;
-    isRead!: boolean
+    isRead!: boolean;
 }
