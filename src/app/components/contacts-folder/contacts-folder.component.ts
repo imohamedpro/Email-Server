@@ -49,6 +49,7 @@ export class ContactsFolderComponent implements OnInit {
           });
       }
     } else {
+      this.sorted = false;
       if (this.selectedSearching.length != 0) {
         this.apiService.searchContact(sessionStorage.getItem('user') as string, this.selectedSearching, this.pageNumber, 4, this.sorted)
           .subscribe(data => {
@@ -73,8 +74,8 @@ export class ContactsFolderComponent implements OnInit {
     this.apiService.getContactPages(sessionStorage.getItem('user') as string, 4)
       .subscribe(data => {
         this.totalPageNumber = data;
+        console.log(this.totalPageNumber);
       });
-    console.log(this.selectedSearching);
   }
 
   goToContact(index: number) {
