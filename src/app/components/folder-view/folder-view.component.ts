@@ -1,3 +1,4 @@
+import { EmailUserClass } from './../../classes/EmailUserClass';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -26,8 +27,9 @@ export class FolderViewComponent implements OnInit {
   copyIsClicked: boolean = false;
   customPages!: string[];
   constructor(private router: Router, private r: ActivatedRoute, private apiService: ControllerService) {
+    console.log(sessionStorage);
     this.pageNumber = 1;
-    this.selectedRadio = false;
+    this.selectedRadio = true;
     this.selectedSorting = "date";
     this.emailHeaders = [];
     this.selectedSearching = "";
@@ -38,15 +40,8 @@ export class FolderViewComponent implements OnInit {
           sessionStorage.setItem('customPages', JSON.stringify(data));
         });
 
-      this.apiService.loadFolder(Number.parseInt(this.getPageName() as string), this.selectedSorting, this.selectedRadio, "", 1, 5,
-        sessionStorage.getItem('user') as string)
-        .subscribe(data => {
-          this.emailHeaders = data;
-        })
-      this.apiService.getFolderPages(Number.parseInt(this.getPageName() as string), 5, sessionStorage.getItem('user') as string)
-        .subscribe(data => {
-          this.totalPages = data
-        })
+      this.loadFolder("", 1);
+      this.getFolderPages();
       this.customPages = JSON.parse(sessionStorage.getItem("customPages") as string);
       console.log(this.customPages);
     });
@@ -83,34 +78,21 @@ export class FolderViewComponent implements OnInit {
     this.selectedSorting = e.target.value;
     console.log(this.selectedSorting);
     console.log(this.selectedRadio);
-    this.apiService.loadFolder(Number.parseInt(this.getPageName() as string), this.selectedSorting, this.selectedRadio, this.selectedSearching, 1, 5,
-      sessionStorage.getItem('user') as string)
-      .subscribe(data => {
-        this.emailHeaders = data;
-      });
+    this.pageNumber = 1;
+    this.loadFolder(this.selectedSearching, this.pageNumber);
   }
   updateSearching(e: any) {
     this.selectedSearching = e.target.value;
-    this.apiService.loadFolder(Number.parseInt(this.getPageName() as string), this.selectedSorting, this.selectedRadio, this.selectedSearching, 1, 5,
-      sessionStorage.getItem('user') as string)
-      .subscribe(data => {
-        this.emailHeaders = data;
-      });
-    this.apiService.getFolderPages(Number.parseInt(this.getPageName() as string), 5, sessionStorage.getItem('user') as string)
-      .subscribe(data => {
-        this.totalPages = data
-      });
+    this.getFolderPages();
+    this.pageNumber = 1;
+    this.loadFolder(this.selectedSearching, this.pageNumber);
   }
   updateRadio(b: boolean) {
     this.selectedRadio = b;
-    this.selectedSorting = 'date';
     console.log("reverse: " + this.selectedRadio);
     console.log("sort: " + this.selectedSorting);
-    this.apiService.loadFolder(Number.parseInt(this.getPageName() as string), this.selectedSorting, this.selectedRadio, this.selectedSearching, 1, 5,
-      sessionStorage.getItem('user') as string)
-      .subscribe(data => {
-        this.emailHeaders = data;
-      });
+    this.pageNumber = 1;
+    this.loadFolder(this.selectedSearching, this.pageNumber);
   }
   select(index: number, e: any) {
     e.stopPropagation();
@@ -133,7 +115,7 @@ export class FolderViewComponent implements OnInit {
   }
   deleteSelected() {
     if (this.selected.size != 0) {
-      //api call
+      this.moveToTrash(Array.from(this.selected.values()))
       console.log("selected are deleted");
     }
   }
@@ -147,39 +129,23 @@ export class FolderViewComponent implements OnInit {
   }
 
   goToEmail(id: number) {
-    // if (this.emailHeaders[id].isRead == false) this.emailHeaders[id].isRead = true;
+    if(!this.emailHeaders[id].isRead) this.markAsRead([id]);
+    sessionStorage.setItem("emailID", id.toString())
     this.router.navigate([id], { relativeTo: this.r });
   }
   moveForward() {
     if (this.pageNumber < this.totalPages) {
       ++this.pageNumber;
-      this.apiService.loadFolder(Number.parseInt(this.getPageName() as string), this.selectedSorting, this.selectedRadio,
-       this.selectedSearching, this.pageNumber, 5, sessionStorage.getItem('user') as string)
-      .subscribe(data => {
-        this.emailHeaders = data;
-      })
-    this.apiService.getFolderPages(Number.parseInt(this.getPageName() as string), 5, sessionStorage.getItem('user') as string)
-      .subscribe(data => {
-        this.totalPages = data
-      })
+      this.loadFolder(this.selectedSearching, this.pageNumber);
+      this.getFolderPages();
     }
   }
   moveBackward() {
     if (this.pageNumber > 1) {
       --this.pageNumber;
-      if (this.pageNumber < this.totalPages) {
-        ++this.pageNumber;
-        this.apiService.loadFolder(Number.parseInt(this.getPageName() as string), this.selectedSorting, this.selectedRadio,
-         this.selectedSearching, this.pageNumber, 5, sessionStorage.getItem('user') as string)
-        .subscribe(data => {
-          this.emailHeaders = data;
-        })
-      this.apiService.getFolderPages(Number.parseInt(this.getPageName() as string), 5, sessionStorage.getItem('user') as string)
-        .subscribe(data => {
-          this.totalPages = data
-        })
+      this.loadFolder(this.selectedSearching, this.pageNumber);
+      this.getFolderPages();
       }
-    }
   }
   isCustomFolder() {
     let pageName = this.getPageName();
@@ -189,15 +155,64 @@ export class FolderViewComponent implements OnInit {
     }
     return false;
   }
-  delete(index: number, e: any) {
+  delete(id: number, e: any) {
     e.stopPropagation();
-    console.log(index + " is deleted");
-    //call api
-    this.emailHeaders.splice(index, 1);
+    this.moveToTrash([id]);
   }
-  toggleRead(index: number, e: any) {
+  toggleRead(id: number, index: number ,isRead: boolean ,e: any) {
     e.stopPropagation();
-    // this.emailHeaders[index].isRead = !this.emailHeaders[index].isRead;
-    //call api
+    if(isRead){
+      this.markAsUnread([id]);
+    }else{
+      this.markAsRead([id]);
+    }
+    this.emailHeaders[index].isRead = !this.emailHeaders[index].isRead;
+  }
+  loadFolder(searchToken: string, pageNumber: number){
+    this.apiService.loadFolder(Number.parseInt(this.getPageName() as string), this.selectedSorting, this.selectedRadio, searchToken, pageNumber, 5,
+    sessionStorage.getItem('user') as string)
+    .subscribe(data => {
+      this.emailHeaders = data;
+    })
+  }
+  getFolderPages(){
+    this.apiService.getFolderPages(Number.parseInt(this.getPageName() as string), 5, sessionStorage.getItem('user') as string, this.selectedSearching)
+        .subscribe(data => {
+          this.totalPages = data
+        })
+  }
+  markAsRead(emailIDs: number[]){
+    let email: EmailUserClass = {emailIDs: emailIDs, user: sessionStorage.getItem("user") as string}
+    this.apiService.markAsRead(email).subscribe(data => {
+      console.log(emailIDs + " are marked read")
+    })
+  }
+  markAsUnread(emailIDs: number[]){
+    let email: EmailUserClass = {emailIDs: emailIDs, user: sessionStorage.getItem("user") as string}
+    this.apiService.markAsUnread(email).subscribe(data => {
+      console.log(emailIDs + " are marked read")
+    })
+  }
+  moveToTrash(emailIDs: number[]){
+    if(this.getPageName() == "3"){  //trash
+      this.apiService.deleteEmails(emailIDs, sessionStorage.getItem('user') as string).subscribe(data => {
+        console.log(emailIDs + " is moved to trash");
+        emailIDs.forEach((id) =>{
+          this.emailHeaders.forEach((element,i)=>{
+            if(element.id == id) this.emailHeaders.splice(i,1);
+         });
+        });
+      });
+    }
+    else{
+      this.apiService.moveToTrash(emailIDs, sessionStorage.getItem('user') as string).subscribe(data => {
+        console.log(emailIDs + " is moved to trash");
+        emailIDs.forEach((id) =>{
+          this.emailHeaders.forEach((element,i)=>{
+            if(element.id == id) this.emailHeaders.splice(i,1);
+         });
+        });
+      });
+    }
   }
 }

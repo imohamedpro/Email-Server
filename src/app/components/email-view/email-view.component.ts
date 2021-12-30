@@ -13,36 +13,25 @@ export class EmailViewComponent implements OnInit {
   downloadLink = '';
   user: string;
   emailID: string;
+  from!: string;
   constructor(private controller: ControllerService, private r: ActivatedRoute) {
-      this.user = 'hello@site.com';
-      this.emailID = '0';
-      r.params.subscribe(()=>{
-
-      controller.getEmail(this.emailID, this.user).subscribe((email)=>{
-      //load email  
-        this.email.attachments = email.emailBody.attachments;
-        this.email.content = email.emailBody.body;
-        this.email.date = email.emailHeader.date;
-        this.email.from = email.emailHeader.from;
-        this.email.priority = email.emailHeader.priority;
-        this.email.subject = email.emailHeader.subject;
-        });
-      });
+      this.user = sessionStorage.getItem("user") as string;
+      this.emailID = this.r.snapshot.paramMap.get("id") as string
     }
 
 
   ngOnInit(): void {
     //api here
-    this.email = 
-      {
-        // date: new Date("2019-10-12"),
-        date: 'hhhh',
-        from: "youssef",
-        priority: 1,
-        subject: "nothing",
-        content: "bla bla bla",
-        attachments: ["first link"]
-      }
+    this.controller.getEmail(this.emailID, this.user).subscribe((email)=>{
+      //load email  
+        this.email.attachments = email.emailBody.attachments;
+        this.email.content = email.emailBody.body;
+        this.email.date = email.emailHeader.date;
+        this.email.from = email.emailHeader.from;
+        this.from = email.emailHeader.from;
+        this.email.priority = email.emailHeader.priority;
+        this.email.subject = email.emailHeader.subject;
+        });
   }
 
   viewAttachment(attachment: string){
