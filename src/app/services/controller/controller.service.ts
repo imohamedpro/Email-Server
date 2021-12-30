@@ -95,17 +95,17 @@ export class ControllerService {
     return this.http.post(this.apiUrl + 'email/save-draft', body, this.config);
   }
 
-  /*moveToTrash(email: EmailUserClass){ 
-    const body = JSON.stringify(email);
-    return this.http.delete(this.apiUrl + 'email/trash', body);
-  }*/
-
-  /*deleteEmails(emailId: number, user: string){
+  moveToTrash(emailIDs: number[], user: string){
     let params = new HttpParams();
-    params = params.append('emailId',emailId);
-    params = params.append('user', user);
-    return this.http.post(this.apiUrl + 'email/delete', {params});
-  }*/
+    params = params.append("emailIDs", emailIDs.join(',')).append("user", user); 
+    return this.http.delete(this.apiUrl + 'email/trash', {params});
+  }
+
+  deleteEmails(emailIDs: number[], user: string){
+    let params = new HttpParams();
+    params = params.append("emailIDs", emailIDs.join(',')).append("user", user); 
+    return this.http.delete(this.apiUrl + 'email/delete', {params});
+  }
   uploadAttachment(file: File | undefined, emailID: string  | null, user: string | null){
     // const params = new HttpParams();
     if(user === null || emailID === null || file === undefined) return;
@@ -186,14 +186,16 @@ export class ControllerService {
     params = params.append('pageNumber', pageNumber);
     params = params.append('perPage', perPage);
     params = params.append('user', user);
+    console.log(params);
     return this.http.get<Array<EmailHeader>>(this.apiUrl + 'folder/load', {params});
   }
 
-  getFolderPages(folderId: number, perPage: number, user: string){
+  getFolderPages(folderId: number, perPage: number, user: string, token: string){
     let params = new HttpParams();
     params = params.append('id', folderId);
     params = params.append('perPage', perPage);
     params = params.append('user', user);
+    params = params.append('searchToken', token);
     return this.http.get<number>(this.apiUrl + 'folder/pages', {params});
   }
 
