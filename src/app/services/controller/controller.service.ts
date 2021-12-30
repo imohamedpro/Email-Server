@@ -40,10 +40,11 @@ export class ControllerService {
     return this.http.get<Array<FoldersInfo>>(this.apiUrl + 'home-folders/', {params});
   }
 
-  getContactPages(user: string, perPage: number){ //done
+  getContactPages(user: string, perPage: number, tokens: string){ //done
     let params = new HttpParams();
     params = params.append('user',user);
     params = params.append('perPage', perPage);
+    params = params.append('tokens', tokens);
     return this.http.get<number>(this.apiUrl + "contact/pages",{params});
   }
 

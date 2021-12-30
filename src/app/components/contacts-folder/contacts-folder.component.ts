@@ -21,7 +21,7 @@ export class ContactsFolderComponent implements OnInit {
     this.pageNumber = 1;
     this.sorted = false;
     this.r.params.subscribe(val => {
-      this.apiService.getContactPages(sessionStorage.getItem('user') as string, 4)
+      this.apiService.getContactPages(sessionStorage.getItem('user') as string, 4, this.selectedSearching)
         .subscribe(data => {
           this.totalPageNumber = data;
         });
@@ -65,13 +65,17 @@ export class ContactsFolderComponent implements OnInit {
   }
 
   updateSearching(e: any) {
+    if(e.target.value.length != 0){
+      if(e.target.value.substr(e.target.value.length - 1) == ",")
+        return;
+    }
     this.selectedSearching = e.target.value;
     console.log(this.selectedSearching);
     this.apiService.searchContact(sessionStorage.getItem('user') as string, this.selectedSearching, this.pageNumber, 4, this.sorted)
       .subscribe(data => {
         this.contacts = data;
       });
-    this.apiService.getContactPages(sessionStorage.getItem('user') as string, 4)
+    this.apiService.getContactPages(sessionStorage.getItem('user') as string, 4, this.selectedSearching)
       .subscribe(data => {
         this.totalPageNumber = data;
         console.log(this.totalPageNumber);
@@ -104,7 +108,7 @@ export class ContactsFolderComponent implements OnInit {
           this.contacts = data;
         });
     }
-    this.apiService.getContactPages(sessionStorage.getItem('user') as string, 4)
+    this.apiService.getContactPages(sessionStorage.getItem('user') as string, 4, this.selectedSearching)
       .subscribe(data => {
         this.totalPageNumber = data;
       });
