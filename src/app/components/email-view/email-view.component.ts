@@ -16,7 +16,7 @@ export class EmailViewComponent implements OnInit {
   from!: string;
   constructor(private controller: ControllerService, private r: ActivatedRoute) {
       this.user = sessionStorage.getItem("user") as string;
-      this.emailID = sessionStorage.getItem("emailID") as string;
+      this.emailID = this.r.snapshot.paramMap.get("id") as string
     }
 
 
