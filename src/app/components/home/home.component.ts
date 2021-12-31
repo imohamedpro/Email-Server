@@ -13,11 +13,13 @@ export class HomeComponent implements OnInit {
   foldersInfo!: FoldersInfo;
   customFoldersNames!: string[];
   customFoldersIDs!: number[];
+  foldersUnreadCount!: number[];
   isSelected!: boolean[];
   temp: string = "";
   doNotEdit: number = -1;
   constructor(private router: Router, private r: ActivatedRoute, private apiServie: ControllerService) {
-    this.updateCustomFolders();
+    setInterval(()=>{this.updateCustomFolders();},2000);
+    
     // console.log(sessionStorage);
     // r.params.subscribe(val =>{
     //   this.foldersInfo = JSON.parse(sessionStorage.getItem("customPages") as string);
@@ -124,7 +126,7 @@ export class HomeComponent implements OnInit {
   updateCustomFolders(){
     this.apiServie.getHomeFolders(sessionStorage.getItem("user") as string).subscribe(val =>{
       this.foldersInfo = val;
-      console.log(this.foldersInfo);
+      //console.log(this.foldersInfo);
       if(this.foldersInfo.folderIDs.length > 4){
         this.customFoldersNames = this.foldersInfo.folderNames.slice(4, this.foldersInfo.folderNames.length);
         this.customFoldersIDs = this.foldersInfo.folderIDs.slice(4, this.foldersInfo.folderIDs.length);
@@ -132,10 +134,9 @@ export class HomeComponent implements OnInit {
         this.customFoldersNames = [];
         this.customFoldersIDs = [];
       }
+      this.foldersUnreadCount = this.foldersInfo.undreadCount;
       this.isSelected = [];
-      console.log(this.foldersInfo);
-      console.log(this.customFoldersNames);
-      console.log(this.customFoldersIDs);
+      //console.log(this.foldersInfo);
       sessionStorage.setItem("customFoldersNames", JSON.stringify(this.customFoldersNames));
       sessionStorage.setItem("customFoldersIDs", JSON.stringify(this.customFoldersIDs));
     });
