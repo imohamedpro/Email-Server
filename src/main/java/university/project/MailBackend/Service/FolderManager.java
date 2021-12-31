@@ -93,6 +93,10 @@ public class FolderManager {
         storage.setFolder(user, folder);
     }
 
+    public void deleteFolder(String user, int folderID){
+        storage.deleteFolder(user, folderID);
+    }
+
     public List<String> getFilterTokens(int folderID, String user){
         return getFolder(folderID, user).filterTokens;
     }

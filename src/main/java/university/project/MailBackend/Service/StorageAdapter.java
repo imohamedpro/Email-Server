@@ -100,6 +100,12 @@ public class StorageAdapter {
         storage.setUserData(data, user);
     }
 
+    public void deleteFolder(String user, int folderID){
+        UserData data = storage.getUserData(user);
+        data.deleteFolder(folderID);
+        storage.setUserData(data, user);
+    }
+
     public ArrayList<Contact> getContactsList(String user){
         ArrayList<Contact> contacts = new ArrayList<>();
         HashMap<Integer, Contact> contactsMap = storage.getUserContact(user).contacts;

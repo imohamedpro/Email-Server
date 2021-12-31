@@ -163,6 +163,10 @@ public class EmailController {
     public Folder getFolder(@RequestParam("id") int folderID, @RequestParam("user") String user){
         return folderManager.getFolder(folderID, user);
     }
+    @DeleteMapping("/folder/delete")
+    public void deleteFolder(@RequestParam("user") String user, @RequestParam("id") int folderID){
+        folderManager.deleteFolder(user, folderID);
+    }
     @PutMapping("/folder/rename")
     public void renameFolder(@RequestBody SetFolder folder){
         folderManager.rename(folder.folderID, folder.folderName, folder.user);
@@ -172,8 +176,8 @@ public class EmailController {
         folderManager.editTokens(folder.folderID, List.of(folder.filterTokens), folder.user);
     }
     @GetMapping("/folder/getFilterTokens")
-    public void getFilterTokens(@RequestParam("id") int folderID, @RequestParam("user") String user){
-        folderManager.getFilterTokens(folderID, user);
+    public List<String> getFilterTokens(@RequestParam("id") int folderID, @RequestParam("user") String user){
+        return folderManager.getFilterTokens(folderID, user);
     }
     @GetMapping("/folder/load")
     public List<HeaderResponse> loadFolder(@RequestParam("folderID") int folderID,
