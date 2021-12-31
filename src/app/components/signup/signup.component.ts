@@ -41,7 +41,7 @@ export class SignupComponent implements OnInit {
       .subscribe(data =>{
         if(data == true){
           sessionStorage.setItem("user",this.userInfo.email);
-          this.router.navigate(['../home/inbox'], { relativeTo: this.r });
+          this.router.navigate(['../home/0'], { relativeTo: this.r });
         }else{
           this.invalid = true;
           this.signupForm.get('email')?.reset();
