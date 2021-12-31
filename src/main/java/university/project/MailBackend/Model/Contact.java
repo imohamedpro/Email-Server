@@ -2,25 +2,40 @@ package university.project.MailBackend.Model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import university.project.MailBackend.Interfaces.Searchable;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
 
-public class Contact {
+public class Contact implements Searchable {
     private String name;
-    private ArrayList<String> usernames;
+    private HashSet<String> usernames;
+    private int id;
 
     Contact(String name){
         this.name = name;
-        usernames = new ArrayList<>();
+        usernames = new HashSet<String>();
+        this.id = -1;
     }
 
     @JsonCreator
     public Contact(
             @JsonProperty("name") String name,
-            @JsonProperty("usernames") ArrayList<String> usernames)
+            @JsonProperty("usernames") HashSet<String> usernames,
+            @JsonProperty("id") int id)
     {
         this.name = name;
         this.usernames = usernames;
+        this.id = id;
+    }
+    public int getId(){
+        return this.id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -32,7 +47,7 @@ public class Contact {
     }
 
     public ArrayList<String> getUsernames() {
-        return this.usernames;
+        return new ArrayList<String>(this.usernames);
     }
 
     public void rename(String newName){
@@ -45,5 +60,19 @@ public class Contact {
 
     public void removeUsername(String username){
         this.usernames.remove(username);
+    }
+
+    @Override
+    public boolean contains(List<String> tokens, boolean filter) {
+        for(String token: tokens){
+            token = token.toLowerCase();
+            if(name.toLowerCase().contains(token))
+                return true;
+            for(String username: usernames){
+                if(username.substring(0,username.indexOf("@")).toLowerCase().contains(token))
+                    return true;
+            }
+        }
+        return false;
     }
 }

@@ -2,16 +2,14 @@ package university.project.MailBackend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import university.project.MailBackend.Model.Filter.CriteriaInfo;
-import university.project.MailBackend.Model.Filter.FromCriteria;
-import university.project.MailBackend.Model.Mail;
-import university.project.MailBackend.Model.MailHeader;
-import university.project.MailBackend.Model.User;
-import university.project.MailBackend.Service.MailService;
+import university.project.MailBackend.Model.*;
+import university.project.MailBackend.Service.*;
 
+import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
+import java.util.Dictionary;
+import java.util.HashSet;
 
 @SpringBootApplication
 public class MailBackendApplication {
@@ -22,43 +20,32 @@ public class MailBackendApplication {
 
 	public static void main(String[] args) throws IOException {
 		SpringApplication.run(MailBackendApplication.class, args);
-		MailService service = new MailService();
-		User user = new User("Moooo", "Magdy", "mooooh@mail.com");
-		boolean bool = service.addNewUser(user);
-		if(!bool){
-			System.out.println("Mail is the same");
-		}
-		service.addFolder("Work", 0);
-		user = new User("Name", "Haha", "hiiiii@mail.com");
-		bool = service.addNewUser(user);
-		if(!bool){
-			System.out.println("Mail is the same");
-		}
-		user = new User("John", "Steve", "moooh@mail.com");
-		bool = service.addNewUser(user);
-		if(!bool){
-			System.out.println("Mail is the same");
-		}
-		user = new User("John", "Steve", "mh@mail.com");
-		bool = service.addNewUser(user);
-		if(!bool){
-			System.out.println("Mail is the same");
-		}
-
-		MailHeader header = new MailHeader("mooooh@mail.com", new ArrayList<>(List.of("moooh@mail.com")), "hello", 4, 0);
-		Mail mail = new Mail(1, header, "This is a body message.", null, null, false);
-
-		service.sendMail(mail);
-		header = new MailHeader("mooooh@mail.com", new ArrayList<>(List.of("hiiiii@mail.com", "mh@mail.com", "moooh@mail.com")), "hello222", 4, 0);
-		mail = new Mail(1, header, "Testing....", null, null, false);
-
-		service.sendMail(mail);
-		header = new MailHeader("moooh@mail.com", new ArrayList<>(List.of("hiiiii@mail.com", "mh@mail.com", "mooooh@mail.com")), "hello222", 4, 0);
-		mail = new Mail(1, header, "Testing....", null, null, false);
-
-		service.sendMail(mail);
-
-		service.addCriteriaToFolder("Work", new CriteriaInfo("from", "mh@mail.com"), 0);
+		FileService fileService = new FileService();
+		Storage storage = new Storage(fileService);
+		StorageProxy storageProxy = new StorageProxy(storage);
+		StorageAdapter storageAdapter = new StorageAdapter(storageProxy);
+//		File file = new File("Database.rar");
+//		fileService.writeFile("Database.json", file);
+//		File file2 = (File) fileService.readFile("Database.json", File.class, false);
+//		boolean x = file2.renameTo(new File("Database2.rar"));
+//		Email email = new Email(-1, false, new HashSet<>(), new EmailHeader("moh@site.com", new String[]{"hello@site.com"}, "Done", new Date(), 4), new EmailBody("DODODO", null), null);
+//		EmailManager emailManager = new EmailManager(storageAdapter);
+		//emailManager.sendEmail(email);
+//		UserInfo userInfo = new UserInfo("hello@site.com", "hahaha");
+//		UserContact userContact = new UserContact();
+//		HashSet<String> hashSet = new HashSet<>();
+//		hashSet.add("mohamed@site.com");
+//		userContact.addContact(new Contact("Mohamed", hashSet, 0));
+//		UserData userData = new UserData();
+//		storageAdapter.createAcount(userInfo, userData ,userContact);
+//		userInfo = new UserInfo("moh@site.com", "hahaha");
+//		userContact.addContact(new Contact("Ahmed", hashSet, 1));
+//		storageAdapter.createAcount(userInfo, userData, userContact);
+//		EmailManager emailManager = new EmailManager(storageAdapter);
+//		Set<Integer> set = ;
+//		set.add("Inbox");
+//		Email email = new Email(-1, false, new HashSet<>(), new EmailHeader("hello@site.com", new String[]{"moh@site.com"}, "Heyyyy", new Date(), 4), new EmailBody("Hellooooo", null), null);
+//		emailManager.sendEmail(email);
 	}
 
 }
