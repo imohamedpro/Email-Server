@@ -1,5 +1,5 @@
 export class FoldersInfo{
     folderNames!: string[];
-    undreadCount!: number[];
+    unreadCount!: number[];
     folderIDs!: number[];
 }

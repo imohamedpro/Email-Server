@@ -36,7 +36,10 @@
     color: #4448D5; 
 }
 .menu-item:hover .menu-item-label {
-    color: #4448D5 
+    color: #4448D5;
+}
+.menu-item:hover .unread{
+    color: #4448D5;
 }
 .material-icons {
     font-family: "Material Icons";
@@ -73,4 +76,10 @@
   }
   .controls .material-icons:hover{
       color: red;
+  }
+  .unread{
+      color: #aeabde;
+      font-family: cursive;
+      margin-bottom: -23px;
+      margin-right: -40px;
   }

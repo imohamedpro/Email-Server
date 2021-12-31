@@ -17,9 +17,9 @@ export class HomeComponent implements OnInit {
   isSelected!: boolean[];
   temp: string = "";
   doNotEdit: number = -1;
+  interval!: any;
   constructor(private router: Router, private r: ActivatedRoute, private apiServie: ControllerService) {
-    setInterval(()=>{this.updateCustomFolders();},2000);
-    
+    this.interval = setInterval(()=>{this.updateCustomFolders();},2000);
     // console.log(sessionStorage);
     // r.params.subscribe(val =>{
     //   this.foldersInfo = JSON.parse(sessionStorage.getItem("customPages") as string);
@@ -68,6 +68,7 @@ export class HomeComponent implements OnInit {
     if (index != this.doNotEdit) {
       e.stopPropagation();
       if (this.isSelected[index] == true) {
+        this.interval = setInterval(()=>{this.updateCustomFolders();},2000);
         if (this.temp == "" && this.customFoldersNames[index].includes("Folder")) {
           this.customFoldersNames[index] = `Folder ${index + 1}`;
         } else if (this.temp == "") {
@@ -81,6 +82,7 @@ export class HomeComponent implements OnInit {
         let setFolder: SetFolder = {folderID: this.customFoldersIDs[index], folderName: this.customFoldersNames[index], filterTokens: [], user: sessionStorage.getItem("user") as string};
         this.apiServie.renameFolder(setFolder).subscribe(() => {this.updateCustomFolders();});
       } else {
+        clearInterval(this.interval);
         this.deSelect(index);
         this.customFoldersNames[index] = `Folder ${index + 1}`;
         this.isSelected[index] = true;
@@ -91,13 +93,17 @@ export class HomeComponent implements OnInit {
   }
   deSelect(index: number) {
     for (let i = 0; i < this.customFoldersNames.length; ++i) {
-      if (i != index) this.isSelected[i] = false;
+      if (i != index){
+        this.isSelected[i] = false;
+        //this.interval = setInterval(()=>{this.updateCustomFolders();},2000);
+      } 
     }
   }
   deselectAll() {
     for (let i = 0; i < this.customFoldersNames.length; ++i) {
       this.isSelected[i] = false;
     }
+    //this.interval = setInterval(()=>{this.updateCustomFolders();},2000);
   }
   avoidP(e: any) {
     e.stopPropagation();
@@ -105,11 +111,13 @@ export class HomeComponent implements OnInit {
 
   goToCompose() {
     this.deselectAll();
+    this.interval = setInterval(()=>{this.updateCustomFolders();},2000);
     this.doNotEdit = -1;
     this.router.navigate(['compose'], { relativeTo: this.r });
   }
   goToFolder(folderNumber: number) {
     this.deselectAll();
+    this.interval = setInterval(()=>{this.updateCustomFolders();},2000);
     this.doNotEdit = -1;
     this.router.navigate([folderNumber], { relativeTo: this.r });
   }
@@ -121,12 +129,13 @@ export class HomeComponent implements OnInit {
   goToCustomFolder(index: number) {
     this.doNotEdit = index;
     this.deselectAll();
+    this.interval = setInterval(()=>{this.updateCustomFolders();},2000);
     this.router.navigate([this.customFoldersIDs[index]], { relativeTo: this.r });
   }
   updateCustomFolders(){
     this.apiServie.getHomeFolders(sessionStorage.getItem("user") as string).subscribe(val =>{
       this.foldersInfo = val;
-      //console.log(this.foldersInfo);
+      console.log(this.foldersInfo);
       if(this.foldersInfo.folderIDs.length > 4){
         this.customFoldersNames = this.foldersInfo.folderNames.slice(4, this.foldersInfo.folderNames.length);
         this.customFoldersIDs = this.foldersInfo.folderIDs.slice(4, this.foldersInfo.folderIDs.length);
@@ -134,11 +143,12 @@ export class HomeComponent implements OnInit {
         this.customFoldersNames = [];
         this.customFoldersIDs = [];
       }
-      this.foldersUnreadCount = this.foldersInfo.undreadCount;
+      this.foldersUnreadCount = this.foldersInfo.unreadCount;
       this.isSelected = [];
       //console.log(this.foldersInfo);
       sessionStorage.setItem("customFoldersNames", JSON.stringify(this.customFoldersNames));
       sessionStorage.setItem("customFoldersIDs", JSON.stringify(this.customFoldersIDs));
+      
     });
   }
 }
