@@ -8,6 +8,7 @@ import { FolderViewComponent } from './components/folder-view/folder-view.compon
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { SignupComponent } from './components/signup/signup.component';
+import { AuthGuard } from './services/guard/auth.guard';
 
 const routes: Routes = [
   {path:'', redirectTo:'login', pathMatch:'full'},
@@ -16,32 +17,44 @@ const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
+    canActivate: [AuthGuard],
     children: [
       {
         path: 'compose',
-        component: ComposeComponent
+        component: ComposeComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: 'contacts',
-        component: ContactsFolderComponent
+        component: ContactsFolderComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: 'contacts/:id',
-        component: ContactEditComponent
+        component: ContactEditComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: ':folder',
         component: FolderViewComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: ':folder/drafteditor/:id',
+        component: ComposeComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: ':folder/:id',
         component: EmailViewComponent,
+        canActivate: [AuthGuard]
       },
+      
     ]
   },
   {
     path: '**',
-    component: HomeComponent
+    component: LoginComponent
   }
 ];
 

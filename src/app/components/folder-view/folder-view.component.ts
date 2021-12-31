@@ -156,9 +156,13 @@ export class FolderViewComponent implements OnInit {
   }
 
   goToEmail(index: number) {
-    if(!this.emailHeaders[index].isRead) this.markAsRead([this.emailHeaders[index].id]);
-    sessionStorage.setItem("emailID", index.toString())
-    this.router.navigate([this.emailHeaders[index].id], { relativeTo: this.r });
+    if(this.r.snapshot.paramMap.get("folder") == '2'){
+      this.router.navigate(['drafteditor/' + this.emailHeaders[index].id], { relativeTo: this.r });
+    }else{
+      if(!this.emailHeaders[index].isRead) this.markAsRead([this.emailHeaders[index].id]);
+      sessionStorage.setItem("emailID", index.toString())
+      this.router.navigate([this.emailHeaders[index].id], { relativeTo: this.r });
+    }
   }
   moveForward() {
     if (this.pageNumber < this.totalPages) {

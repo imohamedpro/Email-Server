@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Email } from '../../classes/Email';
 import { EmailBody } from '../../classes/EmailBody';
 import { EmailHeader } from '../../classes/EmailHeader';
@@ -25,7 +25,8 @@ export class EmailEditorComponent implements OnInit {
   constructor(private fb: FormBuilder,
               private sanitizer:DomSanitizer,
               private controller: ControllerService,
-              private r: ActivatedRoute) {
+              private r: ActivatedRoute,
+              private router: Router) {
     this.receivers = [];
     this.attachments = [];
     this.user = sessionStorage.getItem("user") as string;
@@ -37,36 +38,56 @@ export class EmailEditorComponent implements OnInit {
       file: null,
     });
     r.params.subscribe(()=>{
+      console.log(this.r.snapshot.paramMap.get("id") as string);
+      console.log(this.router.url.includes('drafteditor'));
+      if(this.router.url.includes('drafteditor')){
+        controller.getEmail(this.r.snapshot.paramMap.get("id") as string, this.user)
+       .subscribe((email)=>{
+          this.receivers = email.emailHeader.to || new Array<string>();
+          console.log(email.emailHeader.to);
+          console.log(this.receivers);
+          this.attachments = email.emailBody.attachments || new Array<string>();
+          this.form = this.fb.group({
+            priority: email.emailHeader.priority,
+            receiver: '',
+            subject: email.emailHeader.subject,
+           body: email.emailBody.body,
+           file: null,
+         });
+         this.form.valueChanges.subscribe(()=>{
+          this.changed = true;
+          console.log("values changed");
+        });
+        setInterval(()=>{
+          if(this.changed){
+            console.log("time is up");
 
-    //   controller.getEmail(this.emailID, this.user).subscribe((email)=>{
-    // //load draft   
-    //       this.receivers = email.emailHeader.to || new Array<string>();
-    //       console.log(email.emailHeader.to);
-    //       console.log(this.receivers);
-    //       this.attachments = email.emailBody.attachments || new Array<string>();
-    //       this.form = this.fb.group({
-    //         priority: email.emailHeader.priority,
-    //         receiver: '',
-    //         subject: email.emailHeader.subject,
-    //         body: email.emailBody.body,
-    //         file: null,
-    //       });
-    controller.createEmail(this.user).subscribe((id) => {
-          this.emailID = id.toString();
-          this.form.valueChanges.subscribe(()=>{
-            this.changed = true;
-            console.log("values changed");
+            this.saveDraft();
+            this.changed = false;
+
+          }
+        }, 3000);
+        });
+      }
+    else{
+      controller.createEmail(this.user).subscribe((id) => {
+        this.emailID = id.toString();
+        this.form.valueChanges.subscribe(()=>{
+          this.changed = true;
+          console.log("values changed");
+        });
+        setInterval(()=>{
+          if(this.changed){
+            console.log("time is up");
+
+            this.saveDraft();
+            this.changed = false;
+
+          }
+        }, 3000);
           });
-          setInterval(()=>{
-            if(this.changed){
-              console.log("time is up");
-
-              this.saveDraft();
-              this.changed = false;
-
-            }
-          }, 3000);
-            });
+    }
+    
     });
 
 
