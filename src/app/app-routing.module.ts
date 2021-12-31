@@ -34,9 +34,14 @@ const routes: Routes = [
         component: FolderViewComponent,
       },
       {
+        path: ':folder/drafteditor/:id',
+        component: ComposeComponent,
+      },
+      {
         path: ':folder/:id',
         component: EmailViewComponent,
       },
+      
     ]
   },
   {
