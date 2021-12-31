@@ -43,6 +43,7 @@ export class EmailEditorComponent implements OnInit {
       if(this.router.url.includes('drafteditor')){
         controller.getEmail(this.r.snapshot.paramMap.get("id") as string, this.user)
        .subscribe((email)=>{
+          this.emailID = email.id.toString();
           this.receivers = email.emailHeader.to || new Array<string>();
           console.log(email.emailHeader.to);
           console.log(this.receivers);
@@ -51,8 +52,8 @@ export class EmailEditorComponent implements OnInit {
             priority: email.emailHeader.priority,
             receiver: '',
             subject: email.emailHeader.subject,
-           body: email.emailBody.body,
-           file: null,
+            body: email.emailBody.body,
+            file: email.emailBody.attachments,
          });
          this.form.valueChanges.subscribe(()=>{
           this.changed = true;
