@@ -9,11 +9,11 @@
             <label class="material-icons-label">Next Page</label>
         </div>
         <div class="row">
-            <span class="material-icons" (click)="copyIsClicked = !copyIsClicked;">copy_all</span>
+            <span class="material-icons" (click)="clickCopy();">copy_all</span>
             <label class="material-icons-label">Copy selected</label>
             <div *ngIf="copyIsClicked == true;" class="drop-down-container">
-                <div *ngFor="let customPage of customPages; let i = index;" class="drop-down">
-                    <span (click)="copySelected(i); copyIsClicked = !copyIsClicked;" >{{customPage}}</span>
+                <div *ngFor="let customFolder of customFoldersNames; let i = index;" class="drop-down">
+                    <span (click)="copySelected(i); copyIsClicked = !copyIsClicked;" >{{customFolder}}</span>
                 </div>
             </div>
         </div>
@@ -25,10 +25,14 @@
             <span class="material-icons" (click)="clearSelected()">clear</span>
             <label class="material-icons-label">Clear selected</label>
         </div>
+        <div class="row" *ngIf="getFolderNumber() == '3';">
+            <span class="material-icons" (click)="restoreSelected()">restore_from_trash</span>
+            <label class="material-icons-label">Restore selected</label>
+        </div>
     </div>
 </nav>
 <div *ngIf="isCustomFolder()" class="tokensContainer">
-    <span class="material-icons" *ngIf="editingTokens == false;" (click)="editingTokens = true;">settings</span>
+    <span class="material-icons" *ngIf="editingTokens == false;" (click)="editTokens()">settings</span>
     <label *ngIf="editingTokens == false;">Edit tokens</label>
     <div *ngIf="editingTokens == true;" class="container">
         <label for="tokens">Tokens: </label>
@@ -89,6 +93,7 @@
             <div class="controls">
                 <button (click)="delete(email.id,$event)">delete</button>
                 <button (click)="toggleRead(email.id,i,email.isRead,$event)">{{email.isRead? 'mark as unread': 'mark as read'}}</button>
+                <button (click)="restore(email.id,$event)" *ngIf="getFolderNumber() == '3';">restore</button>
             </div>
         </div>
 

@@ -37,7 +37,7 @@ export class ControllerService {
   getHomeFolders(user: string){ 
     let params = new HttpParams();
     params = params.append('user',user);
-    return this.http.get<Array<FoldersInfo>>(this.apiUrl + 'home-folders/', {params});
+    return this.http.get<FoldersInfo>(this.apiUrl + 'home-folders/', {params});
   }
 
   getContactPages(user: string, perPage: number, tokens: string){ //done
@@ -151,7 +151,7 @@ export class ControllerService {
     return this.http.get<Email>(this.apiUrl + 'email/get', {params});
   }
 
-  restorEmails(email: EmailUserClass){
+  restoreEmails(email: EmailUserClass){
     const body = JSON.stringify(email);
     return this.http.post(this.apiUrl + 'email/restore', body, this.config);
   }
@@ -171,7 +171,7 @@ export class ControllerService {
     return this.http.post(this.apiUrl + 'email/move', body, this.config);
   }
 
-  setFoder(setFolder: SetFolder){
+  setFolder(setFolder: SetFolder){
     const body = JSON.stringify(setFolder);
     return this.http.post(this.apiUrl + 'folder/set', body, this.config);
   }
@@ -183,6 +183,12 @@ export class ControllerService {
     return this.http.get<Folder>(this.apiUrl + 'folder/set', {params});
   }
 
+  deleteFolder(folderId: number, user: string){
+    let params = new HttpParams();
+    params = params.append('id', folderId);
+    params = params.append('user', user);
+    return this.http.delete(this.apiUrl+'folder/delete', {params});
+  }
 
   loadFolder(folderId: number, sortBy: string, reverse: boolean, searchToken: string, pageNumber: number, perPage: number, user: string){
     let params = new HttpParams();
@@ -208,19 +214,19 @@ export class ControllerService {
 
   renameFolder(folder: SetFolder){
     const body = JSON.stringify(folder);
-    return this.http.put(this.apiUrl + 'folder/rename', body);
+    return this.http.put(this.apiUrl + 'folder/rename', body, this.config);
   }
 
   editFolderToken(folder: SetFolder){
     const body = JSON.stringify(folder);
-    return this.http.put(this.apiUrl + 'folder/editFilterTokens', body);
+    return this.http.put(this.apiUrl + 'folder/editFilterTokens', body, this.config);
   }
 
   getFilterTokens(folderId: number, user: string){
     let params = new HttpParams();
     params = params.append('id', folderId);
     params = params.append('user',user)
-    return this.http.get(this.apiUrl + 'folder/getFilterTokens');
+    return this.http.get<string[]>(this.apiUrl + 'folder/getFilterTokens', {params});
   }
 
 

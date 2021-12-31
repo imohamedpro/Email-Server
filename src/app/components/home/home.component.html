@@ -25,7 +25,7 @@
 			<span class="material-icons" >contact_page</span>
 			<span class="menu-item-label">Contacts</span>
 		</div>
-        <div class="customizedFolders" *ngFor="let customFolder of customFolders; let i = index;">
+        <div class="customizedFolders" *ngFor="let customFolder of customFoldersNames; let i = index;">
             <div (click)="goToCustomFolder(i)" class="menu-item">
                 <span class="material-icons">folder</span>
                 <span *ngIf="!isSelected[i]" class="menu-item-label">{{customFolder}}</span>

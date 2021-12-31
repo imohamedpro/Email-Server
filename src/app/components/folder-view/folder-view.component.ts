@@ -1,3 +1,4 @@
+import { MoveEmailClass } from './../../classes/MoveEmailClass';
 import { EmailUserClass } from './../../classes/EmailUserClass';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
@@ -6,6 +7,7 @@ import { EmailHeader } from '../../classes/EmailHeader';
 import { TokensRequest } from '../../classes/Requests/TokensRequest';
 import { ControllerService } from '../../services/controller/controller.service';
 import { EmailHeaderResponse } from '../../classes/Responses/EmailHeaderResponse';
+import { SetFolder } from 'src/app/classes/SetFolder';
 
 @Component({
   selector: 'app-folder-view',
@@ -25,7 +27,8 @@ export class FolderViewComponent implements OnInit {
   tokensHaveChanged: boolean = false;
   editingTokens: boolean = false;
   copyIsClicked: boolean = false;
-  customPages!: string[];
+  customFoldersNames!: string[];
+  customFoldersIDs!: number[];
   constructor(private router: Router, private r: ActivatedRoute, private apiService: ControllerService) {
     console.log(sessionStorage);
     this.pageNumber = 1;
@@ -34,7 +37,7 @@ export class FolderViewComponent implements OnInit {
     this.emailHeaders = [];
     this.selectedSearching = "";
     r.params.subscribe(val => {
-      console.log(this.getPageName());
+      console.log(this.getFolderNumber());
       this.apiService.getHomeFolders(sessionStorage.getItem('user') as string)
         .subscribe(data => {
           sessionStorage.setItem('customPages', JSON.stringify(data));
@@ -42,12 +45,13 @@ export class FolderViewComponent implements OnInit {
 
       this.loadFolder("", 1);
       this.getFolderPages();
-      this.customPages = JSON.parse(sessionStorage.getItem("customPages") as string);
-      console.log(this.customPages);
+      this.customFoldersNames = JSON.parse(sessionStorage.getItem("customFoldersNames") as string);
+      this.customFoldersIDs = JSON.parse(sessionStorage.getItem("customFoldersIDs") as string);
+      //console.log(this.customPages);
       console.log(this.emailHeaders);
     });
     this.tokens = {
-      values: ["Karim", "Magdy", "Youssef", "Youhanna"],
+      values: [],
     }
     this.selected = new Set<number>();
   }
@@ -71,7 +75,13 @@ export class FolderViewComponent implements OnInit {
   }
   saveTokens() {
     if (this.tokensHaveChanged) {
-      //api here
+      let setFolder: SetFolder = {
+        folderID :Number.parseInt(this.getFolderNumber() as string),
+        folderName: "",
+        filterTokens: this.tokens.values,
+        user: sessionStorage.getItem("user") as string
+      }
+      this.apiService.editFolderToken(setFolder).subscribe(() => console.log("Folder tokens edited"));
     }
     this.editingTokens = false;
   }
@@ -107,10 +117,20 @@ export class FolderViewComponent implements OnInit {
 
     }
   }
-  copySelected(folderID: number) {
+  clickCopy(){
+    this.customFoldersNames = JSON.parse(sessionStorage.getItem("customFoldersNames") as string);
+    this.customFoldersIDs = JSON.parse(sessionStorage.getItem("customFoldersIDs") as string);
+    this.copyIsClicked = !this.copyIsClicked;
+  }
+  copySelected(index: number) {
     if (this.selected.size != 0) {
-      //api call
-      console.log("move selected to", `${folderID}`);
+      let moveEmailObject: MoveEmailClass = {
+        emailIDs: Array.from(this.selected.values()),
+        destinationID: this.customFoldersIDs[index],
+        user: sessionStorage.getItem("user") as string
+      }
+      this.apiService.moveEmails(moveEmailObject).subscribe();
+      console.log("move selected to", `${this.customFoldersIDs[index]}`);
       this.selected.clear();
     }
   }
@@ -125,7 +145,13 @@ export class FolderViewComponent implements OnInit {
       this.selected.clear();
     }
   }
-  getPageName() {
+  restoreSelected(){
+    if (this.selected.size != 0) {
+      this.restoreFromTrash(Array.from(this.selected.values()))
+      console.log("selected are restored");
+    }
+  }
+  getFolderNumber() {
     return this.r.snapshot.paramMap.get("folder");
   }
 
@@ -149,7 +175,7 @@ export class FolderViewComponent implements OnInit {
       }
   }
   isCustomFolder() {
-    let pageName = this.getPageName();
+    let pageName = this.getFolderNumber();
     if (pageName != "0" && pageName != "1" && pageName != "2" && pageName != "3"
       && pageName != "compose") {
       return true;
@@ -160,6 +186,10 @@ export class FolderViewComponent implements OnInit {
     e.stopPropagation();
     this.moveToTrash([id]);
   }
+  restore(emailID: number, e: any){
+    e.stopPropagation();
+    this.restoreFromTrash([emailID]);
+  }
   toggleRead(id: number, index: number ,isRead: boolean ,e: any) {
     e.stopPropagation();
     if(isRead){
@@ -169,15 +199,21 @@ export class FolderViewComponent implements OnInit {
     }
     this.emailHeaders[index].isRead = !this.emailHeaders[index].isRead;
   }
+  editTokens(){
+    this.apiService.getFilterTokens(Number.parseInt(this.getFolderNumber() as string), sessionStorage.getItem('user') as string).subscribe(val =>{
+      this.tokens = {values: val};
+    })
+    this.editingTokens = true;
+  }
   loadFolder(searchToken: string, pageNumber: number){
-    this.apiService.loadFolder(Number.parseInt(this.getPageName() as string), this.selectedSorting, this.selectedRadio, searchToken, pageNumber, 5,
+    this.apiService.loadFolder(Number.parseInt(this.getFolderNumber() as string), this.selectedSorting, this.selectedRadio, searchToken, pageNumber, 5,
     sessionStorage.getItem('user') as string)
     .subscribe(data => {
       this.emailHeaders = data;
     })
   }
   getFolderPages(){
-    this.apiService.getFolderPages(Number.parseInt(this.getPageName() as string), 5, sessionStorage.getItem('user') as string, this.selectedSearching)
+    this.apiService.getFolderPages(Number.parseInt(this.getFolderNumber() as string), 5, sessionStorage.getItem('user') as string, this.selectedSearching)
         .subscribe(data => {
           this.totalPages = data
         })
@@ -195,9 +231,9 @@ export class FolderViewComponent implements OnInit {
     })
   }
   moveToTrash(emailIDs: number[]){
-    if(this.getPageName() == "3"){  //trash
-      this.apiService.deleteEmails(emailIDs, sessionStorage.getItem('user') as string).subscribe(data => {
-        console.log(emailIDs + " is moved to trash");
+    if(this.getFolderNumber() == "3"){  //trash
+      this.apiService.deleteEmails(emailIDs, sessionStorage.getItem('user') as string).subscribe(() => {
+        console.log(emailIDs + " is permently deleted");
         emailIDs.forEach((id) =>{
           this.emailHeaders.forEach((element,i)=>{
             if(element.id == id) this.emailHeaders.splice(i,1);
@@ -206,8 +242,21 @@ export class FolderViewComponent implements OnInit {
       });
     }
     else{
-      this.apiService.moveToTrash(emailIDs, sessionStorage.getItem('user') as string).subscribe(data => {
+      this.apiService.moveToTrash(emailIDs, sessionStorage.getItem('user') as string).subscribe(() => {
         console.log(emailIDs + " is moved to trash");
+        emailIDs.forEach((id) =>{
+          this.emailHeaders.forEach((element,i)=>{
+            if(element.id == id) this.emailHeaders.splice(i,1);
+         });
+        });
+      });
+    }
+  }
+  restoreFromTrash(emailIDs: number[]){
+    if(this.getFolderNumber() == "3"){
+      let emailUserObject: EmailUserClass = {emailIDs: emailIDs, user: sessionStorage.getItem("user") as string}
+      this.apiService.restoreEmails(emailUserObject).subscribe(() => {
+        console.log(emailIDs + " is restored");
         emailIDs.forEach((id) =>{
           this.emailHeaders.forEach((element,i)=>{
             if(element.id == id) this.emailHeaders.splice(i,1);
