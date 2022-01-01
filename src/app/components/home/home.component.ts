@@ -19,6 +19,7 @@ export class HomeComponent implements OnInit {
   doNotEdit: number = -1;
   interval!: any;
   constructor(private router: Router, private r: ActivatedRoute, private apiServie: ControllerService) {
+    this.updateCustomFolders();
     this.interval = setInterval(()=>{this.updateCustomFolders();},2000);
     // console.log(sessionStorage);
     // r.params.subscribe(val =>{
@@ -135,7 +136,7 @@ export class HomeComponent implements OnInit {
   updateCustomFolders(){
     this.apiServie.getHomeFolders(sessionStorage.getItem("user") as string).subscribe(val =>{
       this.foldersInfo = val;
-      console.log(this.foldersInfo);
+      //console.log(this.foldersInfo);
       if(this.foldersInfo.folderIDs.length > 4){
         this.customFoldersNames = this.foldersInfo.folderNames.slice(4, this.foldersInfo.folderNames.length);
         this.customFoldersIDs = this.foldersInfo.folderIDs.slice(4, this.foldersInfo.folderIDs.length);

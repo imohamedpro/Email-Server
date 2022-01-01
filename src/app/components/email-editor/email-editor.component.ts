@@ -180,9 +180,9 @@ export class EmailEditorComponent implements OnInit {
     let email = this.buildEmail();
     this.controller.sendEmail(email).subscribe();
     if(this.router.url.includes('drafteditor')){
-      this.router.navigate(['../../../0'],{relativeTo: this.r});
+      this.router.navigate(['../../../1'],{relativeTo: this.r});
     }else{
-      this.router.navigate(['../0'],{relativeTo: this.r});
+      this.router.navigate(['../1'],{relativeTo: this.r});
     }
   }
 
