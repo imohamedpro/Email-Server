@@ -1,0 +1,58 @@
+<form [formGroup]="form">
+
+
+    <div id="email">
+        <div class="container">
+            <label for="To">To:</label>
+            <div class="fieldWrapper">
+                <div *ngFor="let receiver of receivers; let i = index" class="tag">
+                    <span >{{receiver}}</span>
+                    <button (click)="deleteItem(i, receivers)">x</button>
+
+                </div>
+                <input type="email" formControlName="receiver" id="To" (keypress)="addRecievers($event)">
+            </div>
+        </div>
+        <hr>
+       <div class="container">
+        <label for="Subject">Subject:</label>
+        <input formControlName="subject" id="Subject" (keydown)="disableEnter($event)">
+       </div>
+       <hr>
+        <textarea placeholder="Body:" formControlName="body" (resize)="false" id="Body"></textarea>
+        <hr *ngIf=" attachments != null && attachments.length > 0">
+        <div id="attachments" *ngIf="attachments != null && attachments.length > 0">
+            <label>Attachments:</label>
+            <div *ngFor="let attachment of attachments; let i = index" class="tag">
+                <!-- <a [href]="viewAttachment(attachment)" [download]="getAttachmentName(attachment)">{{getAttachmentName(attachment)}}</a> -->
+                <a [href]="downloadLink" [download]="attachment" (click)="viewAttachment(attachment)">{{attachment}}</a>
+                <!-- <span (click)="viewAttachment(attachment)">{{attachment}}</span> -->
+                <button (click)="deleteAttachment(i)">x</button>
+
+            </div>
+        </div>
+    </div>
+    <div id = "controls">
+        <div id="moreProperties">
+            <div id="priorityDiv">
+                <label for="priority">Priority:</label>
+                <select style="font-family: cursive;" id="priority" formControlName="priority">
+                    <option value = "4">Very Important</option>
+                    <option value = "3">Important</option>
+                    <option value = "2" selected="selected">Normal</option>
+                    <option value = "1">Not Important</option>
+                </select>
+            </div>
+
+            <div id="attachment">
+                <label for="addAttachments">Add Attachment</label>
+                <input type="file" (change)="onFileChange($event)" id="addAttachments" formControlName="file">
+            </div>
+        </div>
+
+        <button style="font-family: cursive;" (click)="send($event)">Send</button>
+
+    </div>
+
+
+</form>

@@ -1,0 +1,39 @@
+<div class="dateAndPriority">
+    <div class="label">Date: {{email.emailHeader.date}}</div>
+    <br>
+    <div class="label">
+        <div *ngIf="email.emailHeader.priority == 4">Priority: Very Important</div>
+        <div *ngIf="email.emailHeader.priority == 3">Priority: Important</div>
+        <div *ngIf="email.emailHeader.priority == 2" >Priority: Normal</div>
+        <div *ngIf="email.emailHeader.priority == 1">Priority: Not Important</div>
+    </div>
+</div>
+
+<div id="email">   
+    <div class="container">
+        <span class="label">From:</span>
+        <div class="fieldWrapper">
+            <span >{{email.emailHeader.from}}</span>
+        </div>
+    </div>
+    <hr>
+   <div class="container">
+    <span class="label">Subject:</span>
+    <span id="Subject">{{email.emailHeader.subject}}</span>
+   </div>
+   <hr>
+   <div class="container">
+        <div id="Body">
+            <span class="label">Body:</span>
+            {{email.emailBody.body}}
+        </div>
+   </div>
+    
+    <hr *ngIf="email.emailBody.attachments.length">
+    <div id="attachments" *ngIf="email.emailBody.attachments.length">
+        <span class="label">Attachments:</span>
+        <div *ngFor="let attachment of email.emailBody.attachments; let i = index" class="tag">
+            <a [href]="downloadLink" [download]="attachment" (click)="viewAttachment(attachment)">{{attachment}}</a>
+        </div>
+    </div>
+</div>

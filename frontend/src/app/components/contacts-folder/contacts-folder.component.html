@@ -1,0 +1,47 @@
+<div class="radio">
+    <input class="radio-input" type="radio" name="radioButton" id="radio1" (click)="updateRadio(true)" >
+    <label class="radio-label" for="radio1">
+        Sorted
+    </label>
+  </div>
+<div class="radio">
+    <input class="radio-input" type="radio" name="radioButton" id="radio2" (click)="updateRadio(false)" checked="checked">
+    <label class="radio-label" for="radio2">
+        Unsorted
+    </label>
+  </div>
+<div class="search">
+    
+    <input  type="text" [(ngModel)]="selectedSearching" (input)="updateSearching($event)" placeholder="Search: ">
+</div>
+<div class="addContact">
+    <span class="material-icons" (click)="createNewContact()">person_add</span>
+</div>
+<nav>
+    <span class="material-icons" (click)="moveBackward()">arrow_back_ios</span>
+    <span class="material-icons" (click)="moveForward()">arrow_forward_ios</span>
+</nav>
+<div id="contents">
+    <div *ngFor="let contact of contacts; let i = index">
+        <!-- <hr> -->
+        <div class="contactBar">
+            <div class="contactHead">
+                <span id="contactName">{{contacts[i].name}}</span>
+                <div class="scrollable">
+                    <div class="contactEmails" *ngFor="let username of contacts[i].usernames; let j = index">
+                        <span>{{username}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="controls">
+                <button (click)="delete(i)">delete</button>
+                <button (click)="goToContact(i)" >edit</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="pageNumber">Page no: {{pageNumber}} / {{totalPageNumber}}</div>
+<div class="child">
+    <router-outlet></router-outlet>
+</div>

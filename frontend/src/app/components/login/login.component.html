@@ -1,0 +1,30 @@
+<div class="background">
+    <div class="container">
+        <div class="image">
+            <img class="image" src="../../../assets/loginImage.png"/>
+        </div>
+        <div class="login-box">
+            <h1><b>Login</b></h1>
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+              <div class="text-field">
+                <input formControlName="userEmail" type="email" placeholder=" " required>
+                <span></span>
+                <label>Email address</label>
+                <small *ngIf="invalid" class="danger">invalid email or password</small>
+              </div>
+              <div class="text-field">
+                <input formControlName="userPassword" title="Password first letter must be capital and its size must be 8+ "
+                 type="password" placeholder=" " required>
+                <span></span>
+                <label>Password</label>
+              </div>
+              <button type="submit">LOGIN</button>
+            </form>
+            <br>
+            <div class="signup-link">
+              Not a member? <a [routerLink]="['../signup']">Signup</a>
+            </div>
+            
+        </div>
+    </div>
+</div>

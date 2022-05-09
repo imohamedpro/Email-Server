@@ -1,0 +1,125 @@
+.background{
+    background: linear-gradient(to bottom right, #4448D5, #C76AF9);
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: Tahoma, sans-serif ;
+}
+
+.container{
+    background-color: white;
+    position: absolute;
+    width: 400px;
+    height: 575px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+    border-radius: 1%;
+}
+
+.container h1{
+    text-align: center;
+}
+
+.row{
+    position: relative;
+    border-bottom: 2px solid #adadad;
+    margin: 30px 0;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.row input{
+    font-size: 16px;
+    padding: 0 4px;
+    width: 100%;
+    height: 40px;
+    border: none;
+    outline: none;
+    background: none;
+}
+
+form{
+    box-sizing: border-box;
+
+}
+
+.row label{
+    position: absolute;
+    top: 50%;
+    color: #adadad;
+    transform: translateY(-50%);
+    left: 4px;
+    pointer-events: none;
+    font-size: 16px;
+    transition: 0.5s;
+}
+
+.row span::before{
+    content: "";
+    position: absolute;
+    top: 40px;
+    left: 0px;
+    width: 0%;
+    height: 2px;
+    background: #9c0e95;
+}
+
+.row input:focus ~ label,
+.row input:valid ~ label,
+.row input:not(:placeholder-shown) ~label{
+    top: -4px;
+    color:#9c0e95;
+}
+
+.row input:focus ~ span::before,
+.row input:valid ~ span::before{
+    width: 100%;
+}
+
+.container button{
+    display: block;
+    width: 250px;
+    height: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    border: none;
+    border-radius: 25px;
+    color: white;
+    background-color: #9c0e95;
+    font-size: 16px;
+    justify-self: center;
+}
+
+.container button:hover{
+    cursor: pointer;
+}
+
+.login-link{
+    margin-top: 5px;
+    text-align: center;
+    color: #727272;
+}
+
+.login-link a{
+    text-decoration: none;
+}
+
+.login-link a:hover{
+    text-decoration: underline;
+}
+
+.danger{
+    position: absolute;
+    margin-top: 2px;
+    color: red; 
+}
+
+.taken{
+    position: absolute;
+    margin-top: -20px;
+    left: 36%;
+    color: red; 
+}

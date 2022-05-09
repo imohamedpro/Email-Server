@@ -1,0 +1,52 @@
+
+<div class="container">
+	<div class="menu">
+        <div class="menu-item" (click)="goToCompose()">
+			<span class="material-icons">edit</span>
+			<span class="menu-item-label">Compose</span>
+		</div>
+		<div class="menu-item" (click)="goToFolder(0)">
+			<small class="unread" *ngIf="foldersUnreadCount[0] > 0">{{foldersUnreadCount[0]}}</small>
+			<span class="material-icons" style="display: inline;">inbox</span>
+			<span class="menu-item-label">Inbox</span>
+		</div>
+        <div class="menu-item" (click)="goToFolder(1)">
+			<small class="unread" *ngIf="foldersUnreadCount[1] > 0">{{foldersUnreadCount[1]}}</small>
+			<span class="material-icons" >send</span>
+			<span class="menu-item-label">Sent</span>
+		</div>
+		<div class="menu-item" (click)="goToFolder(3)">
+			<small class="unread" *ngIf="foldersUnreadCount[3] > 0">{{foldersUnreadCount[3]}}</small>
+			<span class="material-icons">delete</span>
+			<span class="menu-item-label">Trash</span>
+		</div>
+		<div class="menu-item" (click)="goToFolder(2)">
+			<small class="unread" *ngIf="foldersUnreadCount[2] > 0">{{foldersUnreadCount[2]}}</small>
+			<span class="material-icons" >drafts</span>
+			<span class="menu-item-label">Draft</span>
+		</div>
+		<div class="menu-item" (click)="goToContacts()">
+			<span class="material-icons" >contact_page</span>
+			<span class="menu-item-label">Contacts</span>
+		</div>
+        <div class="customizedFolders" *ngFor="let customFolder of customFoldersNames; let i = index;">
+            <div (click)="goToCustomFolder(i)" class="menu-item">
+				<small class="unread" *ngIf="foldersUnreadCount[i+4] > 0">{{foldersUnreadCount[i+4]}}</small>
+                <span class="material-icons">folder</span>
+                <span *ngIf="!isSelected[i]" class="menu-item-label">{{customFolder}}</span>
+                <div class="controls">
+                    <input id="rename" (click)="avoidP($event)"  *ngIf="isSelected[i]" type="text" [(ngModel)]="temp" placeholder={{customFolder}} >
+                    <span class="material-icons" (click)="toggleInput(i,$event)">edit</span>
+                    <span class="material-icons"  (click)="deleteFolder(i,$event)">delete</span>
+                </div>
+            </div>
+        </div>
+		<div class="menu-item" (click)="addNewFolder()">
+			<span class="material-icons">add</span>
+			<span class="menu-item-label">Add folder</span>
+		</div>
+	</div>
+</div>
+<div class="child">
+    <router-outlet></router-outlet>
+</div>
